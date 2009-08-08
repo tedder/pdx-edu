@@ -44,17 +44,31 @@ public class Problem8 {
 
     // loop through length of string, minus CONSEC_LENGTH
     for (int i = 0; i < (bigNumber.length() - CONSEC_LENGTH); ++i) {
-      System.out.println("i: " + i);
+      //System.out.println("i: " + i);
 
       // assemble our substring
+      String consecStr = bigNumber.substring(i, i+CONSEC_LENGTH);
+
+      int currProduct = 1;
       // loop through substring
+      for (int j = 0; j < consecStr.length(); ++j) {
         // convert char to integer, find product of substring
-        // greater than max? save it.
+        int currInt = Character.digit(consecStr.charAt(j), 10);
+        currProduct *= currInt;
+      }
+
+      // greater than max? save it.
+      if (currProduct > maxProduct) {
+        System.out.println("new max: " + currProduct + " .. substring was: " + consecStr);
+        maxProduct = currProduct;
+      }
     }
+
+    // output our max product
+    System.out.println("max product: " + maxProduct);
 
   } // end main
 
-  // output our max product
 
 } // end class
 
