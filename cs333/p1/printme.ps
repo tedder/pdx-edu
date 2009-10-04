@@ -1,0 +1,1255 @@
+%!PS-Adobe-3.0
+%%BoundingBox: 18 36 594 756
+%%Title: Enscript Output
+%%Creator: GNU enscript 1.6.4
+%%CreationDate: Sun Oct  4 14:43:27 2009
+%%Orientation: Portrait
+%%Pages: (atend)
+%%DocumentMedia: Letter 612 792 0 () ()
+%%DocumentNeededResources: (atend)
+%%EndComments
+%%BeginProlog
+%%BeginResource: procset Enscript-Prolog 1.6 4
+%
+% Procedures.
+%
+
+/_S {	% save current state
+  /_s save def
+} def
+/_R {	% restore from saved state
+  _s restore
+} def
+
+/S {	% showpage protecting gstate
+  gsave
+  showpage
+  grestore
+} bind def
+
+/MF {	% fontname newfontname -> -	make a new encoded font
+  /newfontname exch def
+  /fontname exch def
+
+  /fontdict fontname findfont def
+  /newfont fontdict maxlength dict def
+
+  fontdict {
+    exch
+    dup /FID eq {
+      % skip FID pair
+      pop pop
+    } {
+      % copy to the new font dictionary
+      exch newfont 3 1 roll put
+    } ifelse
+  } forall
+
+  newfont /FontName newfontname put
+
+  % insert only valid encoding vectors
+  encoding_vector length 256 eq {
+    newfont /Encoding encoding_vector put
+  } if
+
+  newfontname newfont definefont pop
+} def
+
+/MF_PS { % fontname newfontname -> -	make a new font preserving its enc
+  /newfontname exch def
+  /fontname exch def
+
+  /fontdict fontname findfont def
+  /newfont fontdict maxlength dict def
+
+  fontdict {
+    exch
+    dup /FID eq {
+      % skip FID pair
+      pop pop
+    } {
+      % copy to the new font dictionary
+      exch newfont 3 1 roll put
+    } ifelse
+  } forall
+
+  newfont /FontName newfontname put
+
+  newfontname newfont definefont pop
+} def
+
+/SF { % fontname width height -> -	set a new font
+  /height exch def
+  /width exch def
+
+  findfont
+  [width 0 0 height 0 0] makefont setfont
+} def
+
+/SUF { % fontname width height -> -	set a new user font
+  /height exch def
+  /width exch def
+
+  /F-gs-user-font MF
+  /F-gs-user-font width height SF
+} def
+
+/SUF_PS { % fontname width height -> -	set a new user font preserving its enc
+  /height exch def
+  /width exch def
+
+  /F-gs-user-font MF_PS
+  /F-gs-user-font width height SF
+} def
+
+/M {moveto} bind def
+/s {show} bind def
+
+/Box {	% x y w h -> -			define box path
+  /d_h exch def /d_w exch def /d_y exch def /d_x exch def
+  d_x d_y  moveto
+  d_w 0 rlineto
+  0 d_h rlineto
+  d_w neg 0 rlineto
+  closepath
+} def
+
+/bgs {	% x y height blskip gray str -> -	show string with bg color
+  /str exch def
+  /gray exch def
+  /blskip exch def
+  /height exch def
+  /y exch def
+  /x exch def
+
+  gsave
+    x y blskip sub str stringwidth pop height Box
+    gray setgray
+    fill
+  grestore
+  x y M str s
+} def
+
+/bgcs { % x y height blskip red green blue str -> -  show string with bg color
+  /str exch def
+  /blue exch def
+  /green exch def
+  /red exch def
+  /blskip exch def
+  /height exch def
+  /y exch def
+  /x exch def
+
+  gsave
+    x y blskip sub str stringwidth pop height Box
+    red green blue setrgbcolor
+    fill
+  grestore
+  x y M str s
+} def
+
+% Highlight bars.
+/highlight_bars {	% nlines lineheight output_y_margin gray -> -
+  gsave
+    setgray
+    /ymarg exch def
+    /lineheight exch def
+    /nlines exch def
+
+    % This 2 is just a magic number to sync highlight lines to text.
+    0 d_header_y ymarg sub 2 sub translate
+
+    /cw d_output_w cols div def
+    /nrows d_output_h ymarg 2 mul sub lineheight div cvi def
+
+    % for each column
+    0 1 cols 1 sub {
+      cw mul /xp exch def
+
+      % for each rows
+      0 1 nrows 1 sub {
+        /rn exch def
+        rn lineheight mul neg /yp exch def
+        rn nlines idiv 2 mod 0 eq {
+	  % Draw highlight bar.  4 is just a magic indentation.
+	  xp 4 add yp cw 8 sub lineheight neg Box fill
+	} if
+      } for
+    } for
+
+  grestore
+} def
+
+% Line highlight bar.
+/line_highlight {	% x y width height gray -> -
+  gsave
+    /gray exch def
+    Box gray setgray fill
+  grestore
+} def
+
+% Column separator lines.
+/column_lines {
+  gsave
+    .1 setlinewidth
+    0 d_footer_h translate
+    /cw d_output_w cols div def
+    1 1 cols 1 sub {
+      cw mul 0 moveto
+      0 d_output_h rlineto stroke
+    } for
+  grestore
+} def
+
+% Column borders.
+/column_borders {
+  gsave
+    .1 setlinewidth
+    0 d_footer_h moveto
+    0 d_output_h rlineto
+    d_output_w 0 rlineto
+    0 d_output_h neg rlineto
+    closepath stroke
+  grestore
+} def
+
+% Do the actual underlay drawing
+/draw_underlay {
+  ul_style 0 eq {
+    ul_str true charpath stroke
+  } {
+    ul_str show
+  } ifelse
+} def
+
+% Underlay
+/underlay {	% - -> -
+  gsave
+    0 d_page_h translate
+    d_page_h neg d_page_w atan rotate
+
+    ul_gray setgray
+    ul_font setfont
+    /dw d_page_h dup mul d_page_w dup mul add sqrt def
+    ul_str stringwidth pop dw exch sub 2 div ul_h_ptsize -2 div moveto
+    draw_underlay
+  grestore
+} def
+
+/user_underlay {	% - -> -
+  gsave
+    ul_x ul_y translate
+    ul_angle rotate
+    ul_gray setgray
+    ul_font setfont
+    0 0 ul_h_ptsize 2 div sub moveto
+    draw_underlay
+  grestore
+} def
+
+% Page prefeed
+/page_prefeed {		% bool -> -
+  statusdict /prefeed known {
+    statusdict exch /prefeed exch put
+  } {
+    pop
+  } ifelse
+} def
+
+% Wrapped line markers
+/wrapped_line_mark {	% x y charwith charheight type -> -
+  /type exch def
+  /h exch def
+  /w exch def
+  /y exch def
+  /x exch def
+
+  type 2 eq {
+    % Black boxes (like TeX does)
+    gsave
+      0 setlinewidth
+      x w 4 div add y M
+      0 h rlineto w 2 div 0 rlineto 0 h neg rlineto
+      closepath fill
+    grestore
+  } {
+    type 3 eq {
+      % Small arrows
+      gsave
+        .2 setlinewidth
+        x w 2 div add y h 2 div add M
+        w 4 div 0 rlineto
+        x w 4 div add y lineto stroke
+
+        x w 4 div add w 8 div add y h 4 div add M
+        x w 4 div add y lineto
+	w 4 div h 8 div rlineto stroke
+      grestore
+    } {
+      % do nothing
+    } ifelse
+  } ifelse
+} def
+
+% EPSF import.
+
+/BeginEPSF {
+  /b4_Inc_state save def    		% Save state for cleanup
+  /dict_count countdictstack def	% Count objects on dict stack
+  /op_count count 1 sub def		% Count objects on operand stack
+  userdict begin
+  /showpage { } def
+  0 setgray 0 setlinecap
+  1 setlinewidth 0 setlinejoin
+  10 setmiterlimit [ ] 0 setdash newpath
+  /languagelevel where {
+    pop languagelevel
+    1 ne {
+      false setstrokeadjust false setoverprint
+    } if
+  } if
+} bind def
+
+/EndEPSF {
+  count op_count sub { pos } repeat	% Clean up stacks
+  countdictstack dict_count sub { end } repeat
+  b4_Inc_state restore
+} bind def
+
+% Check PostScript language level.
+/languagelevel where {
+  pop /gs_languagelevel languagelevel def
+} {
+  /gs_languagelevel 1 def
+} ifelse
+%%EndResource
+%%BeginResource: procset Enscript-Encoding-88591 1.6 4
+/encoding_vector [
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/space        	/exclam       	/quotedbl     	/numbersign   	
+/dollar       	/percent      	/ampersand    	/quoteright   	
+/parenleft    	/parenright   	/asterisk     	/plus         	
+/comma        	/hyphen       	/period       	/slash        	
+/zero         	/one          	/two          	/three        	
+/four         	/five         	/six          	/seven        	
+/eight        	/nine         	/colon        	/semicolon    	
+/less         	/equal        	/greater      	/question     	
+/at           	/A            	/B            	/C            	
+/D            	/E            	/F            	/G            	
+/H            	/I            	/J            	/K            	
+/L            	/M            	/N            	/O            	
+/P            	/Q            	/R            	/S            	
+/T            	/U            	/V            	/W            	
+/X            	/Y            	/Z            	/bracketleft  	
+/backslash    	/bracketright 	/asciicircum  	/underscore   	
+/quoteleft    	/a            	/b            	/c            	
+/d            	/e            	/f            	/g            	
+/h            	/i            	/j            	/k            	
+/l            	/m            	/n            	/o            	
+/p            	/q            	/r            	/s            	
+/t            	/u            	/v            	/w            	
+/x            	/y            	/z            	/braceleft    	
+/bar          	/braceright   	/tilde        	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/space        	/exclamdown   	/cent         	/sterling     	
+/currency     	/yen          	/brokenbar    	/section      	
+/dieresis     	/copyright    	/ordfeminine  	/guillemotleft	
+/logicalnot   	/hyphen       	/registered   	/macron       	
+/degree       	/plusminus    	/twosuperior  	/threesuperior	
+/acute        	/mu           	/paragraph    	/bullet       	
+/cedilla      	/onesuperior  	/ordmasculine 	/guillemotright	
+/onequarter   	/onehalf      	/threequarters	/questiondown 	
+/Agrave       	/Aacute       	/Acircumflex  	/Atilde       	
+/Adieresis    	/Aring        	/AE           	/Ccedilla     	
+/Egrave       	/Eacute       	/Ecircumflex  	/Edieresis    	
+/Igrave       	/Iacute       	/Icircumflex  	/Idieresis    	
+/Eth          	/Ntilde       	/Ograve       	/Oacute       	
+/Ocircumflex  	/Otilde       	/Odieresis    	/multiply     	
+/Oslash       	/Ugrave       	/Uacute       	/Ucircumflex  	
+/Udieresis    	/Yacute       	/Thorn        	/germandbls   	
+/agrave       	/aacute       	/acircumflex  	/atilde       	
+/adieresis    	/aring        	/ae           	/ccedilla     	
+/egrave       	/eacute       	/ecircumflex  	/edieresis    	
+/igrave       	/iacute       	/icircumflex  	/idieresis    	
+/eth          	/ntilde       	/ograve       	/oacute       	
+/ocircumflex  	/otilde       	/odieresis    	/divide       	
+/oslash       	/ugrave       	/uacute       	/ucircumflex  	
+/udieresis    	/yacute       	/thorn        	/ydieresis    	
+] def
+%%EndResource
+%%EndProlog
+%%BeginSetup
+%%IncludeResource: font Courier-Bold
+%%IncludeResource: font Courier
+/HFpt_w 10 def
+/HFpt_h 10 def
+/Courier-Bold /HF-gs-font MF
+/HF /HF-gs-font findfont [HFpt_w 0 0 HFpt_h 0 0] makefont def
+/Courier /F-gs-font MF
+/F-gs-font 10 10 SF
+/#copies 1 def
+% Pagedevice definitions:
+gs_languagelevel 1 gt {
+  <<
+    /PageSize [612 792] 
+  >> setpagedevice
+} if
+%%BeginResource: procset Enscript-Header-simple 1.6 4
+
+/do_header {	% print default simple header
+  gsave
+    d_header_x d_header_y HFpt_h 3 div add translate
+
+    HF setfont
+    user_header_p {
+      5 0 moveto user_header_left_str show
+
+      d_header_w user_header_center_str stringwidth pop sub 2 div
+      0 moveto user_header_center_str show
+
+      d_header_w user_header_right_str stringwidth pop sub 5 sub
+      0 moveto user_header_right_str show
+    } {
+      5 0 moveto fname show
+      45 0 rmoveto fmodstr show
+      45 0 rmoveto pagenumstr show
+    } ifelse
+
+  grestore
+} def
+%%EndResource
+/d_page_w 576 def
+/d_page_h 720 def
+/d_header_x 0 def
+/d_header_y 705 def
+/d_header_w 576 def
+/d_header_h 15 def
+/d_footer_x 0 def
+/d_footer_y 0 def
+/d_footer_w 576 def
+/d_footer_h 0 def
+/d_output_w 576 def
+/d_output_h 705 def
+/cols 1 def
+%%EndSetup
+%%Page: (1) 1
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 1 def
+/fname (project1.script) def
+/fdir () def
+/ftail (project1.script) def
+% User defined strings:
+/fmodstr (Sun Oct 04 14:42:01 2009) def
+/pagenumstr (1) def
+/user_header_p true def
+/user_header_left_str (project1.script) def
+/user_header_center_str (Ted Timmons CS333 Assignment 1) def
+/user_header_right_str (Pg 1 of 6) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(Script started on Sun 04 Oct 2009 02:27:15 PM PDT) s
+5 681 M
+($ asm Hello.s && lddd Hello.o -o Hello blitz -g Hello ) s
+5 670 M
+(Beginning execution...) s
+5 659 M
+(Hello, world!) s
+5 637 M
+(****  A 'debug' instruction was encountered  *****) s
+5 626 M
+(Done!  The next instruction to execute will be:) s
+5 615 M
+(000080: A1FFFFB8       jmp     0xFFFFB8         ! targetAddr = main) s
+5 593 M
+(Entering machine-level debugger...) s
+5 582 M
+(======================================================) s
+5 571 M
+(=====                                            =====) s
+5 560 M
+(=====         The BLITZ Machine Emulator         =====) s
+5 549 M
+(=====                                            =====) s
+5 538 M
+(=====  Copyright 2001-2007, Harry H. Porter III  =====) s
+5 527 M
+(=====                                            =====) s
+5 516 M
+(======================================================) s
+5 494 M
+(Enter a command at the prompt.  Type 'quit' to exit or 'help' for) s
+5 483 M
+(info about commands.) s
+5 472 M
+(> q) s
+5 461 M
+(Number of Disk Reads    = 0) s
+5 450 M
+(Number of Disk Writes   = 0) s
+5 439 M
+(Instructions Executed   = 1705) s
+5 428 M
+(Time Spent Sleeping     = 0) s
+5 417 M
+(    Total Elapsed Time  = 1705) s
+5 406 M
+($echo "step 8") s
+5 395 M
+(step 8) s
+5 384 M
+($ asm Echo.s && lddd Echo.o -o Echo && blitz Echo) s
+5 373 M
+(======================================================) s
+5 362 M
+(=====                                            =====) s
+5 351 M
+(=====         The BLITZ Machine Emulator         =====) s
+5 340 M
+(=====                                            =====) s
+5 329 M
+(=====  Copyright 2001-2007, Harry H. Porter III  =====) s
+5 318 M
+(=====                                            =====) s
+5 307 M
+(======================================================) s
+5 285 M
+(Enter a command at the prompt.  Type 'quit' to exit or 'help' for) s
+5 274 M
+(info about commands.) s
+5 263 M
+(> g) s
+5 252 M
+(Beginning execution...) s
+5 241 M
+(hello world) s
+5 230 M
+(hello world) s
+5 219 M
+(foo bar) s
+5 208 M
+(foo bar) s
+5 197 M
+(trying backslash \\n) s
+5 186 M
+(trying backslash \\n) s
+5 175 M
+(q) s
+5 164 M
+(q) s
+5 153 M
+(****  A 'debug' instruction was encountered  *****) s
+5 142 M
+(Done!  The next instruction to execute will be:) s
+5 131 M
+(                   cont:) s
+5 120 M
+(0000A4: A1FFFFAC       jmp     0xFFFFAC         ! targetAddr = loop) s
+5 109 M
+(> go) s
+5 98 M
+(Beginning execution...) s
+5 76 M
+(asdf) s
+5 65 M
+(asdf) s
+5 54 M
+(q) s
+5 43 M
+(q) s
+5 32 M
+(****  A 'debug' instruction was encountered  *****) s
+5 21 M
+(Done!  The next instruction to execute will be:) s
+5 10 M
+(                   cont:) s
+_R
+S
+%%Page: (2) 2
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 2 def
+/fname (project1.script) def
+/fdir () def
+/ftail (project1.script) def
+% User defined strings:
+/fmodstr (Sun Oct 04 14:42:01 2009) def
+/pagenumstr (2) def
+/user_header_p true def
+/user_header_left_str (project1.script) def
+/user_header_center_str (Ted Timmons CS333 Assignment 1) def
+/user_header_right_str (Pg 2 of 6) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(0000A4: A1FFFFAC       jmp     0xFFFFAC         ! targetAddr = loop) s
+5 681 M
+(> q) s
+5 670 M
+(Number of Disk Reads    = 0) s
+5 659 M
+(Number of Disk Writes   = 0) s
+5 648 M
+(Instructions Executed   = 169424481) s
+5 637 M
+(Time Spent Sleeping     = 0) s
+5 626 M
+(    Total Elapsed Time  = 169424481) s
+5 615 M
+($ echo "step 9") s
+5 604 M
+(step 9) s
+5 593 M
+($ blitz -g HelloWorld) s
+5 582 M
+(Beginning execution...) s
+5 571 M
+(====================  KPL PROGRAM STARTING  ====================) s
+5 560 M
+(Hello, world...) s
+5 549 M
+(The value of b is 12) s
+5 527 M
+(****  A 'debug' instruction was encountered  *****) s
+5 516 M
+(Done!  The next instruction to execute will be:) s
+5 505 M
+(0028A4: 8B1EFFF0       load    [r14+0xFFF0],r1  ! decimal: -16) s
+5 483 M
+(Entering machine-level debugger...) s
+5 472 M
+(======================================================) s
+5 461 M
+(=====                                            =====) s
+5 450 M
+(=====         The BLITZ Machine Emulator         =====) s
+5 439 M
+(=====                                            =====) s
+5 428 M
+(=====  Copyright 2001-2007, Harry H. Porter III  =====) s
+5 417 M
+(=====                                            =====) s
+5 406 M
+(======================================================) s
+5 384 M
+(Enter a command at the prompt.  Type 'quit' to exit or 'help' for) s
+5 373 M
+(info about commands.) s
+5 362 M
+(> g) s
+5 351 M
+(Beginning execution...) s
+5 340 M
+(The value of b is 13) s
+5 318 M
+(****  A 'debug' instruction was encountered  *****) s
+5 307 M
+(Done!  The next instruction to execute will be:) s
+5 296 M
+(0028A4: 8B1EFFF0       load    [r14+0xFFF0],r1  ! decimal: -16) s
+5 285 M
+(> g) s
+5 274 M
+(Beginning execution...) s
+5 263 M
+(The value of b is 14) s
+5 241 M
+(****  A 'debug' instruction was encountered  *****) s
+5 230 M
+(Done!  The next instruction to execute will be:) s
+5 219 M
+(0028A4: 8B1EFFF0       load    [r14+0xFFF0],r1  ! decimal: -16) s
+5 208 M
+(> q) s
+5 197 M
+(Number of Disk Reads    = 0) s
+5 186 M
+(Number of Disk Writes   = 0) s
+5 175 M
+(Instructions Executed   = 779) s
+5 164 M
+(Time Spent Sleeping     = 0) s
+5 153 M
+(    Total Elapsed Time  = 779) s
+5 142 M
+($ echo "step 11") s
+5 131 M
+(step 11) s
+5 120 M
+($ blitz -g HelloWorld) s
+5 109 M
+(Beginning execution...) s
+5 98 M
+(====================  KPL PROGRAM STARTING  ====================) s
+5 87 M
+(Hello, world...) s
+5 76 M
+(The value of b is 12) s
+5 54 M
+(****  A 'debug' instruction was encountered  *****) s
+5 43 M
+(Done!  The next instruction to execute will be:) s
+5 32 M
+(0028A4: 8B1EFFF0       load    [r14+0xFFF0],r1  ! decimal: -16) s
+5 10 M
+(Entering machine-level debugger...) s
+_R
+S
+%%Page: (3) 3
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 3 def
+/fname (project1.script) def
+/fdir () def
+/ftail (project1.script) def
+% User defined strings:
+/fmodstr (Sun Oct 04 14:42:01 2009) def
+/pagenumstr (3) def
+/user_header_p true def
+/user_header_left_str (project1.script) def
+/user_header_center_str (Ted Timmons CS333 Assignment 1) def
+/user_header_right_str (Pg 3 of 6) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(======================================================) s
+5 681 M
+(=====                                            =====) s
+5 670 M
+(=====         The BLITZ Machine Emulator         =====) s
+5 659 M
+(=====                                            =====) s
+5 648 M
+(=====  Copyright 2001-2007, Harry H. Porter III  =====) s
+5 637 M
+(=====                                            =====) s
+5 626 M
+(======================================================) s
+5 604 M
+(Enter a command at the prompt.  Type 'quit' to exit or 'help' for) s
+5 593 M
+(info about commands.) s
+5 582 M
+(> g) s
+5 571 M
+(Beginning execution...) s
+5 560 M
+(The value of b is 13) s
+5 538 M
+(****  A 'debug' instruction was encountered  *****) s
+5 527 M
+(Done!  The next instruction to execute will be:) s
+5 516 M
+(0028A4: 8B1EFFF0       load    [r14+0xFFF0],r1  ! decimal: -16) s
+5 505 M
+(> s) s
+5 494 M
+(Done!  The next instruction to execute will be:) s
+5 483 M
+(0028A8: 8F1F0000       store   r1,[r15+0x0000]  ! decimal: 0  \(PowerOnReset\)) s
+5 472 M
+(> reset) s
+5 461 M
+(Resetting all CPU registers and re-reading file "HelloWorld"...) s
+5 450 M
+(> t) s
+5 439 M
+(====================  KPL PROGRAM STARTING  ====================) s
+5 428 M
+(About to execute FUNCTION ENTRY                    in KPLMemoryInitialize \(System.c, line ) s
+545 428 M (+) s
+5 417 M
+(147\)  time = 453) s
+5 406 M
+(> t) s
+5 395 M
+(About to execute ASSIGN statement                  in KPLMemoryInitialize \(System.c, line ) s
+545 395 M (+) s
+5 384 M
+(150\)  time = 458) s
+5 373 M
+(> t) s
+5 362 M
+(About to execute RETURN statement                  in KPLMemoryInitialize \(System.c, line ) s
+545 362 M (+) s
+5 351 M
+(150\)  time = 466) s
+5 340 M
+(> t) s
+5 329 M
+(About to execute FUNCTION ENTRY                    in main \(HelloWorld.c, line 5\)  time = 486) s
+5 318 M
+(> t) s
+5 307 M
+(About to execute FUNCTION CALL \(external function\) in main \(HelloWorld.c, line 6\)  time = 493) s
+5 296 M
+(> go) s
+5 285 M
+(Beginning execution...) s
+5 274 M
+(Hello, world...) s
+5 263 M
+(The value of b is 12) s
+5 241 M
+(****  A 'debug' instruction was encountered  *****) s
+5 230 M
+(Done!  The next instruction to execute will be:) s
+5 219 M
+(0028A4: 8B1EFFF0       load    [r14+0xFFF0],r1  ! decimal: -16) s
+5 208 M
+(> st) s
+5 197 M
+(   Function/Method            Frame Addr   Execution at...) s
+5 186 M
+(   ========================   ==========   =====================) s
+5 175 M
+(   bar                         00FFFEC8    HelloWorld.c, line 20) s
+5 164 M
+(   foo                         00FFFEE0    HelloWorld.c, line 11) s
+5 153 M
+(   main                        00FFFEF8    HelloWorld.c, line 7) s
+5 142 M
+(Bottom of activation frame stack!) s
+5 131 M
+(> i) s
+5 120 M
+(============================) s
+5 109 M
+(Memory size = 0x01000000     \( decimal: 16777216    \)) s
+5 98 M
+(Page size   = 0x00002000     \( decimal: 8192        \)) s
+5 87 M
+(.text Segment) s
+5 76 M
+(    addr    = 0x00000000     \( decimal: 0           \)) s
+5 65 M
+(    size    = 0x00004000     \( decimal: 16384       \)) s
+5 54 M
+(.data Segment) s
+5 43 M
+(    addr    = 0x00004000     \( decimal: 16384       \)) s
+5 32 M
+(    size    = 0x00006000     \( decimal: 24576       \)) s
+5 21 M
+(.bss Segment) s
+5 10 M
+(    addr    = 0x0000A000     \( decimal: 40960       \)) s
+_R
+S
+%%Page: (4) 4
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 4 def
+/fname (project1.script) def
+/fdir () def
+/ftail (project1.script) def
+% User defined strings:
+/fmodstr (Sun Oct 04 14:42:01 2009) def
+/pagenumstr (4) def
+/user_header_p true def
+/user_header_left_str (project1.script) def
+/user_header_center_str (Ted Timmons CS333 Assignment 1) def
+/user_header_right_str (Pg 4 of 6) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(    size    = 0x00000000     \( decimal: 0           \)) s
+5 681 M
+(=====  USER REGISTERS  =====) s
+5 670 M
+(  r0  = 0x00000000     \( decimal: 0 \)) s
+5 659 M
+(  r1  = 0x00000000     \( decimal: 0 \)) s
+5 648 M
+(  r2  = 0x00000000     \( decimal: 0 \)) s
+5 637 M
+(  r3  = 0x00000000     \( decimal: 0 \)) s
+5 626 M
+(  r4  = 0x00000000     \( decimal: 0 \)) s
+5 615 M
+(  r5  = 0x00000000     \( decimal: 0 \)) s
+5 604 M
+(  r6  = 0x00000000     \( decimal: 0 \)) s
+5 593 M
+(  r7  = 0x00000000     \( decimal: 0 \)) s
+5 582 M
+(  r8  = 0x00000000     \( decimal: 0 \)) s
+5 571 M
+(  r9  = 0x00000000     \( decimal: 0 \)) s
+5 560 M
+(  r10 = 0x00000000     \( decimal: 0 \)) s
+5 549 M
+(  r11 = 0x00000000     \( decimal: 0 \)) s
+5 538 M
+(  r12 = 0x00000000     \( decimal: 0 \)) s
+5 527 M
+(  r13 = 0x00000000     \( decimal: 0 \)) s
+5 516 M
+(  r14 = 0x00000000     \( decimal: 0 \)) s
+5 505 M
+(  r15 = 0x00000000     \( decimal: 0 \)) s
+5 494 M
+(=====  SYSTEM REGISTERS  =====) s
+5 483 M
+(  r0  = 0x00000000     \( decimal: 0 \)) s
+5 472 M
+(  r1  = 0x00000003     \( decimal: 3           \)) s
+5 461 M
+(  r2  = 0x0000000A     \( decimal: 10          \)) s
+5 450 M
+(  r3  = 0x00000012     \( decimal: 18          \)) s
+5 439 M
+(  r4  = 0x8CC97375     \( decimal: -1932954763 \)) s
+5 428 M
+(  r5  = 0x00000000     \( decimal: 0 \)) s
+5 417 M
+(  r6  = 0x00000000     \( decimal: 0 \)) s
+5 406 M
+(  r7  = 0x00000000     \( decimal: 0 \)) s
+5 395 M
+(  r8  = 0x00000000     \( decimal: 0 \)) s
+5 384 M
+(  r9  = 0x00000000     \( decimal: 0 \)) s
+5 373 M
+(  r10 = 0x00004445     \( decimal: 17477       \)) s
+5 362 M
+(  r11 = 0x00000000     \( decimal: 0 \)) s
+5 351 M
+(  r12 = 0x00000000     \( decimal: 0 \)) s
+5 340 M
+(  r13 = 0x00000014     \( decimal: 20              IllegalInstruction \)) s
+5 329 M
+(  r14 = 0x00FFFEC8     \( decimal: 16776904    \)) s
+5 318 M
+(  r15 = 0x00FFFEB4     \( decimal: 16776884    \)) s
+5 307 M
+(=====  FLOATING-POINT REGISTERS  =====) s
+5 296 M
+(  f0  = 0x00000000 00000000   \( value = 0 \)) s
+5 285 M
+(  f1  = 0x00000000 00000000   \( value = 0 \)) s
+5 274 M
+(  f2  = 0x00000000 00000000   \( value = 0 \)) s
+5 263 M
+(  f3  = 0x00000000 00000000   \( value = 0 \)) s
+5 252 M
+(  f4  = 0x00000000 00000000   \( value = 0 \)) s
+5 241 M
+(  f5  = 0x00000000 00000000   \( value = 0 \)) s
+5 230 M
+(  f6  = 0x00000000 00000000   \( value = 0 \)) s
+5 219 M
+(  f7  = 0x00000000 00000000   \( value = 0 \)) s
+5 208 M
+(  f8  = 0x00000000 00000000   \( value = 0 \)) s
+5 197 M
+(  f9  = 0x00000000 00000000   \( value = 0 \)) s
+5 186 M
+(  f10 = 0x00000000 00000000   \( value = 0 \)) s
+5 175 M
+(  f11 = 0x00000000 00000000   \( value = 0 \)) s
+5 164 M
+(  f12 = 0x00000000 00000000   \( value = 0 \)) s
+5 153 M
+(  f13 = 0x00000000 00000000   \( value = 0 \)) s
+5 142 M
+(  f14 = 0x00000000 00000000   \( value = 0 \)) s
+5 131 M
+(  f15 = 0x00000000 00000000   \( value = 0 \)) s
+5 120 M
+(======================================) s
+5 109 M
+(  PC   = 0x000028A4     \( decimal: 10404       \)) s
+5 98 M
+(  PTBR = 0x00000000     \( decimal: 0 \)) s
+5 87 M
+(  PTLR = 0x00000000     \( decimal: 0 \)) s
+5 76 M
+(                        ---- ----  ---- ----  ---- ----  --IS PZVN) s
+5 65 M
+(  SR   = 0x00000010  =  0000 0000  0000 0000  0000 0000  0001 0000) s
+5 54 M
+(           I = 0   Interrupts Disabled) s
+5 43 M
+(           S = 1   System Mode) s
+5 32 M
+(           P = 0   Paging Disabled) s
+5 21 M
+(           Z = 0   Not Zero) s
+5 10 M
+(           V = 0   No Overflow) s
+_R
+S
+%%Page: (5) 5
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 5 def
+/fname (project1.script) def
+/fdir () def
+/ftail (project1.script) def
+% User defined strings:
+/fmodstr (Sun Oct 04 14:42:01 2009) def
+/pagenumstr (5) def
+/user_header_p true def
+/user_header_left_str (project1.script) def
+/user_header_center_str (Ted Timmons CS333 Assignment 1) def
+/user_header_right_str (Pg 5 of 6) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(           N = 0   Not Negative) s
+5 681 M
+(==============================) s
+5 670 M
+(  Pending Interrupts                = 0x00000002) s
+5 659 M
+(    TIMER_INTERRUPT) s
+5 648 M
+(  System Trap Number                = 0x00000000) s
+5 637 M
+(  Page Invalid Offending Address    = 0x00000000) s
+5 626 M
+(  Page Readonly Offending Address   = 0x00000000) s
+5 615 M
+(  Time of next timer event          = 5005) s
+5 604 M
+(  Time of next disk event           = 2147483647) s
+5 593 M
+(  Time of next serial in event      = 30039) s
+5 582 M
+(  Time of next serial out event     = 2147483647) s
+5 571 M
+(    Current Time                    = 609) s
+5 560 M
+(    Time of next event              = 5005) s
+5 549 M
+(    Time Spent Sleeping             = 0) s
+5 538 M
+(      Instructions Executed         = 609) s
+5 527 M
+(  Number of Disk Reads              = 0) s
+5 516 M
+(  Number of Disk Writes             = 0) s
+5 505 M
+(==============================) s
+5 494 M
+(The next instruction to execute will be:) s
+5 483 M
+(0028A4: 8B1EFFF0       load    [r14+0xFFF0],r1  ! decimal: -16) s
+5 472 M
+(About to execute DEBUG statement                   in bar \(HelloWorld.c, line 20\)  time = 609) s
+5 461 M
+(> fr) s
+5 450 M
+(=====  Frame number 0 \(where StackTop = 0\)  =====) s
+5 439 M
+(Function Name:    bar) s
+5 428 M
+(Filename:         HelloWorld.c) s
+5 417 M
+(Execution now at: line 20) s
+5 406 M
+(Frame Addr:       00FFFEC8) s
+5 395 M
+(frameSize:        12) s
+5 384 M
+(totalParmSize:    4) s
+5 373 M
+(                         ==========) s
+5 362 M
+(   sp--> -20   00FFFEB4:  0000000C) s
+5 351 M
+(         -16   00FFFEB8:  0000000C) s
+5 340 M
+(         -12   00FFFEBC:  0000906C) s
+5 329 M
+(R.D.ptr:  -8   00FFFEC0:  000028D0) s
+5 318 M
+(    r13:  -4   00FFFEC4:  0000000B) s
+5 307 M
+(     fp:   0   00FFFEC8:  00FFFEE0) s
+5 296 M
+(RetAddr:   4   00FFFECC:  000027B4) s
+5 285 M
+(                         ==========) s
+5 274 M
+(   Args:   8   00FFFED0:  0000000B) s
+5 252 M
+(PARAMETERS AND LOCAL VARIABLES WITHIN THIS FRAME:) s
+5 241 M
+(=================================================) s
+5 230 M
+(  a: int) s
+5 219 M
+(           8   00FFFED0:  0000000B    value = 11) s
+5 208 M
+(  _temp_15) s
+5 197 M
+(         -12   00FFFEBC:  0000906C) s
+5 186 M
+(  b: int) s
+5 175 M
+(         -16   00FFFEB8:  0000000C    value = 12) s
+5 164 M
+(=================================================) s
+5 153 M
+(> down) s
+5 142 M
+(=====  Frame number 1 \(where StackTop = 0\)  =====) s
+5 131 M
+(Function Name:    foo) s
+5 120 M
+(Filename:         HelloWorld.c) s
+5 109 M
+(Execution now at: line 11) s
+5 98 M
+(Frame Addr:       00FFFEE0) s
+5 87 M
+(frameSize:        8) s
+5 76 M
+(totalParmSize:    4) s
+5 65 M
+(                         ==========) s
+5 54 M
+(         -16   00FFFED0:  0000000B) s
+5 43 M
+(         -12   00FFFED4:  0000000B) s
+5 32 M
+(R.D.ptr:  -8   00FFFED8:  000027CC) s
+5 21 M
+(    r13:  -4   00FFFEDC:  00000007) s
+5 10 M
+(     fp:   0   00FFFEE0:  00FFFEF8) s
+_R
+S
+%%Page: (6) 6
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 6 def
+/fname (project1.script) def
+/fdir () def
+/ftail (project1.script) def
+% User defined strings:
+/fmodstr (Sun Oct 04 14:42:01 2009) def
+/pagenumstr (6) def
+/user_header_p true def
+/user_header_left_str (project1.script) def
+/user_header_center_str (Ted Timmons CS333 Assignment 1) def
+/user_header_right_str (Pg 6 of 6) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(RetAddr:   4   00FFFEE4:  00002710) s
+5 681 M
+(                         ==========) s
+5 670 M
+(   Args:   8   00FFFEE8:  0000000A) s
+5 648 M
+(PARAMETERS AND LOCAL VARIABLES WITHIN THIS FRAME:) s
+5 637 M
+(=================================================) s
+5 626 M
+(  x: int) s
+5 615 M
+(           8   00FFFEE8:  0000000A    value = 10) s
+5 604 M
+(  _temp_11) s
+5 593 M
+(         -12   00FFFED4:  0000000B) s
+5 582 M
+(=================================================) s
+5 571 M
+(> down) s
+5 560 M
+(=====  Frame number 2 \(where StackTop = 0\)  =====) s
+5 549 M
+(Function Name:    main) s
+5 538 M
+(Filename:         HelloWorld.c) s
+5 527 M
+(Execution now at: line 7) s
+5 516 M
+(Frame Addr:       00FFFEF8) s
+5 505 M
+(frameSize:        8) s
+5 494 M
+(totalParmSize:    0) s
+5 483 M
+(                         ==========) s
+5 472 M
+(         -16   00FFFEE8:  0000000A) s
+5 461 M
+(         -12   00FFFEEC:  00009084) s
+5 450 M
+(R.D.ptr:  -8   00FFFEF0:  00002728) s
+5 439 M
+(    r13:  -4   00FFFEF4:  00000000) s
+5 428 M
+(     fp:   0   00FFFEF8:  00000000) s
+5 417 M
+(RetAddr:   4   00FFFEFC:  00000CF0) s
+5 406 M
+(                         ==========) s
+5 384 M
+(PARAMETERS AND LOCAL VARIABLES WITHIN THIS FRAME:) s
+5 373 M
+(=================================================) s
+5 362 M
+(  _temp_8) s
+5 351 M
+(         -12   00FFFEEC:  00009084) s
+5 340 M
+(=================================================) s
+5 329 M
+(> t) s
+5 318 M
+(About to execute FUNCTION CALL                     in bar \(HelloWorld.c, line 21\)  time = 613) s
+5 307 M
+(> quit) s
+5 296 M
+(Number of Disk Reads    = 0) s
+5 285 M
+(Number of Disk Writes   = 0) s
+5 274 M
+(Instructions Executed   = 613) s
+5 263 M
+(Time Spent Sleeping     = 0) s
+5 252 M
+(    Total Elapsed Time  = 613) s
+5 241 M
+($ exit) s
+5 219 M
+(Script done on Sun 04 Oct 2009 02:35:18 PM PDT) s
+_R
+S
+%%Trailer
+%%Pages: 6
+%%DocumentNeededResources: font Courier-Bold Courier 
+%%EOF
