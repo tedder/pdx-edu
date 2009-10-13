@@ -1,0 +1,240 @@
+CS321 Langauges and Compiler Design I,  Fall 2009,  Homework 1
+--------------------------------------------------------------
+
+Due date:
+  2pm (start of class) on Tuesday, October 20 if you submit on paper
+  OR noon on Tuesday, October 20 if you submit by email (in which
+     case be sure to send your submission in one of the
+     formats listed on the class web page).
+
+
+PACKAGE CONTENTS:
+-----------------
+This package includes three main components:
+
+- In the "compiler" folder: Java source code for the error
+  handling libraries that were discussed in class (see the
+  class web page for copies of the).  These files provide a
+  library for error handling in compilers and similar
+  applications.
+
+- In the "mjc" folder: Java source code for a lexer for
+  mini Java.  There are two files:
+
+  - MjcLexer.java is a handwritten lexer, written in the
+    style that has been described in class and derived
+    from the SourceLexer class in the compiler folder.
+
+  - MjcTokens.java is a java class that defines
+    numeric codes to represent each of the tokens that
+    can appear in a mini Java program.  The numbers
+    that are assigned to individual tokens are chosen
+    almost arbitrarily.  For convenience, symbols that
+    are just a single character are represented by the
+    numeric code for that character (these are listed
+    in the comments at the end of MjcTokens.java).
+    All other tokens, including keywords, literals,
+    identifiers, and multiple character symbols are
+    referenced using names written in CAPITAL letters
+    and assigned distinct numeric codes.  The way in
+    which we have chosen numeric codes for each token
+    is not really important so long as we make sure
+    that they are all distinct (or else we might end
+    up confusing an IDENT with a BOOLEAN, for example).
+
+- In the top level directory: Java source code for a
+  simple LexerTest program and (of course) this README
+  file.
+
+
+COMPILING AND RUNNING:
+----------------------
+You can compile the supplied files using the following
+command:
+
+  javac LexerTest.java
+
+(The Java compiler is smart enough that it knows to look
+for and compile the files in the compiler and mjc
+subdirectories, so you don't have to mention them
+explicitly.)  You might see a message like the following:
+
+  Note: ./mjc/MjcLexer.java uses unchecked or unsafe operations.
+  Note: Recompile with -Xlint:unchecked for details.
+
+If so, don't worry: it just means that you are running a
+recent version of the Java toolkit, and the code will
+still function just fine.  In addition, however, it should
+also work well for those of you who are using old versions
+of the Java development tools.  (However, if you are using
+an old version of Java, it might be time to download a new
+version and upgrade!)
+
+You can run the lexer test program using a command line
+like:
+
+  java LexerTest testFile
+
+where testFile is the name of a test file; of course, you
+will need to create a test file or two before you can do
+this because I haven't supplied any examples as part of
+this package ... see below!
+
+If you want to clean up and delete the class files that
+were generated during compilation, you can use a command
+like:
+
+  rm *.class compiler/*.class mjc/*.class
+
+on a Unix machine (e.g., Linux or MacOS X) or:
+
+  del *.class compiler\*.class mjc\*.class
+
+on a Windows machine.  Be very careful when you enter
+lines like these; a little slip and you could end up
+deleting the source code as well by accident!
+
+
+THE LEXICAL STRUCTURE OF MJC:
+-----------------------------
+At this point, I am intentionally not giving you a full
+description of mini Java, but I will share the following text,
+which describes the set of tokens that are recognized by the
+code in MjcLexer.java:
+
+1) Separators/punctuation:
+
+   ( ) { } ; , .
+
+2) Operators:
+
+   = == > < ! != & && | || ^ + - * /
+
+3) Keywords:
+
+   boolean class else extends false if int new
+   null return static super this true void while
+
+4) Identifiers:
+
+   Unlimited length sequences of Java letters and Java digits
+   that begin with a Java letter and are not spelled the same
+   way as any keyword.  (The standard Java libraries allow us
+   to use method calls like Character.isJavaIdentifierStart(c)
+   and Character.isJavaIdentifierPart(c) to test whether a
+   given character c can be used at the start or as part of
+   the tail of an identifier, respectively.)
+
+5) Integer Literals:
+
+   Unlimited length, nonempty sequences of Java digits.
+   (Java digits are characters for which Character.isDigit(c)
+   returns true.)
+
+6) Whitespace:
+
+   In addition to the token types listed above, the mini Java
+   compiler also allows whitespace (comprising strings of space,
+   tab, newline, and formfeed characters) as well as two types
+   of comment:
+
+   - Single line comments, which begin with // and extend to the
+     end of the line on which they appear. 
+
+   - Multiple line comments (non nesting brackets), which are
+     introduced by "/*" and terminated by "*/", just as in C,
+     C++, and Java.
+
+
+EXERCISES (AT LAST):
+--------------------
+For maximum credit, please be sure to follow the guidelines for
+preparing and submitting homework that are provided on the class
+web page.
+
+Question 0: Read through the code in MjcLexer.java to make sure
+  you understand how the supplied code works.  (Of course, you
+  may also refer to any of the other source files as needed.)
+  If you find any parts of this code that you don't understand,
+  whether they are specific to the supplied code or more general
+  questions about Java, please send your questions to the class
+  mailing list.  There are no points allocated to this part of
+  the assignment, and you do not need to include anything in
+  your submission to show that you have done it.  But expect to
+  spend a lot longer on the remaining parts of this assignment
+  if you don't do this question!
+
+Question 1: For each of the six kinds of tokens/input elements
+  described above in the section about the lexical structure of
+  mini Java, write a few brief sentences to describe the
+  techniques that are used to recognize those items in
+  MjcLexer.java.
+  [Up to 12 points; 2 for each of the six listed categories.]
+
+Question 2: Create a small selection of test files to test the
+  supplied lexer.  Choose your examples carefully to demonstrate
+  the behavior of lexical analysis with both valid and invalid
+  inputs, explaining carefully what each of your test cases was
+  designed to illustrate, and commenting on how the output of
+  LexerTest confirms that the expected result was obtained.
+  [Up to 8 points; 1 for each distinct feature that is tested.]
+
+[In your answers to Questions 3 through 5, you should describe
+the specific changes that you made to implement the changes
+that are described, but you should not include a full source
+code listing as part of your solution.  You should also
+include details of any tests that you used to check that your
+implementation works correctly.]
+
+Question 3:  Modify the lexer source code so that it can
+  recognize the four operator symbols += <= -= and >=.
+  [Up to 10 points.]
+
+Question 4:  Modify the lexer source code so that it can
+  recognize the four keywords private, protected, public
+  and abstract.
+  [Up to 10 points.]
+
+Question 5:  Modify the lexer source code so that it can
+  recognize string literals.  For the purposes of this
+  exercise, a string literal is a sequence of two or more
+  characters on a single line that begins and ends with
+  a double quote character (").  In addition, your lexer
+  should allow for three "escape sequences" inside string
+  literals:  \n representing a newline, \" representing a
+  double quote that does not terminate the string, and \\
+  representing a single backslash character.
+  [Up to 10 points.]
+
+Question 6:  Consider each of the following extensions and
+  comment on how difficult and/or appropriate it would be
+  to modify the lexer to handle these features.  (NOTE:
+  Creative thinking will be rewarded, but you are NOT actually
+  required or encouraged to implement any of these features.)
+
+  a) Emit an error diagnostic for any integer literal whose
+     value exceeds the maximum signed integer (2147483647)
+     that can be represented in 32 bits.  So literals like
+     "0", "1", and "2147483647" would all be accepted, but
+     "2147483648", and "10000000000" would trigger errors.
+
+  b) Extend the lexer to recognize date tokens of the form
+     "mm/dd/yy", where mm, dd, and yy are two digit character
+     sequences.
+
+  c) Extend the lexer to report an error when the input
+     file contains unmatched pairs of parentheses.
+
+  d) Modify the lexer to determine the number of distinct
+     identifiers that occur in a given input program.
+
+  e) Extend the lexer to allow include directives of the
+     form #include "filename" with the expectation that
+     this sequence of characters would be replaced with
+     the contents of the named file.
+
+  [Up to 10 points; 2 points for each of a, b, c, d, and e.]
+
+ABOVE ALL ELSE: Be sure to ask for help if you get stuck!!!
+
+------------------------------------------------------------------
