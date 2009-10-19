@@ -24,9 +24,9 @@ code Main
 
       --SimpleThreadExample ()
       --MoreThreadExamples ()
-      TestMutex ()
-      -- ProducerConsumer ()
-      -- DiningPhilosophers ()
+      --TestMutex ()
+      --ProducerConsumer ()
+      DiningPhilosophers ()
 
       ThreadFinish ()
 
@@ -322,8 +322,14 @@ code Main
     bufferNextIn: int = 0
     bufferNextOut: int = 0
     thArray: array [8] of Thread = new array of Thread { 8 of new Thread }
+    semEmpty: Semaphore = new Semaphore
+    semFull: Semaphore = new Semaphore
+
 
   function ProducerConsumer ()
+
+      semEmpty.Init(BUFFER_SIZE)
+      semFull.Init(0)
 
       print ("     ")
 
@@ -360,6 +366,7 @@ code Main
         c: char = intToChar ('A' + myId - 1)
       for i = 1 to 5
         -- Perform synchroniztion...
+        semEmpty.Down()
 
         -- Add c to the buffer
         buffer [bufferNextIn] = c
@@ -370,6 +377,7 @@ code Main
         PrintBuffer (c)
 
         -- Perform synchronization...
+        semFull.Up()
 
       endFor
     endFunction
@@ -379,6 +387,7 @@ code Main
         c: char
       while true
         -- Perform synchroniztion...
+        semFull.Down()
 
         -- Remove next character from the buffer
         c = buffer [bufferNextOut]
@@ -389,6 +398,7 @@ code Main
         PrintBuffer (c)
 
         -- Perform synchronization...
+        semEmpty.Up()
 
       endWhile
     endFunction
@@ -429,10 +439,10 @@ code Main
 -----------------------------  Dining Philosophers  ---------------------------------
 
   -- This code is an implementation of the Dining Philosophers problem.  Each
-  -- philosopher is simulated with a thread.  Each philosopher thinks for a while
+  -- philospher is simulated with a thread.  Each philospher thinks for a while
   -- and then wants to eat.  Before eating, he must pick up both his forks.
   -- After eating, he puts down his forks.  Each fork is shared between
-  -- two philosophers and there are 5 philosophers and 5 forks arranged in a
+  -- two philosphers and there are 5 philosphers and 5 forks arranged in a
   -- circle.
   --
   -- Since the forks are shared, access to them is controlled by a monitor
@@ -443,22 +453,22 @@ code Main
   -- indicating which philospher wants to pickup (or put down) the forks.
   -- The call to "PickUpForks" will wait until both of his forks are
   -- available.  The call to "PutDownForks" will never wait and may also
-  -- wake up threads (i.e., philosophers) who are waiting.
+  -- wake up threads (i.e., philosphers) who are waiting.
   --
   -- Each philospher is in exactly one state: HUNGRY, EATING, or THINKING.  Each time
-  -- a philosopher's state changes, a line of output is printed.  The output is organized
-  -- so that each philosopher has column of output with the following code letters:
+  -- a philospher's state changes, a line of output is printed.  The output is organized
+  -- so that each philospher has column of output with the following code letters:
   --           E    --  eating
   --           .    --  thinking
   --         blank  --  hungry (i.e., waiting for forks)
-  -- By reading down a column, you can see the history of a philosopher.
+  -- By reading down a column, you can see the history of a philospher.
   --
   -- The forks are not modeled explicitly.  A fork is only picked up
   -- by a philospher if he can pick up both forks at the same time and begin
   -- eating.  To know whether a fork is available, it is sufficient to simply
-  -- look at the status's of the two adjacent philosophers.  (Another way to state
+  -- look at the status's of the two adjacent philosphers.  (Another way to state
   -- the problem is to forget about the forks altogether and stipulate that a
-  -- philosopher may only eat when his two neighbors are not eating.)
+  -- philospher may only eat when his two neighbors are not eating.)
 
   enum HUNGRY, EATING, THINKING
   var
@@ -475,7 +485,9 @@ code Main
 
       mon = new ForkMonitor
       mon.Init ()
+print ("done with init\n")
       mon.PrintAllStatus ()
+print ("done with PAS\n")
 
       philospher[0].Init ("Plato")
       philospher[0].Fork (PhilosphizeAndEat, 0)
@@ -491,27 +503,33 @@ code Main
 
       philospher[4].Init ("Aristotle")
       philospher[4].Fork (PhilosphizeAndEat, 4)
+--print ("all done eating\n")
 
      endFunction
 
   function PhilosphizeAndEat (p: int)
-    -- The parameter "p" identifies which philosopher this is.
+    -- The parameter "p" identifies which philospher this is.
     -- In a loop, he will think, acquire his forks, eat, and
     -- put down his forks.
       var
         i: int
+      mon.PrintAllStatus ()
       for i = 1 to 7
         -- Now he is thinking
         mon. PickupForks (p)
+      mon.PrintAllStatus ()
         -- Now he is eating
         mon. PutDownForks (p)
+      mon.PrintAllStatus ()
       endFor
     endFunction
 
   class ForkMonitor
     superclass Object
     fields
-      status: array [5] of int             -- For each philosopher: HUNGRY, EATING, or THINKING
+      -- For each philospher: HUNGRY, EATING, or THINKING
+      status: array [5] of int
+      sem: array [5] of Semaphore
     methods
       Init ()
       PickupForks (p: int)
@@ -522,22 +540,56 @@ code Main
   behavior ForkMonitor
 
     method Init ()
-      -- Initialize so that all philosophers are THINKING.
-      -- ...unimplemented...
+        var
+          i: int
+        status = new array of int { 5 of THINKING }
+
+        sem = new array of Semaphore {5 of new Semaphore }
+        for i = 0 to 4
+          -- Initialize so that all philosphers are THINKING.
+          --status[i] = THINKING
+          sem[i].Init(1)
+        endFor
       endMethod
 
     method PickupForks (p: int)
-      -- This method is called when philosopher 'p' is wants to eat.
-      -- ...unimplemented...
+        -- This method is called when philospher 'p' is wants to eat.
+        var
+          prev: int
+          next: int
+
+        prev = (p-1) % 5
+        next = (p+1) % 5
+        if (status[prev] == EATING)
+--print ("-1 is eating, so we're hungry, down/wait.\n")
+          status[p] = HUNGRY
+          sem[prev].Down()
+        endIf
+
+        if (status[next] == EATING)
+--print ("+1 is eating, so we're hungry, down/wait.\n")
+          status[p] = HUNGRY
+          sem[next].Down()
+        endIf
+
+        -- we should be able to get both forks now.
+        sem[p].Up()
+        status[p] = EATING
+--print ("yum, we (")
+--printInt (p)
+--print (") are eating!\n")
+
+
       endMethod
 
     method PutDownForks (p: int)
-      -- This method is called when the philosopher 'p' is done eating.
-      -- ...unimplemented...
+      -- This method is called when the philospher 'p' is done eating.
+      sem[p].Up()
+      status[p] = THINKING
       endMethod
 
     method PrintAllStatus ()
-      -- Print a single line showing the status of all philosophers.
+      -- Print a single line showing the status of all philosphers.
       --      '.' means thinking
       --      ' ' means hungry
       --      'E' means eating

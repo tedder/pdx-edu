@@ -1,0 +1,70 @@
+Script started on Sun 18 Oct 2009 07:52:07 PM PDT
+$ make && blitz -g os
+make: Nothing to be done for `all'.
+Beginning execution...
+====================  KPL PROGRAM STARTING  ====================
+Example Thread-based Programs...
+Initializing Thread Scheduler...
+        Producer-A         A
+A       Producer-A         A
+AA      Producer-A         A
+AAA     Producer-A         A
+AAAA    Producer-A         A
+AAAAA   Consumer-1                               |      A
+AAAA    Consumer-2                               |          A
+AAA     Consumer-2                               |          A
+AA      Consumer-2                               |          A
+A       Consumer-3                               |              A
+        Producer-C                 C
+C       Producer-C                 C
+CC      Producer-C                 C
+CCC     Producer-D                     D
+CCCD    Producer-E                         E
+CCCDE   Consumer-3                               |              C
+CCDE    Consumer-3                               |              C
+CDE     Consumer-3                               |              C
+DE      Consumer-3                               |              D
+E       Consumer-2                               |          E
+        Producer-C                 C
+C       Producer-C                 C   Producer-D                     D
+CCD     Producer-E                         E
+CCDE    Producer-B             B
+CCDEB   Consumer-1                               |      C
+CDEB    Consumer-1                               |      C
+DEB     Consumer-1                               |      D
+EB      Consumer-2                               |          E
+B       Producer-D                     D
+BD      Producer-E                         E
+BDE     Producer-B             B
+BDEB 
+BDEB    Producer-D                     D
+BDDBE   Consumer-2                               |          B
+DDBE    Consumer-2                               |          D
+DBE     Consumer-3                               |              D
+BE      Consumer-3                               |              B
+E       Consumer-1                               |      E
+        Producer-B             B
+B       Producer-B             B
+BB      Producer-B             B
+BBB     Consumer-2                               |          B
+BB    Producer-D                     D
+BBD     Producer-E                         E
+BBDE    Consumer-3                               |              B
+BDE     Consumer-1                               |      B
+DE      Consumer-1                               |      D
+E       Consumer-1                               |      E
+          Producer-E                         E
+E       Consumer-1                               |      E
+     
+*****  A 'wait' instruction was executed and no more interrupts are scheduled... halting emulation!  *****
+
+Done!  The next instruction to execute will be:
+000EC8: 09000000       ret     
+Number of Disk Reads    = 0
+Number of Disk Writes   = 0
+Instructions Executed   = 118433
+Time Spent Sleeping     = 0
+    Total Elapsed Time  = 118433
+$ exit
+
+Script done on Sun 18 Oct 2009 07:52:11 PM PDT

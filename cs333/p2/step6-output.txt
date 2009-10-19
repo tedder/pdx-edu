@@ -1,0 +1,95 @@
+Script started on Sun 18 Oct 2009 07:16:54 PM PDT
+$ make && blitz -g os
+kpl Main -unsafe
+asm Main.s
+lddd System.o List.o Thread.o Switch.o Synch.o Main.o Runtime.o -o os
+Beginning execution...
+====================  KPL PROGRAM STARTING  ====================
+Example Thread-based Programs...
+Initializing Thread Scheduler...
+
+-- You should see 70 lines, each consecutively numbered. --
+
+LockTester-A = 1
+LockTester-A = 2
+LockTester-A = 3
+LockTester-A = 4
+LockTester-A = 5
+LockTester-A = 6
+LockTester-F = 7
+LockTester-F = 8
+LockTester-F = 9
+LockTester-F = 10
+LockTester-F = 11
+LockTester-A = 12
+LockTester-A = 13
+LockTester-A = 14
+LockTester-A = 15
+LockTester-C = 16
+LockTester-C = 17
+LockTester-C = 18
+LockTester-C = 19
+LockTester-D = 20
+LockTester-D = 21
+LockTester-E = 22
+LockTester-F = 23
+LockTester-F = 24
+LockTester-F = 25
+LockTester-F = 26
+LockTester-F = 27
+LockTester-G = 28
+LockTester-G = 29
+LockTester-G = 30
+LockTester-G = 31
+LockTester-G = 32
+LockTester-G = 33
+LockTester-G = 34
+LockTester-G = 35
+LockTester-E = 36
+LockTester-C = 37
+LockTester-C = 38
+LockTester-C = 39
+LockTester-C = 40
+LockTester-C = 41
+LockTester-C = 42
+LockTester-E = 43
+LockTester-B = 44
+LockTester-E = 45
+LockTester-G = 46
+LockTester-G = 47
+LockTester-E = 48
+LockTester-D = 49
+LockTester-D = 50
+LockTester-E = 51
+LockTester-B = 52
+LockTester-E = 53
+LockTester-D = 54
+LockTester-D = 55
+LockTester-E = 56
+LockTester-B = 57
+LockTester-E = 58
+LockTester-D = 59
+LockTester-D = 60
+LockTester-E = 61
+LockTester-B = 62
+LockTester-D = 63
+LockTester-B = 64
+LockTester-D = 65
+LockTester-B = 66
+LockTester-B = 67
+LockTester-B = 68
+LockTester-B = 69
+LockTester-B = 70
+
+*****  A 'wait' instruction was executed and no more interrupts are scheduled... halting emulation!  *****
+
+Done!  The next instruction to execute will be:
+000EC8: 09000000       ret     
+Number of Disk Reads    = 0
+Number of Disk Writes   = 0
+Instructions Executed   = 353623
+Time Spent Sleeping     = 0
+    Total Elapsed Time  = 353623
+$ exit
+
+Script done on Sun 18 Oct 2009 07:17:07 PM PDT

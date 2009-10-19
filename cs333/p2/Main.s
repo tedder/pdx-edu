@@ -15510,8 +15510,22 @@ _Global_thArray:
 	.word	0
 	.word	0
 	.align
+_Global_semEmpty:
+! Static object
+	.word	_P_Synch_Semaphore
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+_Global_semFull:
+! Static object
+	.word	_P_Synch_Semaphore
+	.word	0
+	.word	0
+	.word	0
+	.word	0
 _Global_mon:
-	.skip	28
+	.skip	132
 _Global_philospher:
 ! Static array
 	.word	5		! number of elements
@@ -20638,37 +20652,45 @@ _Global_philospher:
 	.align
 	.align
 ! String constants
-_StringConst_45:
+_StringConst_47:
 	.word	4			! length
 	.ascii	".   "
 	.align
-_StringConst_44:
+_StringConst_46:
 	.word	4			! length
 	.ascii	"E   "
 	.align
-_StringConst_43:
+_StringConst_45:
 	.word	4			! length
 	.ascii	"    "
 	.align
-_StringConst_42:
+_StringConst_44:
 	.word	9			! length
 	.ascii	"Aristotle"
 	.align
-_StringConst_41:
+_StringConst_43:
 	.word	9			! length
 	.ascii	"Nietzsche"
 	.align
-_StringConst_40:
+_StringConst_42:
 	.word	4			! length
 	.ascii	"Kant"
 	.align
-_StringConst_39:
+_StringConst_41:
 	.word	6			! length
 	.ascii	"Sartre"
 	.align
-_StringConst_38:
+_StringConst_40:
 	.word	5			! length
 	.ascii	"Plato"
+	.align
+_StringConst_39:
+	.word	14			! length
+	.ascii	"done with PAS\n"
+	.align
+_StringConst_38:
+	.word	15			! length
+	.ascii	"done with init\n"
 	.align
 _StringConst_37:
 	.word	26			! length
@@ -20827,9 +20849,9 @@ _mainEntry:
 	set	0x87d0aa21,r3		! .  hashVal = -2016368095
 	call	_CheckVersion_P_Main_	! .
 	cmp	r1,0			! .
-	be	_Label_58		! .
+	be	_Label_60		! .
 	ret				! .
-_Label_58:				! .
+_Label_60:				! .
 	call	_heapInitialize
 	jmp	main
 ! 
@@ -20858,7 +20880,7 @@ _CheckVersion_P_Main_:
 	.export	_CheckVersion_P_Main_
 	set	0x87d0aa21,r4		! myHashVal = -2016368095
 	cmp	r3,r4
-	be	_Label_59
+	be	_Label_61
 	set	_CVMess1,r1
 	call	_putString
 	mov	r2,r1			! print using package
@@ -20883,7 +20905,7 @@ _CheckVersion_P_Main_:
 	call	_putString
 	mov	1,r1
 	ret	
-_Label_59:
+_Label_61:
 	mov	0,r1
 ! Make sure _P_System_ has hash value 0xfe42cccc (decimal -29176628)
 	set	_packageName,r2
@@ -20891,29 +20913,29 @@ _Label_59:
 	call	_CheckVersion_P_System_
 	.import	_CheckVersion_P_System_
 	cmp	r1,0
-	bne	_Label_60
+	bne	_Label_62
 ! Make sure _P_List_ has hash value 0xafebcabb (decimal -1343501637)
 	set	_packageName,r2
 	set	0xafebcabb,r3
 	call	_CheckVersion_P_List_
 	.import	_CheckVersion_P_List_
 	cmp	r1,0
-	bne	_Label_60
+	bne	_Label_62
 ! Make sure _P_Thread_ has hash value 0xd98e6cc5 (decimal -644977467)
 	set	_packageName,r2
 	set	0xd98e6cc5,r3
 	call	_CheckVersion_P_Thread_
 	.import	_CheckVersion_P_Thread_
 	cmp	r1,0
-	bne	_Label_60
+	bne	_Label_62
 ! Make sure _P_Synch_ has hash value 0xe4ed2ab7 (decimal -454219081)
 	set	_packageName,r2
 	set	0xe4ed2ab7,r3
 	call	_CheckVersion_P_Synch_
 	.import	_CheckVersion_P_Synch_
 	cmp	r1,0
-	bne	_Label_60
-_Label_60:
+	bne	_Label_62
+_Label_62:
 	ret
 _CVMess1:	.ascii	"\nVERSION CONSISTENCY ERROR: Package '\0"
 _CVMess2:	.ascii	"' uses package '\0"
@@ -20932,18 +20954,18 @@ main:
 	set	_RoutineDescriptor_main,r1
 	push	r1
 	mov	2,r1
-_Label_613:
+_Label_730:
 	push	r0
 	sub	r1,1,r1
-	bne	_Label_613
+	bne	_Label_730
 	mov	18,r13		! source line 18
 	mov	"\0\0FU",r10
 ! VARIABLE INITIALIZATION...
 ! CALL STATEMENT...
-!   _temp_61 = _StringConst_1
+!   _temp_63 = _StringConst_1
 	set	_StringConst_1,r1
 	store	r1,[r14+-12]
-!   Prepare Argument: offset=8  value=_temp_61  sizeInBytes=4
+!   Prepare Argument: offset=8  value=_temp_63  sizeInBytes=4
 	load	[r14+-12],r1
 	store	r1,[r15+0]
 !   Call the function
@@ -20957,9 +20979,9 @@ _Label_613:
 	call	_P_Thread_InitializeScheduler
 ! CALL STATEMENT...
 !   Call the function
-	mov	27,r13		! source line 27
+	mov	29,r13		! source line 29
 	mov	"\0\0CA",r10
-	call	_function_53_TestMutex
+	call	_function_49_DiningPhilosophers
 ! CALL STATEMENT...
 !   Call the function
 	mov	31,r13		! source line 31
@@ -20977,42 +20999,42 @@ _Label_613:
 ! 
 _RoutineDescriptor_main:
 	.word	_sourceFileName
-	.word	_Label_62
+	.word	_Label_64
 	.word	0		! total size of parameters
 	.word	8		! frame size = 8
-	.word	_Label_63
+	.word	_Label_65
 	.word	-12
 	.word	4
 	.word	0
-_Label_62:
+_Label_64:
 	.ascii	"main\0"
 	.align
-_Label_63:
+_Label_65:
 	.byte	'?'
-	.ascii	"_temp_61\0"
+	.ascii	"_temp_63\0"
 	.align
 ! 
 ! ===============  FUNCTION SimpleThreadExample  ===============
 ! 
-_function_57_SimpleThreadExample:
+_function_59_SimpleThreadExample:
 	push	r14
 	mov	r15,r14
 	push	r13
-	set	_RoutineDescriptor__function_57_SimpleThreadExample,r1
+	set	_RoutineDescriptor__function_59_SimpleThreadExample,r1
 	push	r1
 	mov	9,r1
-_Label_614:
+_Label_731:
 	push	r0
 	sub	r1,1,r1
-	bne	_Label_614
+	bne	_Label_731
 	mov	42,r13		! source line 42
 	mov	"\0\0FU",r10
 ! VARIABLE INITIALIZATION...
 ! CALL STATEMENT...
-!   _temp_64 = _StringConst_2
+!   _temp_66 = _StringConst_2
 	set	_StringConst_2,r1
 	store	r1,[r14+-32]
-!   Prepare Argument: offset=8  value=_temp_64  sizeInBytes=4
+!   Prepare Argument: offset=8  value=_temp_66  sizeInBytes=4
 	load	[r14+-32],r1
 	store	r1,[r15+0]
 !   Call the function
@@ -21026,11 +21048,11 @@ _Label_614:
 !   ZeroMemory: _Global_aThread = zeros  (sizeInBytes=4092)
 	set	_Global_aThread,r4
 	mov	1023,r3
-_Label_615:
+_Label_732:
 	store	r0,[r4]
 	add	r4,4,r4
 	sub	r3,1,r3
-	bne	_Label_615
+	bne	_Label_732
 !   _Global_aThread = _P_Thread_Thread
 	set	_P_Thread_Thread,r1
 	set	_Global_aThread,r2
@@ -21038,13 +21060,13 @@ _Label_615:
 ! SEND STATEMENT...
 	mov	69,r13		! source line 69
 	mov	"\0\0SE",r10
-!   _temp_66 = _StringConst_3
+!   _temp_68 = _StringConst_3
 	set	_StringConst_3,r1
 	store	r1,[r14+-24]
-!   _temp_67 = &_Global_aThread
+!   _temp_69 = &_Global_aThread
 	set	_Global_aThread,r1
 	store	r1,[r14+-20]
-!   Prepare Argument: offset=12  value=_temp_66  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_68  sizeInBytes=4
 	load	[r14+-24],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -21058,13 +21080,13 @@ _Label_615:
 ! SEND STATEMENT...
 	mov	70,r13		! source line 70
 	mov	"\0\0SE",r10
-!   _temp_68 = _function_56_SimpleThreadFunction
-	set	_function_56_SimpleThreadFunction,r1
+!   _temp_70 = _function_58_SimpleThreadFunction
+	set	_function_58_SimpleThreadFunction,r1
 	store	r1,[r14+-16]
-!   _temp_69 = &_Global_aThread
+!   _temp_71 = &_Global_aThread
 	set	_Global_aThread,r1
 	store	r1,[r14+-12]
-!   Prepare Argument: offset=12  value=_temp_68  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_70  sizeInBytes=4
 	load	[r14+-16],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=4  sizeInBytes=4
@@ -21085,7 +21107,7 @@ _Label_615:
 !   Call the function
 	mov	71,r13		! source line 71
 	mov	"\0\0CA",r10
-	call	_function_56_SimpleThreadFunction
+	call	_function_58_SimpleThreadFunction
 ! RETURN STATEMENT...
 	mov	71,r13		! source line 71
 	mov	"\0\0RE",r10
@@ -21096,71 +21118,71 @@ _Label_615:
 ! 
 ! Routine Descriptor
 ! 
-_RoutineDescriptor__function_57_SimpleThreadExample:
+_RoutineDescriptor__function_59_SimpleThreadExample:
 	.word	_sourceFileName
-	.word	_Label_70
+	.word	_Label_72
 	.word	0		! total size of parameters
 	.word	36		! frame size = 36
-	.word	_Label_71
+	.word	_Label_73
 	.word	-12
 	.word	4
-	.word	_Label_72
+	.word	_Label_74
 	.word	-16
 	.word	4
-	.word	_Label_73
+	.word	_Label_75
 	.word	-20
 	.word	4
-	.word	_Label_74
+	.word	_Label_76
 	.word	-24
 	.word	4
-	.word	_Label_75
+	.word	_Label_77
 	.word	-28
 	.word	4
-	.word	_Label_76
+	.word	_Label_78
 	.word	-32
 	.word	4
 	.word	0
-_Label_70:
-	.ascii	"SimpleThreadExample\0"
-	.align
-_Label_71:
-	.byte	'?'
-	.ascii	"_temp_69\0"
-	.align
 _Label_72:
-	.byte	'?'
-	.ascii	"_temp_68\0"
+	.ascii	"SimpleThreadExample\0"
 	.align
 _Label_73:
 	.byte	'?'
-	.ascii	"_temp_67\0"
+	.ascii	"_temp_71\0"
 	.align
 _Label_74:
 	.byte	'?'
-	.ascii	"_temp_66\0"
+	.ascii	"_temp_70\0"
 	.align
 _Label_75:
 	.byte	'?'
-	.ascii	"_temp_65\0"
+	.ascii	"_temp_69\0"
 	.align
 _Label_76:
 	.byte	'?'
-	.ascii	"_temp_64\0"
+	.ascii	"_temp_68\0"
+	.align
+_Label_77:
+	.byte	'?'
+	.ascii	"_temp_67\0"
+	.align
+_Label_78:
+	.byte	'?'
+	.ascii	"_temp_66\0"
 	.align
 ! 
 ! ===============  FUNCTION SimpleThreadFunction  ===============
 ! 
-_function_56_SimpleThreadFunction:
+_function_58_SimpleThreadFunction:
 	push	r14
 	mov	r15,r14
 	push	r13
-	set	_RoutineDescriptor__function_56_SimpleThreadFunction,r1
+	set	_RoutineDescriptor__function_58_SimpleThreadFunction,r1
 	push	r1
 	mov	6,r1
-_Label_616:
+_Label_733:
 	push	r0
 	sub	r1,1,r1
-	bne	_Label_616
+	bne	_Label_733
 	mov	74,r13		! source line 74
 	mov	"\0\0FU",r10
 ! VARIABLE INITIALIZATION...
@@ -21168,26 +21190,26 @@ _Label_616:
 	mov	79,r13		! source line 79
 	mov	"\0\0FO",r10
 !   Calculate and save the FOR-LOOP starting value
-!   _temp_81 = 1		(4 bytes)
+!   _temp_83 = 1		(4 bytes)
 	mov	1,r1
 	store	r1,[r14+-24]
 !   Calculate and save the FOR-LOOP ending value
-!   _temp_82 = cnt		(4 bytes)
+!   _temp_84 = cnt		(4 bytes)
 	load	[r14+8],r1
 	store	r1,[r14+-20]
 !   Initialize FOR-LOOP index variable
-!   Data Move: i = _temp_81  (sizeInBytes=4)
+!   Data Move: i = _temp_83  (sizeInBytes=4)
 	load	[r14+-24],r1
 	store	r1,[r14+-28]
-_Label_77:
+_Label_79:
 !   Perform the FOR-LOOP termination test
-!   if i > _temp_82 then goto _Label_80		
+!   if i > _temp_84 then goto _Label_82		
 	load	[r14+-28],r1
 	load	[r14+-20],r2
 	cmp	r1,r2
 	bvs	_runtimeErrorOverflow
-	bg	_Label_80
-_Label_78:
+	bg	_Label_82
+_Label_80:
 	mov	79,r13		! source line 79
 	mov	"\0\0FB",r10
 ! CALL STATEMENT...
@@ -21196,16 +21218,16 @@ _Label_78:
 	load	[r1],r1
 	cmp	r1,r0
 	be	_runtimeErrorNullPointer
-!   _temp_84 = _P_Thread_currentThread + 72
+!   _temp_86 = _P_Thread_currentThread + 72
 	set	_P_Thread_currentThread,r1
 	load	[r1],r1
 	add	r1,72,r1
 	store	r1,[r14+-12]
-!   Data Move: _temp_83 = *_temp_84  (sizeInBytes=4)
+!   Data Move: _temp_85 = *_temp_86  (sizeInBytes=4)
 	load	[r14+-12],r1
 	load	[r1],r1
 	store	r1,[r14+-16]
-!   Prepare Argument: offset=8  value=_temp_83  sizeInBytes=4
+!   Prepare Argument: offset=8  value=_temp_85  sizeInBytes=4
 	load	[r14+-16],r1
 	store	r1,[r15+0]
 !   Call the function
@@ -21235,15 +21257,15 @@ _Label_78:
 	add	r2,12,r2
 	call	r2
 !   Increment the FOR-LOOP index variable and jump back
-_Label_79:
+_Label_81:
 !   i = i + 1
 	load	[r14+-28],r1
 	add	r1,1,r1
 	bvs	_runtimeErrorOverflow
 	store	r1,[r14+-28]
-	jmp	_Label_77
+	jmp	_Label_79
 ! END FOR
-_Label_80:
+_Label_82:
 ! CALL STATEMENT...
 !   Call the function
 	mov	84,r13		! source line 84
@@ -21259,79 +21281,79 @@ _Label_80:
 ! 
 ! Routine Descriptor
 ! 
-_RoutineDescriptor__function_56_SimpleThreadFunction:
+_RoutineDescriptor__function_58_SimpleThreadFunction:
 	.word	_sourceFileName
-	.word	_Label_85
+	.word	_Label_87
 	.word	4		! total size of parameters
 	.word	24		! frame size = 24
-	.word	_Label_86
+	.word	_Label_88
 	.word	8
 	.word	4
-	.word	_Label_87
+	.word	_Label_89
 	.word	-12
 	.word	4
-	.word	_Label_88
+	.word	_Label_90
 	.word	-16
 	.word	4
-	.word	_Label_89
+	.word	_Label_91
 	.word	-20
 	.word	4
-	.word	_Label_90
+	.word	_Label_92
 	.word	-24
 	.word	4
-	.word	_Label_91
+	.word	_Label_93
 	.word	-28
 	.word	4
 	.word	0
-_Label_85:
+_Label_87:
 	.ascii	"SimpleThreadFunction\0"
 	.align
-_Label_86:
+_Label_88:
 	.byte	'I'
 	.ascii	"cnt\0"
 	.align
-_Label_87:
-	.byte	'?'
-	.ascii	"_temp_84\0"
-	.align
-_Label_88:
-	.byte	'?'
-	.ascii	"_temp_83\0"
-	.align
 _Label_89:
 	.byte	'?'
-	.ascii	"_temp_82\0"
+	.ascii	"_temp_86\0"
 	.align
 _Label_90:
 	.byte	'?'
-	.ascii	"_temp_81\0"
+	.ascii	"_temp_85\0"
 	.align
 _Label_91:
+	.byte	'?'
+	.ascii	"_temp_84\0"
+	.align
+_Label_92:
+	.byte	'?'
+	.ascii	"_temp_83\0"
+	.align
+_Label_93:
 	.byte	'I'
 	.ascii	"i\0"
 	.align
 ! 
 ! ===============  FUNCTION MoreThreadExamples  ===============
 ! 
-_function_55_MoreThreadExamples:
+_function_57_MoreThreadExamples:
 	push	r14
 	mov	r15,r14
 	push	r13
-	set	_RoutineDescriptor__function_55_MoreThreadExamples,r1
+	set	_RoutineDescriptor__function_57_MoreThreadExamples,r1
 	push	r1
 	mov	44,r1
-_Label_617:
+_Label_734:
 	push	r0
 	sub	r1,1,r1
-	bne	_Label_617
+	bne	_Label_734
 	mov	93,r13		! source line 93
 	mov	"\0\0FU",r10
 ! VARIABLE INITIALIZATION...
 ! CALL STATEMENT...
-!   _temp_92 = _StringConst_4
+!   _temp_94 = _StringConst_4
 	set	_StringConst_4,r1
 	store	r1,[r14+-164]
-!   Prepare Argument: offset=8  value=_temp_92  sizeInBytes=4
+!   Prepare Argument: offset=8  value=_temp_94  sizeInBytes=4
 	load	[r14+-164],r1
 	store	r1,[r15+0]
 !   Call the function
@@ -21345,11 +21367,11 @@ _Label_617:
 !   ZeroMemory: _Global_th1 = zeros  (sizeInBytes=4092)
 	set	_Global_th1,r4
 	mov	1023,r3
-_Label_618:
+_Label_735:
 	store	r0,[r4]
 	add	r4,4,r4
 	sub	r3,1,r3
-	bne	_Label_618
+	bne	_Label_735
 !   _Global_th1 = _P_Thread_Thread
 	set	_P_Thread_Thread,r1
 	set	_Global_th1,r2
@@ -21361,11 +21383,11 @@ _Label_618:
 !   ZeroMemory: _Global_th2 = zeros  (sizeInBytes=4092)
 	set	_Global_th2,r4
 	mov	1023,r3
-_Label_619:
+_Label_736:
 	store	r0,[r4]
 	add	r4,4,r4
 	sub	r3,1,r3
-	bne	_Label_619
+	bne	_Label_736
 !   _Global_th2 = _P_Thread_Thread
 	set	_P_Thread_Thread,r1
 	set	_Global_th2,r2
@@ -21377,11 +21399,11 @@ _Label_619:
 !   ZeroMemory: _Global_th3 = zeros  (sizeInBytes=4092)
 	set	_Global_th3,r4
 	mov	1023,r3
-_Label_620:
+_Label_737:
 	store	r0,[r4]
 	add	r4,4,r4
 	sub	r3,1,r3
-	bne	_Label_620
+	bne	_Label_737
 !   _Global_th3 = _P_Thread_Thread
 	set	_P_Thread_Thread,r1
 	set	_Global_th3,r2
@@ -21393,11 +21415,11 @@ _Label_620:
 !   ZeroMemory: _Global_th4 = zeros  (sizeInBytes=4092)
 	set	_Global_th4,r4
 	mov	1023,r3
-_Label_621:
+_Label_738:
 	store	r0,[r4]
 	add	r4,4,r4
 	sub	r3,1,r3
-	bne	_Label_621
+	bne	_Label_738
 !   _Global_th4 = _P_Thread_Thread
 	set	_P_Thread_Thread,r1
 	set	_Global_th4,r2
@@ -21409,11 +21431,11 @@ _Label_621:
 !   ZeroMemory: _Global_th5 = zeros  (sizeInBytes=4092)
 	set	_Global_th5,r4
 	mov	1023,r3
-_Label_622:
+_Label_739:
 	store	r0,[r4]
 	add	r4,4,r4
 	sub	r3,1,r3
-	bne	_Label_622
+	bne	_Label_739
 !   _Global_th5 = _P_Thread_Thread
 	set	_P_Thread_Thread,r1
 	set	_Global_th5,r2
@@ -21425,11 +21447,11 @@ _Label_622:
 !   ZeroMemory: _Global_th6 = zeros  (sizeInBytes=4092)
 	set	_Global_th6,r4
 	mov	1023,r3
-_Label_623:
+_Label_740:
 	store	r0,[r4]
 	add	r4,4,r4
 	sub	r3,1,r3
-	bne	_Label_623
+	bne	_Label_740
 !   _Global_th6 = _P_Thread_Thread
 	set	_P_Thread_Thread,r1
 	set	_Global_th6,r2
@@ -21437,13 +21459,13 @@ _Label_623:
 ! SEND STATEMENT...
 	mov	109,r13		! source line 109
 	mov	"\0\0SE",r10
-!   _temp_99 = _StringConst_5
+!   _temp_101 = _StringConst_5
 	set	_StringConst_5,r1
 	store	r1,[r14+-136]
-!   _temp_100 = &_Global_th1
+!   _temp_102 = &_Global_th1
 	set	_Global_th1,r1
 	store	r1,[r14+-132]
-!   Prepare Argument: offset=12  value=_temp_99  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_101  sizeInBytes=4
 	load	[r14+-136],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -21457,13 +21479,13 @@ _Label_623:
 ! SEND STATEMENT...
 	mov	110,r13		! source line 110
 	mov	"\0\0SE",r10
-!   _temp_101 = _StringConst_6
+!   _temp_103 = _StringConst_6
 	set	_StringConst_6,r1
 	store	r1,[r14+-128]
-!   _temp_102 = &_Global_th2
+!   _temp_104 = &_Global_th2
 	set	_Global_th2,r1
 	store	r1,[r14+-124]
-!   Prepare Argument: offset=12  value=_temp_101  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_103  sizeInBytes=4
 	load	[r14+-128],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -21477,13 +21499,13 @@ _Label_623:
 ! SEND STATEMENT...
 	mov	111,r13		! source line 111
 	mov	"\0\0SE",r10
-!   _temp_103 = _StringConst_7
+!   _temp_105 = _StringConst_7
 	set	_StringConst_7,r1
 	store	r1,[r14+-120]
-!   _temp_104 = &_Global_th3
+!   _temp_106 = &_Global_th3
 	set	_Global_th3,r1
 	store	r1,[r14+-116]
-!   Prepare Argument: offset=12  value=_temp_103  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_105  sizeInBytes=4
 	load	[r14+-120],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -21497,13 +21519,13 @@ _Label_623:
 ! SEND STATEMENT...
 	mov	112,r13		! source line 112
 	mov	"\0\0SE",r10
-!   _temp_105 = _StringConst_8
+!   _temp_107 = _StringConst_8
 	set	_StringConst_8,r1
 	store	r1,[r14+-112]
-!   _temp_106 = &_Global_th4
+!   _temp_108 = &_Global_th4
 	set	_Global_th4,r1
 	store	r1,[r14+-108]
-!   Prepare Argument: offset=12  value=_temp_105  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_107  sizeInBytes=4
 	load	[r14+-112],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -21517,13 +21539,13 @@ _Label_623:
 ! SEND STATEMENT...
 	mov	113,r13		! source line 113
 	mov	"\0\0SE",r10
-!   _temp_107 = _StringConst_9
+!   _temp_109 = _StringConst_9
 	set	_StringConst_9,r1
 	store	r1,[r14+-104]
-!   _temp_108 = &_Global_th5
+!   _temp_110 = &_Global_th5
 	set	_Global_th5,r1
 	store	r1,[r14+-100]
-!   Prepare Argument: offset=12  value=_temp_107  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_109  sizeInBytes=4
 	load	[r14+-104],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -21537,13 +21559,13 @@ _Label_623:
 ! SEND STATEMENT...
 	mov	114,r13		! source line 114
 	mov	"\0\0SE",r10
-!   _temp_109 = _StringConst_10
+!   _temp_111 = _StringConst_10
 	set	_StringConst_10,r1
 	store	r1,[r14+-96]
-!   _temp_110 = &_Global_th6
+!   _temp_112 = &_Global_th6
 	set	_Global_th6,r1
 	store	r1,[r14+-92]
-!   Prepare Argument: offset=12  value=_temp_109  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_111  sizeInBytes=4
 	load	[r14+-96],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -21557,13 +21579,13 @@ _Label_623:
 ! SEND STATEMENT...
 	mov	118,r13		! source line 118
 	mov	"\0\0SE",r10
-!   _temp_111 = _function_54_foo
-	set	_function_54_foo,r1
+!   _temp_113 = _function_56_foo
+	set	_function_56_foo,r1
 	store	r1,[r14+-88]
-!   _temp_112 = &_Global_th1
+!   _temp_114 = &_Global_th1
 	set	_Global_th1,r1
 	store	r1,[r14+-84]
-!   Prepare Argument: offset=12  value=_temp_111  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_113  sizeInBytes=4
 	load	[r14+-88],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=1  sizeInBytes=4
@@ -21580,13 +21602,13 @@ _Label_623:
 ! SEND STATEMENT...
 	mov	119,r13		! source line 119
 	mov	"\0\0SE",r10
-!   _temp_113 = _function_54_foo
-	set	_function_54_foo,r1
+!   _temp_115 = _function_56_foo
+	set	_function_56_foo,r1
 	store	r1,[r14+-80]
-!   _temp_114 = &_Global_th2
+!   _temp_116 = &_Global_th2
 	set	_Global_th2,r1
 	store	r1,[r14+-76]
-!   Prepare Argument: offset=12  value=_temp_113  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_115  sizeInBytes=4
 	load	[r14+-80],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=2  sizeInBytes=4
@@ -21603,13 +21625,13 @@ _Label_623:
 ! SEND STATEMENT...
 	mov	120,r13		! source line 120
 	mov	"\0\0SE",r10
-!   _temp_115 = _function_54_foo
-	set	_function_54_foo,r1
+!   _temp_117 = _function_56_foo
+	set	_function_56_foo,r1
 	store	r1,[r14+-72]
-!   _temp_116 = &_Global_th3
+!   _temp_118 = &_Global_th3
 	set	_Global_th3,r1
 	store	r1,[r14+-68]
-!   Prepare Argument: offset=12  value=_temp_115  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_117  sizeInBytes=4
 	load	[r14+-72],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=3  sizeInBytes=4
@@ -21626,13 +21648,13 @@ _Label_623:
 ! SEND STATEMENT...
 	mov	121,r13		! source line 121
 	mov	"\0\0SE",r10
-!   _temp_117 = _function_54_foo
-	set	_function_54_foo,r1
+!   _temp_119 = _function_56_foo
+	set	_function_56_foo,r1
 	store	r1,[r14+-64]
-!   _temp_118 = &_Global_th4
+!   _temp_120 = &_Global_th4
 	set	_Global_th4,r1
 	store	r1,[r14+-60]
-!   Prepare Argument: offset=12  value=_temp_117  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_119  sizeInBytes=4
 	load	[r14+-64],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=4  sizeInBytes=4
@@ -21649,13 +21671,13 @@ _Label_623:
 ! SEND STATEMENT...
 	mov	122,r13		! source line 122
 	mov	"\0\0SE",r10
-!   _temp_119 = _function_54_foo
-	set	_function_54_foo,r1
+!   _temp_121 = _function_56_foo
+	set	_function_56_foo,r1
 	store	r1,[r14+-56]
-!   _temp_120 = &_Global_th5
+!   _temp_122 = &_Global_th5
 	set	_Global_th5,r1
 	store	r1,[r14+-52]
-!   Prepare Argument: offset=12  value=_temp_119  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_121  sizeInBytes=4
 	load	[r14+-56],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=5  sizeInBytes=4
@@ -21672,13 +21694,13 @@ _Label_623:
 ! SEND STATEMENT...
 	mov	123,r13		! source line 123
 	mov	"\0\0SE",r10
-!   _temp_121 = _function_54_foo
-	set	_function_54_foo,r1
+!   _temp_123 = _function_56_foo
+	set	_function_56_foo,r1
 	store	r1,[r14+-48]
-!   _temp_122 = &_Global_th6
+!   _temp_124 = &_Global_th6
 	set	_Global_th6,r1
 	store	r1,[r14+-44]
-!   Prepare Argument: offset=12  value=_temp_121  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_123  sizeInBytes=4
 	load	[r14+-48],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=6  sizeInBytes=4
@@ -21706,10 +21728,10 @@ _Label_623:
 	load	[r15],r1
 	store	r1,[r14+-172]
 ! CALL STATEMENT...
-!   _temp_123 = _StringConst_11
+!   _temp_125 = _StringConst_11
 	set	_StringConst_11,r1
 	store	r1,[r14+-40]
-!   Prepare Argument: offset=8  value=_temp_123  sizeInBytes=4
+!   Prepare Argument: offset=8  value=_temp_125  sizeInBytes=4
 	load	[r14+-40],r1
 	store	r1,[r15+0]
 !   Call the function
@@ -21722,16 +21744,16 @@ _Label_623:
 	load	[r1],r1
 	cmp	r1,r0
 	be	_runtimeErrorNullPointer
-!   _temp_125 = _P_Thread_currentThread + 72
+!   _temp_127 = _P_Thread_currentThread + 72
 	set	_P_Thread_currentThread,r1
 	load	[r1],r1
 	add	r1,72,r1
 	store	r1,[r14+-32]
-!   Data Move: _temp_124 = *_temp_125  (sizeInBytes=4)
+!   Data Move: _temp_126 = *_temp_127  (sizeInBytes=4)
 	load	[r14+-32],r1
 	load	[r1],r1
 	store	r1,[r14+-36]
-!   Prepare Argument: offset=8  value=_temp_124  sizeInBytes=4
+!   Prepare Argument: offset=8  value=_temp_126  sizeInBytes=4
 	load	[r14+-36],r1
 	store	r1,[r15+0]
 !   Call the function
@@ -21739,10 +21761,10 @@ _Label_623:
 	mov	"\0\0CE",r10
 	call	print
 ! CALL STATEMENT...
-!   _temp_126 = _StringConst_12
+!   _temp_128 = _StringConst_12
 	set	_StringConst_12,r1
 	store	r1,[r14+-28]
-!   Prepare Argument: offset=8  value=_temp_126  sizeInBytes=4
+!   Prepare Argument: offset=8  value=_temp_128  sizeInBytes=4
 	load	[r14+-28],r1
 	store	r1,[r15+0]
 !   Call the function
@@ -21771,26 +21793,26 @@ _Label_623:
 	mov	135,r13		! source line 135
 	mov	"\0\0FO",r10
 !   Calculate and save the FOR-LOOP starting value
-!   _temp_131 = 1		(4 bytes)
+!   _temp_133 = 1		(4 bytes)
 	mov	1,r1
 	store	r1,[r14+-24]
 !   Calculate and save the FOR-LOOP ending value
-!   _temp_132 = 10		(4 bytes)
+!   _temp_134 = 10		(4 bytes)
 	mov	10,r1
 	store	r1,[r14+-20]
 !   Initialize FOR-LOOP index variable
-!   Data Move: j = _temp_131  (sizeInBytes=4)
+!   Data Move: j = _temp_133  (sizeInBytes=4)
 	load	[r14+-24],r1
 	store	r1,[r14+-168]
-_Label_127:
+_Label_129:
 !   Perform the FOR-LOOP termination test
-!   if j > _temp_132 then goto _Label_130		
+!   if j > _temp_134 then goto _Label_132		
 	load	[r14+-168],r1
 	load	[r14+-20],r2
 	cmp	r1,r2
 	bvs	_runtimeErrorOverflow
-	bg	_Label_130
-_Label_128:
+	bg	_Label_132
+_Label_130:
 	mov	135,r13		! source line 135
 	mov	"\0\0FB",r10
 ! SEND STATEMENT...
@@ -21811,10 +21833,10 @@ _Label_128:
 	add	r2,12,r2
 	call	r2
 ! CALL STATEMENT...
-!   _temp_133 = _StringConst_13
+!   _temp_135 = _StringConst_13
 	set	_StringConst_13,r1
 	store	r1,[r14+-16]
-!   Prepare Argument: offset=8  value=_temp_133  sizeInBytes=4
+!   Prepare Argument: offset=8  value=_temp_135  sizeInBytes=4
 	load	[r14+-16],r1
 	store	r1,[r15+0]
 !   Call the function
@@ -21822,20 +21844,20 @@ _Label_128:
 	mov	"\0\0CE",r10
 	call	print
 !   Increment the FOR-LOOP index variable and jump back
-_Label_129:
+_Label_131:
 !   j = j + 1
 	load	[r14+-168],r1
 	add	r1,1,r1
 	bvs	_runtimeErrorOverflow
 	store	r1,[r14+-168]
-	jmp	_Label_127
+	jmp	_Label_129
 ! END FOR
-_Label_130:
+_Label_132:
 ! CALL STATEMENT...
-!   _temp_134 = _StringConst_14
+!   _temp_136 = _StringConst_14
 	set	_StringConst_14,r1
 	store	r1,[r14+-12]
-!   Prepare Argument: offset=8  value=_temp_134  sizeInBytes=4
+!   Prepare Argument: offset=8  value=_temp_136  sizeInBytes=4
 	load	[r14+-12],r1
 	store	r1,[r15+0]
 !   Call the function
@@ -21889,316 +21911,316 @@ _Label_130:
 ! 
 ! Routine Descriptor
 ! 
-_RoutineDescriptor__function_55_MoreThreadExamples:
+_RoutineDescriptor__function_57_MoreThreadExamples:
 	.word	_sourceFileName
-	.word	_Label_135
+	.word	_Label_137
 	.word	0		! total size of parameters
 	.word	176		! frame size = 176
-	.word	_Label_136
+	.word	_Label_138
 	.word	-12
 	.word	4
-	.word	_Label_137
+	.word	_Label_139
 	.word	-16
 	.word	4
-	.word	_Label_138
+	.word	_Label_140
 	.word	-20
 	.word	4
-	.word	_Label_139
+	.word	_Label_141
 	.word	-24
 	.word	4
-	.word	_Label_140
+	.word	_Label_142
 	.word	-28
 	.word	4
-	.word	_Label_141
+	.word	_Label_143
 	.word	-32
 	.word	4
-	.word	_Label_142
+	.word	_Label_144
 	.word	-36
 	.word	4
-	.word	_Label_143
+	.word	_Label_145
 	.word	-40
 	.word	4
-	.word	_Label_144
+	.word	_Label_146
 	.word	-44
 	.word	4
-	.word	_Label_145
+	.word	_Label_147
 	.word	-48
 	.word	4
-	.word	_Label_146
+	.word	_Label_148
 	.word	-52
 	.word	4
-	.word	_Label_147
+	.word	_Label_149
 	.word	-56
 	.word	4
-	.word	_Label_148
+	.word	_Label_150
 	.word	-60
 	.word	4
-	.word	_Label_149
+	.word	_Label_151
 	.word	-64
 	.word	4
-	.word	_Label_150
+	.word	_Label_152
 	.word	-68
 	.word	4
-	.word	_Label_151
+	.word	_Label_153
 	.word	-72
 	.word	4
-	.word	_Label_152
+	.word	_Label_154
 	.word	-76
 	.word	4
-	.word	_Label_153
+	.word	_Label_155
 	.word	-80
 	.word	4
-	.word	_Label_154
+	.word	_Label_156
 	.word	-84
 	.word	4
-	.word	_Label_155
+	.word	_Label_157
 	.word	-88
 	.word	4
-	.word	_Label_156
+	.word	_Label_158
 	.word	-92
 	.word	4
-	.word	_Label_157
+	.word	_Label_159
 	.word	-96
 	.word	4
-	.word	_Label_158
+	.word	_Label_160
 	.word	-100
 	.word	4
-	.word	_Label_159
+	.word	_Label_161
 	.word	-104
 	.word	4
-	.word	_Label_160
+	.word	_Label_162
 	.word	-108
 	.word	4
-	.word	_Label_161
+	.word	_Label_163
 	.word	-112
 	.word	4
-	.word	_Label_162
+	.word	_Label_164
 	.word	-116
 	.word	4
-	.word	_Label_163
+	.word	_Label_165
 	.word	-120
 	.word	4
-	.word	_Label_164
+	.word	_Label_166
 	.word	-124
 	.word	4
-	.word	_Label_165
+	.word	_Label_167
 	.word	-128
 	.word	4
-	.word	_Label_166
+	.word	_Label_168
 	.word	-132
 	.word	4
-	.word	_Label_167
+	.word	_Label_169
 	.word	-136
 	.word	4
-	.word	_Label_168
+	.word	_Label_170
 	.word	-140
 	.word	4
-	.word	_Label_169
+	.word	_Label_171
 	.word	-144
 	.word	4
-	.word	_Label_170
+	.word	_Label_172
 	.word	-148
 	.word	4
-	.word	_Label_171
+	.word	_Label_173
 	.word	-152
 	.word	4
-	.word	_Label_172
+	.word	_Label_174
 	.word	-156
 	.word	4
-	.word	_Label_173
+	.word	_Label_175
 	.word	-160
 	.word	4
-	.word	_Label_174
+	.word	_Label_176
 	.word	-164
 	.word	4
-	.word	_Label_175
+	.word	_Label_177
 	.word	-168
 	.word	4
-	.word	_Label_176
+	.word	_Label_178
 	.word	-172
 	.word	4
 	.word	0
-_Label_135:
-	.ascii	"MoreThreadExamples\0"
-	.align
-_Label_136:
-	.byte	'?'
-	.ascii	"_temp_134\0"
-	.align
 _Label_137:
-	.byte	'?'
-	.ascii	"_temp_133\0"
+	.ascii	"MoreThreadExamples\0"
 	.align
 _Label_138:
 	.byte	'?'
-	.ascii	"_temp_132\0"
+	.ascii	"_temp_136\0"
 	.align
 _Label_139:
 	.byte	'?'
-	.ascii	"_temp_131\0"
+	.ascii	"_temp_135\0"
 	.align
 _Label_140:
 	.byte	'?'
-	.ascii	"_temp_126\0"
+	.ascii	"_temp_134\0"
 	.align
 _Label_141:
 	.byte	'?'
-	.ascii	"_temp_125\0"
+	.ascii	"_temp_133\0"
 	.align
 _Label_142:
 	.byte	'?'
-	.ascii	"_temp_124\0"
+	.ascii	"_temp_128\0"
 	.align
 _Label_143:
 	.byte	'?'
-	.ascii	"_temp_123\0"
+	.ascii	"_temp_127\0"
 	.align
 _Label_144:
 	.byte	'?'
-	.ascii	"_temp_122\0"
+	.ascii	"_temp_126\0"
 	.align
 _Label_145:
 	.byte	'?'
-	.ascii	"_temp_121\0"
+	.ascii	"_temp_125\0"
 	.align
 _Label_146:
 	.byte	'?'
-	.ascii	"_temp_120\0"
+	.ascii	"_temp_124\0"
 	.align
 _Label_147:
 	.byte	'?'
-	.ascii	"_temp_119\0"
+	.ascii	"_temp_123\0"
 	.align
 _Label_148:
 	.byte	'?'
-	.ascii	"_temp_118\0"
+	.ascii	"_temp_122\0"
 	.align
 _Label_149:
 	.byte	'?'
-	.ascii	"_temp_117\0"
+	.ascii	"_temp_121\0"
 	.align
 _Label_150:
 	.byte	'?'
-	.ascii	"_temp_116\0"
+	.ascii	"_temp_120\0"
 	.align
 _Label_151:
 	.byte	'?'
-	.ascii	"_temp_115\0"
+	.ascii	"_temp_119\0"
 	.align
 _Label_152:
 	.byte	'?'
-	.ascii	"_temp_114\0"
+	.ascii	"_temp_118\0"
 	.align
 _Label_153:
 	.byte	'?'
-	.ascii	"_temp_113\0"
+	.ascii	"_temp_117\0"
 	.align
 _Label_154:
 	.byte	'?'
-	.ascii	"_temp_112\0"
+	.ascii	"_temp_116\0"
 	.align
 _Label_155:
 	.byte	'?'
-	.ascii	"_temp_111\0"
+	.ascii	"_temp_115\0"
 	.align
 _Label_156:
 	.byte	'?'
-	.ascii	"_temp_110\0"
+	.ascii	"_temp_114\0"
 	.align
 _Label_157:
 	.byte	'?'
-	.ascii	"_temp_109\0"
+	.ascii	"_temp_113\0"
 	.align
 _Label_158:
 	.byte	'?'
-	.ascii	"_temp_108\0"
+	.ascii	"_temp_112\0"
 	.align
 _Label_159:
 	.byte	'?'
-	.ascii	"_temp_107\0"
+	.ascii	"_temp_111\0"
 	.align
 _Label_160:
 	.byte	'?'
-	.ascii	"_temp_106\0"
+	.ascii	"_temp_110\0"
 	.align
 _Label_161:
 	.byte	'?'
-	.ascii	"_temp_105\0"
+	.ascii	"_temp_109\0"
 	.align
 _Label_162:
 	.byte	'?'
-	.ascii	"_temp_104\0"
+	.ascii	"_temp_108\0"
 	.align
 _Label_163:
 	.byte	'?'
-	.ascii	"_temp_103\0"
+	.ascii	"_temp_107\0"
 	.align
 _Label_164:
 	.byte	'?'
-	.ascii	"_temp_102\0"
+	.ascii	"_temp_106\0"
 	.align
 _Label_165:
 	.byte	'?'
-	.ascii	"_temp_101\0"
+	.ascii	"_temp_105\0"
 	.align
 _Label_166:
 	.byte	'?'
-	.ascii	"_temp_100\0"
+	.ascii	"_temp_104\0"
 	.align
 _Label_167:
 	.byte	'?'
-	.ascii	"_temp_99\0"
+	.ascii	"_temp_103\0"
 	.align
 _Label_168:
 	.byte	'?'
-	.ascii	"_temp_98\0"
+	.ascii	"_temp_102\0"
 	.align
 _Label_169:
 	.byte	'?'
-	.ascii	"_temp_97\0"
+	.ascii	"_temp_101\0"
 	.align
 _Label_170:
 	.byte	'?'
-	.ascii	"_temp_96\0"
+	.ascii	"_temp_100\0"
 	.align
 _Label_171:
 	.byte	'?'
-	.ascii	"_temp_95\0"
+	.ascii	"_temp_99\0"
 	.align
 _Label_172:
 	.byte	'?'
-	.ascii	"_temp_94\0"
+	.ascii	"_temp_98\0"
 	.align
 _Label_173:
 	.byte	'?'
-	.ascii	"_temp_93\0"
+	.ascii	"_temp_97\0"
 	.align
 _Label_174:
 	.byte	'?'
-	.ascii	"_temp_92\0"
+	.ascii	"_temp_96\0"
 	.align
 _Label_175:
+	.byte	'?'
+	.ascii	"_temp_95\0"
+	.align
+_Label_176:
+	.byte	'?'
+	.ascii	"_temp_94\0"
+	.align
+_Label_177:
 	.byte	'I'
 	.ascii	"j\0"
 	.align
-_Label_176:
+_Label_178:
 	.byte	'I'
 	.ascii	"oldStatus\0"
 	.align
 ! 
 ! ===============  FUNCTION foo  ===============
 ! 
-_function_54_foo:
+_function_56_foo:
 	push	r14
 	mov	r15,r14
 	push	r13
-	set	_RoutineDescriptor__function_54_foo,r1
+	set	_RoutineDescriptor__function_56_foo,r1
 	push	r1
 	mov	4,r1
-_Label_624:
+_Label_741:
 	push	r0
 	sub	r1,1,r1
-	bne	_Label_624
+	bne	_Label_741
 	mov	163,r13		! source line 163
 	mov	"\0\0FU",r10
 ! VARIABLE INITIALIZATION...
@@ -22206,26 +22228,26 @@ _Label_624:
 	mov	166,r13		! source line 166
 	mov	"\0\0FO",r10
 !   Calculate and save the FOR-LOOP starting value
-!   _temp_181 = 1		(4 bytes)
+!   _temp_183 = 1		(4 bytes)
 	mov	1,r1
 	store	r1,[r14+-16]
 !   Calculate and save the FOR-LOOP ending value
-!   _temp_182 = 30		(4 bytes)
+!   _temp_184 = 30		(4 bytes)
 	mov	30,r1
 	store	r1,[r14+-12]
 !   Initialize FOR-LOOP index variable
-!   Data Move: j = _temp_181  (sizeInBytes=4)
+!   Data Move: j = _temp_183  (sizeInBytes=4)
 	load	[r14+-16],r1
 	store	r1,[r14+-20]
-_Label_177:
+_Label_179:
 !   Perform the FOR-LOOP termination test
-!   if j > _temp_182 then goto _Label_180		
+!   if j > _temp_184 then goto _Label_182		
 	load	[r14+-20],r1
 	load	[r14+-12],r2
 	cmp	r1,r2
 	bvs	_runtimeErrorOverflow
-	bg	_Label_180
-_Label_178:
+	bg	_Label_182
+_Label_180:
 	mov	166,r13		! source line 166
 	mov	"\0\0FB",r10
 ! CALL STATEMENT...
@@ -22239,15 +22261,15 @@ _Label_178:
 ! IF STATEMENT...
 	mov	169,r13		! source line 169
 	mov	"\0\0IF",r10
-!   if j != 20 then goto _Label_184		(int)
+!   if j != 20 then goto _Label_186		(int)
 	load	[r14+-20],r1
 	mov	20,r2
 	cmp	r1,r2
-	bne	_Label_184
-!	jmp	_Label_183
-_Label_183:
+	bne	_Label_186
+!	jmp	_Label_185
+_Label_185:
 ! END IF...
-_Label_184:
+_Label_186:
 ! SEND STATEMENT...
 	mov	183,r13		! source line 183
 	mov	"\0\0SE",r10
@@ -22266,15 +22288,15 @@ _Label_184:
 	add	r2,12,r2
 	call	r2
 !   Increment the FOR-LOOP index variable and jump back
-_Label_179:
+_Label_181:
 !   j = j + 1
 	load	[r14+-20],r1
 	add	r1,1,r1
 	bvs	_runtimeErrorOverflow
 	store	r1,[r14+-20]
-	jmp	_Label_177
+	jmp	_Label_179
 ! END FOR
-_Label_180:
+_Label_182:
 ! RETURN STATEMENT...
 	mov	166,r13		! source line 166
 	mov	"\0\0RE",r10
@@ -22285,64 +22307,64 @@ _Label_180:
 ! 
 ! Routine Descriptor
 ! 
-_RoutineDescriptor__function_54_foo:
+_RoutineDescriptor__function_56_foo:
 	.word	_sourceFileName
-	.word	_Label_185
+	.word	_Label_187
 	.word	4		! total size of parameters
 	.word	16		! frame size = 16
-	.word	_Label_186
+	.word	_Label_188
 	.word	8
 	.word	4
-	.word	_Label_187
+	.word	_Label_189
 	.word	-12
 	.word	4
-	.word	_Label_188
+	.word	_Label_190
 	.word	-16
 	.word	4
-	.word	_Label_189
+	.word	_Label_191
 	.word	-20
 	.word	4
 	.word	0
-_Label_185:
+_Label_187:
 	.ascii	"foo\0"
 	.align
-_Label_186:
+_Label_188:
 	.byte	'I'
 	.ascii	"i\0"
 	.align
-_Label_187:
-	.byte	'?'
-	.ascii	"_temp_182\0"
-	.align
-_Label_188:
-	.byte	'?'
-	.ascii	"_temp_181\0"
-	.align
 _Label_189:
+	.byte	'?'
+	.ascii	"_temp_184\0"
+	.align
+_Label_190:
+	.byte	'?'
+	.ascii	"_temp_183\0"
+	.align
+_Label_191:
 	.byte	'I'
 	.ascii	"j\0"
 	.align
 ! 
 ! ===============  FUNCTION TestMutex  ===============
 ! 
-_function_53_TestMutex:
+_function_55_TestMutex:
 	push	r14
 	mov	r15,r14
 	push	r13
-	set	_RoutineDescriptor__function_53_TestMutex,r1
+	set	_RoutineDescriptor__function_55_TestMutex,r1
 	push	r1
 	mov	47,r1
-_Label_625:
+_Label_742:
 	push	r0
 	sub	r1,1,r1
-	bne	_Label_625
+	bne	_Label_742
 	mov	204,r13		! source line 204
 	mov	"\0\0FU",r10
 ! VARIABLE INITIALIZATION...
 ! SEND STATEMENT...
 	mov	205,r13		! source line 205
 	mov	"\0\0SE",r10
-!   _temp_190 = &_Global_myLock
+!   _temp_192 = &_Global_myLock
 	set	_Global_myLock,r1
 	store	r1,[r14+-184]
 !   Send message Init
@@ -22354,10 +22376,10 @@ _Label_625:
 	add	r2,4,r2
 	call	r2
 ! CALL STATEMENT...
-!   _temp_191 = _StringConst_15
+!   _temp_193 = _StringConst_15
 	set	_StringConst_15,r1
 	store	r1,[r14+-180]
-!   Prepare Argument: offset=8  value=_temp_191  sizeInBytes=4
+!   Prepare Argument: offset=8  value=_temp_193  sizeInBytes=4
 	load	[r14+-180],r1
 	store	r1,[r15+0]
 !   Call the function
@@ -22367,13 +22389,13 @@ _Label_625:
 ! SEND STATEMENT...
 	mov	209,r13		! source line 209
 	mov	"\0\0SE",r10
-!   _temp_192 = _StringConst_16
+!   _temp_194 = _StringConst_16
 	set	_StringConst_16,r1
 	store	r1,[r14+-176]
-!   _temp_193 = &_Global_thArr
+!   _temp_195 = &_Global_thArr
 	set	_Global_thArr,r1
 	store	r1,[r14+-172]
-!   Move address of _temp_193 [0 ] into _temp_194
+!   Move address of _temp_195 [0 ] into _temp_196
 !     make sure index expr is >= 0
 	mov	0,r2
 	cmp	r2,0
@@ -22392,7 +22414,7 @@ _Label_625:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-168]
-!   Prepare Argument: offset=12  value=_temp_192  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_194  sizeInBytes=4
 	load	[r14+-176],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -22406,13 +22428,13 @@ _Label_625:
 ! SEND STATEMENT...
 	mov	210,r13		! source line 210
 	mov	"\0\0SE",r10
-!   _temp_195 = _function_52_LockTester
-	set	_function_52_LockTester,r1
+!   _temp_197 = _function_54_LockTester
+	set	_function_54_LockTester,r1
 	store	r1,[r14+-164]
-!   _temp_196 = &_Global_thArr
+!   _temp_198 = &_Global_thArr
 	set	_Global_thArr,r1
 	store	r1,[r14+-160]
-!   Move address of _temp_196 [0 ] into _temp_197
+!   Move address of _temp_198 [0 ] into _temp_199
 !     make sure index expr is >= 0
 	mov	0,r2
 	cmp	r2,0
@@ -22431,7 +22453,7 @@ _Label_625:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-156]
-!   Prepare Argument: offset=12  value=_temp_195  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_197  sizeInBytes=4
 	load	[r14+-164],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=100  sizeInBytes=4
@@ -22448,13 +22470,13 @@ _Label_625:
 ! SEND STATEMENT...
 	mov	212,r13		! source line 212
 	mov	"\0\0SE",r10
-!   _temp_198 = _StringConst_17
+!   _temp_200 = _StringConst_17
 	set	_StringConst_17,r1
 	store	r1,[r14+-152]
-!   _temp_199 = &_Global_thArr
+!   _temp_201 = &_Global_thArr
 	set	_Global_thArr,r1
 	store	r1,[r14+-148]
-!   Move address of _temp_199 [1 ] into _temp_200
+!   Move address of _temp_201 [1 ] into _temp_202
 !     make sure index expr is >= 0
 	mov	1,r2
 	cmp	r2,0
@@ -22473,7 +22495,7 @@ _Label_625:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-144]
-!   Prepare Argument: offset=12  value=_temp_198  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_200  sizeInBytes=4
 	load	[r14+-152],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -22487,13 +22509,13 @@ _Label_625:
 ! SEND STATEMENT...
 	mov	213,r13		! source line 213
 	mov	"\0\0SE",r10
-!   _temp_201 = _function_52_LockTester
-	set	_function_52_LockTester,r1
+!   _temp_203 = _function_54_LockTester
+	set	_function_54_LockTester,r1
 	store	r1,[r14+-140]
-!   _temp_202 = &_Global_thArr
+!   _temp_204 = &_Global_thArr
 	set	_Global_thArr,r1
 	store	r1,[r14+-136]
-!   Move address of _temp_202 [1 ] into _temp_203
+!   Move address of _temp_204 [1 ] into _temp_205
 !     make sure index expr is >= 0
 	mov	1,r2
 	cmp	r2,0
@@ -22512,7 +22534,7 @@ _Label_625:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-132]
-!   Prepare Argument: offset=12  value=_temp_201  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_203  sizeInBytes=4
 	load	[r14+-140],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=200  sizeInBytes=4
@@ -22529,13 +22551,13 @@ _Label_625:
 ! SEND STATEMENT...
 	mov	215,r13		! source line 215
 	mov	"\0\0SE",r10
-!   _temp_204 = _StringConst_18
+!   _temp_206 = _StringConst_18
 	set	_StringConst_18,r1
 	store	r1,[r14+-128]
-!   _temp_205 = &_Global_thArr
+!   _temp_207 = &_Global_thArr
 	set	_Global_thArr,r1
 	store	r1,[r14+-124]
-!   Move address of _temp_205 [2 ] into _temp_206
+!   Move address of _temp_207 [2 ] into _temp_208
 !     make sure index expr is >= 0
 	mov	2,r2
 	cmp	r2,0
@@ -22554,7 +22576,7 @@ _Label_625:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-120]
-!   Prepare Argument: offset=12  value=_temp_204  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_206  sizeInBytes=4
 	load	[r14+-128],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -22568,13 +22590,13 @@ _Label_625:
 ! SEND STATEMENT...
 	mov	216,r13		! source line 216
 	mov	"\0\0SE",r10
-!   _temp_207 = _function_52_LockTester
-	set	_function_52_LockTester,r1
+!   _temp_209 = _function_54_LockTester
+	set	_function_54_LockTester,r1
 	store	r1,[r14+-116]
-!   _temp_208 = &_Global_thArr
+!   _temp_210 = &_Global_thArr
 	set	_Global_thArr,r1
 	store	r1,[r14+-112]
-!   Move address of _temp_208 [2 ] into _temp_209
+!   Move address of _temp_210 [2 ] into _temp_211
 !     make sure index expr is >= 0
 	mov	2,r2
 	cmp	r2,0
@@ -22593,7 +22615,7 @@ _Label_625:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-108]
-!   Prepare Argument: offset=12  value=_temp_207  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_209  sizeInBytes=4
 	load	[r14+-116],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=1  sizeInBytes=4
@@ -22610,13 +22632,13 @@ _Label_625:
 ! SEND STATEMENT...
 	mov	218,r13		! source line 218
 	mov	"\0\0SE",r10
-!   _temp_210 = _StringConst_19
+!   _temp_212 = _StringConst_19
 	set	_StringConst_19,r1
 	store	r1,[r14+-104]
-!   _temp_211 = &_Global_thArr
+!   _temp_213 = &_Global_thArr
 	set	_Global_thArr,r1
 	store	r1,[r14+-100]
-!   Move address of _temp_211 [3 ] into _temp_212
+!   Move address of _temp_213 [3 ] into _temp_214
 !     make sure index expr is >= 0
 	mov	3,r2
 	cmp	r2,0
@@ -22635,7 +22657,7 @@ _Label_625:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-96]
-!   Prepare Argument: offset=12  value=_temp_210  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_212  sizeInBytes=4
 	load	[r14+-104],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -22649,13 +22671,13 @@ _Label_625:
 ! SEND STATEMENT...
 	mov	219,r13		! source line 219
 	mov	"\0\0SE",r10
-!   _temp_213 = _function_52_LockTester
-	set	_function_52_LockTester,r1
+!   _temp_215 = _function_54_LockTester
+	set	_function_54_LockTester,r1
 	store	r1,[r14+-92]
-!   _temp_214 = &_Global_thArr
+!   _temp_216 = &_Global_thArr
 	set	_Global_thArr,r1
 	store	r1,[r14+-88]
-!   Move address of _temp_214 [3 ] into _temp_215
+!   Move address of _temp_216 [3 ] into _temp_217
 !     make sure index expr is >= 0
 	mov	3,r2
 	cmp	r2,0
@@ -22674,7 +22696,7 @@ _Label_625:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-84]
-!   Prepare Argument: offset=12  value=_temp_213  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_215  sizeInBytes=4
 	load	[r14+-92],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=50  sizeInBytes=4
@@ -22691,13 +22713,13 @@ _Label_625:
 ! SEND STATEMENT...
 	mov	221,r13		! source line 221
 	mov	"\0\0SE",r10
-!   _temp_216 = _StringConst_20
+!   _temp_218 = _StringConst_20
 	set	_StringConst_20,r1
 	store	r1,[r14+-80]
-!   _temp_217 = &_Global_thArr
+!   _temp_219 = &_Global_thArr
 	set	_Global_thArr,r1
 	store	r1,[r14+-76]
-!   Move address of _temp_217 [4 ] into _temp_218
+!   Move address of _temp_219 [4 ] into _temp_220
 !     make sure index expr is >= 0
 	mov	4,r2
 	cmp	r2,0
@@ -22716,7 +22738,7 @@ _Label_625:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-72]
-!   Prepare Argument: offset=12  value=_temp_216  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_218  sizeInBytes=4
 	load	[r14+-80],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -22730,13 +22752,13 @@ _Label_625:
 ! SEND STATEMENT...
 	mov	222,r13		! source line 222
 	mov	"\0\0SE",r10
-!   _temp_219 = _function_52_LockTester
-	set	_function_52_LockTester,r1
+!   _temp_221 = _function_54_LockTester
+	set	_function_54_LockTester,r1
 	store	r1,[r14+-68]
-!   _temp_220 = &_Global_thArr
+!   _temp_222 = &_Global_thArr
 	set	_Global_thArr,r1
 	store	r1,[r14+-64]
-!   Move address of _temp_220 [4 ] into _temp_221
+!   Move address of _temp_222 [4 ] into _temp_223
 !     make sure index expr is >= 0
 	mov	4,r2
 	cmp	r2,0
@@ -22755,7 +22777,7 @@ _Label_625:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-60]
-!   Prepare Argument: offset=12  value=_temp_219  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_221  sizeInBytes=4
 	load	[r14+-68],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=300  sizeInBytes=4
@@ -22772,13 +22794,13 @@ _Label_625:
 ! SEND STATEMENT...
 	mov	224,r13		! source line 224
 	mov	"\0\0SE",r10
-!   _temp_222 = _StringConst_21
+!   _temp_224 = _StringConst_21
 	set	_StringConst_21,r1
 	store	r1,[r14+-56]
-!   _temp_223 = &_Global_thArr
+!   _temp_225 = &_Global_thArr
 	set	_Global_thArr,r1
 	store	r1,[r14+-52]
-!   Move address of _temp_223 [5 ] into _temp_224
+!   Move address of _temp_225 [5 ] into _temp_226
 !     make sure index expr is >= 0
 	mov	5,r2
 	cmp	r2,0
@@ -22797,7 +22819,7 @@ _Label_625:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-48]
-!   Prepare Argument: offset=12  value=_temp_222  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_224  sizeInBytes=4
 	load	[r14+-56],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -22811,13 +22833,13 @@ _Label_625:
 ! SEND STATEMENT...
 	mov	225,r13		! source line 225
 	mov	"\0\0SE",r10
-!   _temp_225 = _function_52_LockTester
-	set	_function_52_LockTester,r1
+!   _temp_227 = _function_54_LockTester
+	set	_function_54_LockTester,r1
 	store	r1,[r14+-44]
-!   _temp_226 = &_Global_thArr
+!   _temp_228 = &_Global_thArr
 	set	_Global_thArr,r1
 	store	r1,[r14+-40]
-!   Move address of _temp_226 [5 ] into _temp_227
+!   Move address of _temp_228 [5 ] into _temp_229
 !     make sure index expr is >= 0
 	mov	5,r2
 	cmp	r2,0
@@ -22836,7 +22858,7 @@ _Label_625:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-36]
-!   Prepare Argument: offset=12  value=_temp_225  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_227  sizeInBytes=4
 	load	[r14+-44],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=1  sizeInBytes=4
@@ -22853,13 +22875,13 @@ _Label_625:
 ! SEND STATEMENT...
 	mov	227,r13		! source line 227
 	mov	"\0\0SE",r10
-!   _temp_228 = _StringConst_22
+!   _temp_230 = _StringConst_22
 	set	_StringConst_22,r1
 	store	r1,[r14+-32]
-!   _temp_229 = &_Global_thArr
+!   _temp_231 = &_Global_thArr
 	set	_Global_thArr,r1
 	store	r1,[r14+-28]
-!   Move address of _temp_229 [6 ] into _temp_230
+!   Move address of _temp_231 [6 ] into _temp_232
 !     make sure index expr is >= 0
 	mov	6,r2
 	cmp	r2,0
@@ -22878,7 +22900,7 @@ _Label_625:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-24]
-!   Prepare Argument: offset=12  value=_temp_228  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_230  sizeInBytes=4
 	load	[r14+-32],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -22892,13 +22914,13 @@ _Label_625:
 ! SEND STATEMENT...
 	mov	228,r13		! source line 228
 	mov	"\0\0SE",r10
-!   _temp_231 = _function_52_LockTester
-	set	_function_52_LockTester,r1
+!   _temp_233 = _function_54_LockTester
+	set	_function_54_LockTester,r1
 	store	r1,[r14+-20]
-!   _temp_232 = &_Global_thArr
+!   _temp_234 = &_Global_thArr
 	set	_Global_thArr,r1
 	store	r1,[r14+-16]
-!   Move address of _temp_232 [6 ] into _temp_233
+!   Move address of _temp_234 [6 ] into _temp_235
 !     make sure index expr is >= 0
 	mov	6,r2
 	cmp	r2,0
@@ -22917,7 +22939,7 @@ _Label_625:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-12]
-!   Prepare Argument: offset=12  value=_temp_231  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_233  sizeInBytes=4
 	load	[r14+-20],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=1  sizeInBytes=4
@@ -22946,337 +22968,337 @@ _Label_625:
 ! 
 ! Routine Descriptor
 ! 
-_RoutineDescriptor__function_53_TestMutex:
+_RoutineDescriptor__function_55_TestMutex:
 	.word	_sourceFileName
-	.word	_Label_234
+	.word	_Label_236
 	.word	0		! total size of parameters
 	.word	188		! frame size = 188
-	.word	_Label_235
+	.word	_Label_237
 	.word	-12
 	.word	4
-	.word	_Label_236
+	.word	_Label_238
 	.word	-16
 	.word	4
-	.word	_Label_237
+	.word	_Label_239
 	.word	-20
 	.word	4
-	.word	_Label_238
+	.word	_Label_240
 	.word	-24
 	.word	4
-	.word	_Label_239
+	.word	_Label_241
 	.word	-28
 	.word	4
-	.word	_Label_240
+	.word	_Label_242
 	.word	-32
 	.word	4
-	.word	_Label_241
+	.word	_Label_243
 	.word	-36
 	.word	4
-	.word	_Label_242
+	.word	_Label_244
 	.word	-40
 	.word	4
-	.word	_Label_243
+	.word	_Label_245
 	.word	-44
 	.word	4
-	.word	_Label_244
+	.word	_Label_246
 	.word	-48
 	.word	4
-	.word	_Label_245
+	.word	_Label_247
 	.word	-52
 	.word	4
-	.word	_Label_246
+	.word	_Label_248
 	.word	-56
 	.word	4
-	.word	_Label_247
+	.word	_Label_249
 	.word	-60
 	.word	4
-	.word	_Label_248
+	.word	_Label_250
 	.word	-64
 	.word	4
-	.word	_Label_249
+	.word	_Label_251
 	.word	-68
 	.word	4
-	.word	_Label_250
+	.word	_Label_252
 	.word	-72
 	.word	4
-	.word	_Label_251
+	.word	_Label_253
 	.word	-76
 	.word	4
-	.word	_Label_252
+	.word	_Label_254
 	.word	-80
 	.word	4
-	.word	_Label_253
+	.word	_Label_255
 	.word	-84
 	.word	4
-	.word	_Label_254
+	.word	_Label_256
 	.word	-88
 	.word	4
-	.word	_Label_255
+	.word	_Label_257
 	.word	-92
 	.word	4
-	.word	_Label_256
+	.word	_Label_258
 	.word	-96
 	.word	4
-	.word	_Label_257
+	.word	_Label_259
 	.word	-100
 	.word	4
-	.word	_Label_258
+	.word	_Label_260
 	.word	-104
 	.word	4
-	.word	_Label_259
+	.word	_Label_261
 	.word	-108
 	.word	4
-	.word	_Label_260
+	.word	_Label_262
 	.word	-112
 	.word	4
-	.word	_Label_261
+	.word	_Label_263
 	.word	-116
 	.word	4
-	.word	_Label_262
+	.word	_Label_264
 	.word	-120
 	.word	4
-	.word	_Label_263
+	.word	_Label_265
 	.word	-124
 	.word	4
-	.word	_Label_264
+	.word	_Label_266
 	.word	-128
 	.word	4
-	.word	_Label_265
+	.word	_Label_267
 	.word	-132
 	.word	4
-	.word	_Label_266
+	.word	_Label_268
 	.word	-136
 	.word	4
-	.word	_Label_267
+	.word	_Label_269
 	.word	-140
 	.word	4
-	.word	_Label_268
+	.word	_Label_270
 	.word	-144
 	.word	4
-	.word	_Label_269
+	.word	_Label_271
 	.word	-148
 	.word	4
-	.word	_Label_270
+	.word	_Label_272
 	.word	-152
 	.word	4
-	.word	_Label_271
+	.word	_Label_273
 	.word	-156
 	.word	4
-	.word	_Label_272
+	.word	_Label_274
 	.word	-160
 	.word	4
-	.word	_Label_273
+	.word	_Label_275
 	.word	-164
 	.word	4
-	.word	_Label_274
+	.word	_Label_276
 	.word	-168
 	.word	4
-	.word	_Label_275
+	.word	_Label_277
 	.word	-172
 	.word	4
-	.word	_Label_276
+	.word	_Label_278
 	.word	-176
 	.word	4
-	.word	_Label_277
+	.word	_Label_279
 	.word	-180
 	.word	4
-	.word	_Label_278
+	.word	_Label_280
 	.word	-184
 	.word	4
 	.word	0
-_Label_234:
-	.ascii	"TestMutex\0"
-	.align
-_Label_235:
-	.byte	'?'
-	.ascii	"_temp_233\0"
-	.align
 _Label_236:
-	.byte	'?'
-	.ascii	"_temp_232\0"
+	.ascii	"TestMutex\0"
 	.align
 _Label_237:
 	.byte	'?'
-	.ascii	"_temp_231\0"
+	.ascii	"_temp_235\0"
 	.align
 _Label_238:
 	.byte	'?'
-	.ascii	"_temp_230\0"
+	.ascii	"_temp_234\0"
 	.align
 _Label_239:
 	.byte	'?'
-	.ascii	"_temp_229\0"
+	.ascii	"_temp_233\0"
 	.align
 _Label_240:
 	.byte	'?'
-	.ascii	"_temp_228\0"
+	.ascii	"_temp_232\0"
 	.align
 _Label_241:
 	.byte	'?'
-	.ascii	"_temp_227\0"
+	.ascii	"_temp_231\0"
 	.align
 _Label_242:
 	.byte	'?'
-	.ascii	"_temp_226\0"
+	.ascii	"_temp_230\0"
 	.align
 _Label_243:
 	.byte	'?'
-	.ascii	"_temp_225\0"
+	.ascii	"_temp_229\0"
 	.align
 _Label_244:
 	.byte	'?'
-	.ascii	"_temp_224\0"
+	.ascii	"_temp_228\0"
 	.align
 _Label_245:
 	.byte	'?'
-	.ascii	"_temp_223\0"
+	.ascii	"_temp_227\0"
 	.align
 _Label_246:
 	.byte	'?'
-	.ascii	"_temp_222\0"
+	.ascii	"_temp_226\0"
 	.align
 _Label_247:
 	.byte	'?'
-	.ascii	"_temp_221\0"
+	.ascii	"_temp_225\0"
 	.align
 _Label_248:
 	.byte	'?'
-	.ascii	"_temp_220\0"
+	.ascii	"_temp_224\0"
 	.align
 _Label_249:
 	.byte	'?'
-	.ascii	"_temp_219\0"
+	.ascii	"_temp_223\0"
 	.align
 _Label_250:
 	.byte	'?'
-	.ascii	"_temp_218\0"
+	.ascii	"_temp_222\0"
 	.align
 _Label_251:
 	.byte	'?'
-	.ascii	"_temp_217\0"
+	.ascii	"_temp_221\0"
 	.align
 _Label_252:
 	.byte	'?'
-	.ascii	"_temp_216\0"
+	.ascii	"_temp_220\0"
 	.align
 _Label_253:
 	.byte	'?'
-	.ascii	"_temp_215\0"
+	.ascii	"_temp_219\0"
 	.align
 _Label_254:
 	.byte	'?'
-	.ascii	"_temp_214\0"
+	.ascii	"_temp_218\0"
 	.align
 _Label_255:
 	.byte	'?'
-	.ascii	"_temp_213\0"
+	.ascii	"_temp_217\0"
 	.align
 _Label_256:
 	.byte	'?'
-	.ascii	"_temp_212\0"
+	.ascii	"_temp_216\0"
 	.align
 _Label_257:
 	.byte	'?'
-	.ascii	"_temp_211\0"
+	.ascii	"_temp_215\0"
 	.align
 _Label_258:
 	.byte	'?'
-	.ascii	"_temp_210\0"
+	.ascii	"_temp_214\0"
 	.align
 _Label_259:
 	.byte	'?'
-	.ascii	"_temp_209\0"
+	.ascii	"_temp_213\0"
 	.align
 _Label_260:
 	.byte	'?'
-	.ascii	"_temp_208\0"
+	.ascii	"_temp_212\0"
 	.align
 _Label_261:
 	.byte	'?'
-	.ascii	"_temp_207\0"
+	.ascii	"_temp_211\0"
 	.align
 _Label_262:
 	.byte	'?'
-	.ascii	"_temp_206\0"
+	.ascii	"_temp_210\0"
 	.align
 _Label_263:
 	.byte	'?'
-	.ascii	"_temp_205\0"
+	.ascii	"_temp_209\0"
 	.align
 _Label_264:
 	.byte	'?'
-	.ascii	"_temp_204\0"
+	.ascii	"_temp_208\0"
 	.align
 _Label_265:
 	.byte	'?'
-	.ascii	"_temp_203\0"
+	.ascii	"_temp_207\0"
 	.align
 _Label_266:
 	.byte	'?'
-	.ascii	"_temp_202\0"
+	.ascii	"_temp_206\0"
 	.align
 _Label_267:
 	.byte	'?'
-	.ascii	"_temp_201\0"
+	.ascii	"_temp_205\0"
 	.align
 _Label_268:
 	.byte	'?'
-	.ascii	"_temp_200\0"
+	.ascii	"_temp_204\0"
 	.align
 _Label_269:
 	.byte	'?'
-	.ascii	"_temp_199\0"
+	.ascii	"_temp_203\0"
 	.align
 _Label_270:
 	.byte	'?'
-	.ascii	"_temp_198\0"
+	.ascii	"_temp_202\0"
 	.align
 _Label_271:
 	.byte	'?'
-	.ascii	"_temp_197\0"
+	.ascii	"_temp_201\0"
 	.align
 _Label_272:
 	.byte	'?'
-	.ascii	"_temp_196\0"
+	.ascii	"_temp_200\0"
 	.align
 _Label_273:
 	.byte	'?'
-	.ascii	"_temp_195\0"
+	.ascii	"_temp_199\0"
 	.align
 _Label_274:
 	.byte	'?'
-	.ascii	"_temp_194\0"
+	.ascii	"_temp_198\0"
 	.align
 _Label_275:
 	.byte	'?'
-	.ascii	"_temp_193\0"
+	.ascii	"_temp_197\0"
 	.align
 _Label_276:
 	.byte	'?'
-	.ascii	"_temp_192\0"
+	.ascii	"_temp_196\0"
 	.align
 _Label_277:
 	.byte	'?'
-	.ascii	"_temp_191\0"
+	.ascii	"_temp_195\0"
 	.align
 _Label_278:
 	.byte	'?'
-	.ascii	"_temp_190\0"
+	.ascii	"_temp_194\0"
+	.align
+_Label_279:
+	.byte	'?'
+	.ascii	"_temp_193\0"
+	.align
+_Label_280:
+	.byte	'?'
+	.ascii	"_temp_192\0"
 	.align
 ! 
 ! ===============  FUNCTION LockTester  ===============
 ! 
-_function_52_LockTester:
+_function_54_LockTester:
 	push	r14
 	mov	r15,r14
 	push	r13
-	set	_RoutineDescriptor__function_52_LockTester,r1
+	set	_RoutineDescriptor__function_54_LockTester,r1
 	push	r1
 	mov	15,r1
-_Label_626:
+_Label_743:
 	push	r0
 	sub	r1,1,r1
-	bne	_Label_626
+	bne	_Label_743
 	mov	233,r13		! source line 233
 	mov	"\0\0FU",r10
 ! VARIABLE INITIALIZATION...
@@ -23284,32 +23306,32 @@ _Label_626:
 	mov	247,r13		! source line 247
 	mov	"\0\0FO",r10
 !   Calculate and save the FOR-LOOP starting value
-!   _temp_283 = 1		(4 bytes)
+!   _temp_285 = 1		(4 bytes)
 	mov	1,r1
 	store	r1,[r14+-48]
 !   Calculate and save the FOR-LOOP ending value
-!   _temp_284 = 10		(4 bytes)
+!   _temp_286 = 10		(4 bytes)
 	mov	10,r1
 	store	r1,[r14+-44]
 !   Initialize FOR-LOOP index variable
-!   Data Move: i = _temp_283  (sizeInBytes=4)
+!   Data Move: i = _temp_285  (sizeInBytes=4)
 	load	[r14+-48],r1
 	store	r1,[r14+-52]
-_Label_279:
+_Label_281:
 !   Perform the FOR-LOOP termination test
-!   if i > _temp_284 then goto _Label_282		
+!   if i > _temp_286 then goto _Label_284		
 	load	[r14+-52],r1
 	load	[r14+-44],r2
 	cmp	r1,r2
 	bvs	_runtimeErrorOverflow
-	bg	_Label_282
-_Label_280:
+	bg	_Label_284
+_Label_282:
 	mov	247,r13		! source line 247
 	mov	"\0\0FB",r10
 ! SEND STATEMENT...
 	mov	253,r13		! source line 253
 	mov	"\0\0SE",r10
-!   _temp_285 = &_Global_myLock
+!   _temp_287 = &_Global_myLock
 	set	_Global_myLock,r1
 	store	r1,[r14+-40]
 !   Send message Lock
@@ -23334,54 +23356,54 @@ _Label_280:
 	mov	260,r13		! source line 260
 	mov	"\0\0FO",r10
 !   Calculate and save the FOR-LOOP starting value
-!   _temp_290 = 1		(4 bytes)
+!   _temp_292 = 1		(4 bytes)
 	mov	1,r1
 	store	r1,[r14+-36]
 !   Calculate and save the FOR-LOOP ending value
-!   _temp_291 = waitTime		(4 bytes)
+!   _temp_293 = waitTime		(4 bytes)
 	load	[r14+8],r1
 	store	r1,[r14+-32]
 !   Initialize FOR-LOOP index variable
-!   Data Move: k = _temp_290  (sizeInBytes=4)
+!   Data Move: k = _temp_292  (sizeInBytes=4)
 	load	[r14+-36],r1
 	store	r1,[r14+-60]
-_Label_286:
+_Label_288:
 !   Perform the FOR-LOOP termination test
-!   if k > _temp_291 then goto _Label_289		
+!   if k > _temp_293 then goto _Label_291		
 	load	[r14+-60],r1
 	load	[r14+-32],r2
 	cmp	r1,r2
 	bvs	_runtimeErrorOverflow
-	bg	_Label_289
-_Label_287:
+	bg	_Label_291
+_Label_289:
 	mov	260,r13		! source line 260
 	mov	"\0\0FB",r10
 !   Increment the FOR-LOOP index variable and jump back
-_Label_288:
+_Label_290:
 !   k = k + 1
 	load	[r14+-60],r1
 	add	r1,1,r1
 	bvs	_runtimeErrorOverflow
 	store	r1,[r14+-60]
-	jmp	_Label_286
+	jmp	_Label_288
 ! END FOR
-_Label_289:
+_Label_291:
 ! CALL STATEMENT...
 !   if intIsZero (_P_Thread_currentThread) then goto _runtimeErrorNullPointer
 	set	_P_Thread_currentThread,r1
 	load	[r1],r1
 	cmp	r1,r0
 	be	_runtimeErrorNullPointer
-!   _temp_293 = _P_Thread_currentThread + 72
+!   _temp_295 = _P_Thread_currentThread + 72
 	set	_P_Thread_currentThread,r1
 	load	[r1],r1
 	add	r1,72,r1
 	store	r1,[r14+-24]
-!   Data Move: _temp_292 = *_temp_293  (sizeInBytes=4)
+!   Data Move: _temp_294 = *_temp_295  (sizeInBytes=4)
 	load	[r14+-24],r1
 	load	[r1],r1
 	store	r1,[r14+-28]
-!   Prepare Argument: offset=8  value=_temp_292  sizeInBytes=4
+!   Prepare Argument: offset=8  value=_temp_294  sizeInBytes=4
 	load	[r14+-28],r1
 	store	r1,[r15+0]
 !   Prepare Argument: offset=12  value=j  sizeInBytes=4
@@ -23401,7 +23423,7 @@ _Label_289:
 ! SEND STATEMENT...
 	mov	269,r13		! source line 269
 	mov	"\0\0SE",r10
-!   _temp_294 = &_Global_myLock
+!   _temp_296 = &_Global_myLock
 	set	_Global_myLock,r1
 	store	r1,[r14+-20]
 !   Send message Unlock
@@ -23416,48 +23438,48 @@ _Label_289:
 	mov	272,r13		! source line 272
 	mov	"\0\0FO",r10
 !   Calculate and save the FOR-LOOP starting value
-!   _temp_299 = 1		(4 bytes)
+!   _temp_301 = 1		(4 bytes)
 	mov	1,r1
 	store	r1,[r14+-16]
 !   Calculate and save the FOR-LOOP ending value
-!   _temp_300 = waitTime		(4 bytes)
+!   _temp_302 = waitTime		(4 bytes)
 	load	[r14+8],r1
 	store	r1,[r14+-12]
 !   Initialize FOR-LOOP index variable
-!   Data Move: k = _temp_299  (sizeInBytes=4)
+!   Data Move: k = _temp_301  (sizeInBytes=4)
 	load	[r14+-16],r1
 	store	r1,[r14+-60]
-_Label_295:
+_Label_297:
 !   Perform the FOR-LOOP termination test
-!   if k > _temp_300 then goto _Label_298		
+!   if k > _temp_302 then goto _Label_300		
 	load	[r14+-60],r1
 	load	[r14+-12],r2
 	cmp	r1,r2
 	bvs	_runtimeErrorOverflow
-	bg	_Label_298
-_Label_296:
+	bg	_Label_300
+_Label_298:
 	mov	272,r13		! source line 272
 	mov	"\0\0FB",r10
 !   Increment the FOR-LOOP index variable and jump back
-_Label_297:
+_Label_299:
 !   k = k + 1
 	load	[r14+-60],r1
 	add	r1,1,r1
 	bvs	_runtimeErrorOverflow
 	store	r1,[r14+-60]
-	jmp	_Label_295
+	jmp	_Label_297
 ! END FOR
-_Label_298:
+_Label_300:
 !   Increment the FOR-LOOP index variable and jump back
-_Label_281:
+_Label_283:
 !   i = i + 1
 	load	[r14+-52],r1
 	add	r1,1,r1
 	bvs	_runtimeErrorOverflow
 	store	r1,[r14+-52]
-	jmp	_Label_279
+	jmp	_Label_281
 ! END FOR
-_Label_282:
+_Label_284:
 ! RETURN STATEMENT...
 	mov	247,r13		! source line 247
 	mov	"\0\0RE",r10
@@ -23468,151 +23490,185 @@ _Label_282:
 ! 
 ! Routine Descriptor
 ! 
-_RoutineDescriptor__function_52_LockTester:
+_RoutineDescriptor__function_54_LockTester:
 	.word	_sourceFileName
-	.word	_Label_301
+	.word	_Label_303
 	.word	4		! total size of parameters
 	.word	60		! frame size = 60
-	.word	_Label_302
+	.word	_Label_304
 	.word	8
 	.word	4
-	.word	_Label_303
+	.word	_Label_305
 	.word	-12
 	.word	4
-	.word	_Label_304
+	.word	_Label_306
 	.word	-16
 	.word	4
-	.word	_Label_305
+	.word	_Label_307
 	.word	-20
 	.word	4
-	.word	_Label_306
+	.word	_Label_308
 	.word	-24
 	.word	4
-	.word	_Label_307
+	.word	_Label_309
 	.word	-28
 	.word	4
-	.word	_Label_308
+	.word	_Label_310
 	.word	-32
 	.word	4
-	.word	_Label_309
+	.word	_Label_311
 	.word	-36
 	.word	4
-	.word	_Label_310
+	.word	_Label_312
 	.word	-40
 	.word	4
-	.word	_Label_311
+	.word	_Label_313
 	.word	-44
 	.word	4
-	.word	_Label_312
+	.word	_Label_314
 	.word	-48
 	.word	4
-	.word	_Label_313
+	.word	_Label_315
 	.word	-52
 	.word	4
-	.word	_Label_314
+	.word	_Label_316
 	.word	-56
 	.word	4
-	.word	_Label_315
+	.word	_Label_317
 	.word	-60
 	.word	4
 	.word	0
-_Label_301:
+_Label_303:
 	.ascii	"LockTester\0"
 	.align
-_Label_302:
+_Label_304:
 	.byte	'I'
 	.ascii	"waitTime\0"
 	.align
-_Label_303:
-	.byte	'?'
-	.ascii	"_temp_300\0"
-	.align
-_Label_304:
-	.byte	'?'
-	.ascii	"_temp_299\0"
-	.align
 _Label_305:
 	.byte	'?'
-	.ascii	"_temp_294\0"
+	.ascii	"_temp_302\0"
 	.align
 _Label_306:
 	.byte	'?'
-	.ascii	"_temp_293\0"
+	.ascii	"_temp_301\0"
 	.align
 _Label_307:
 	.byte	'?'
-	.ascii	"_temp_292\0"
+	.ascii	"_temp_296\0"
 	.align
 _Label_308:
 	.byte	'?'
-	.ascii	"_temp_291\0"
+	.ascii	"_temp_295\0"
 	.align
 _Label_309:
 	.byte	'?'
-	.ascii	"_temp_290\0"
+	.ascii	"_temp_294\0"
 	.align
 _Label_310:
 	.byte	'?'
-	.ascii	"_temp_285\0"
+	.ascii	"_temp_293\0"
 	.align
 _Label_311:
 	.byte	'?'
-	.ascii	"_temp_284\0"
+	.ascii	"_temp_292\0"
 	.align
 _Label_312:
 	.byte	'?'
-	.ascii	"_temp_283\0"
+	.ascii	"_temp_287\0"
 	.align
 _Label_313:
+	.byte	'?'
+	.ascii	"_temp_286\0"
+	.align
+_Label_314:
+	.byte	'?'
+	.ascii	"_temp_285\0"
+	.align
+_Label_315:
 	.byte	'I'
 	.ascii	"i\0"
 	.align
-_Label_314:
+_Label_316:
 	.byte	'I'
 	.ascii	"j\0"
 	.align
-_Label_315:
+_Label_317:
 	.byte	'I'
 	.ascii	"k\0"
 	.align
 ! 
 ! ===============  FUNCTION ProducerConsumer  ===============
 ! 
-_function_51_ProducerConsumer:
+_function_53_ProducerConsumer:
 	push	r14
 	mov	r15,r14
 	push	r13
-	set	_RoutineDescriptor__function_51_ProducerConsumer,r1
+	set	_RoutineDescriptor__function_53_ProducerConsumer,r1
 	push	r1
-	mov	52,r1
-_Label_627:
+	mov	54,r1
+_Label_744:
 	push	r0
 	sub	r1,1,r1
-	bne	_Label_627
-	mov	326,r13		! source line 326
+	bne	_Label_744
+	mov	329,r13		! source line 329
 	mov	"\0\0FU",r10
 ! VARIABLE INITIALIZATION...
+! SEND STATEMENT...
+	mov	331,r13		! source line 331
+	mov	"\0\0SE",r10
+!   _temp_318 = &_Global_semEmpty
+	set	_Global_semEmpty,r1
+	store	r1,[r14+-212]
+!   Prepare Argument: offset=12  value=5  sizeInBytes=4
+	mov	5,r1
+	store	r1,[r15+4]
+!   Send message Init
+	load	[r14+-212],r1
+	load	[r1],r2
+	cmp	r2,0
+	be	 _runtimeErrorUninitializedObject
+	store	r1,[r15]
+	add	r2,4,r2
+	call	r2
+! SEND STATEMENT...
+	mov	332,r13		! source line 332
+	mov	"\0\0SE",r10
+!   _temp_319 = &_Global_semFull
+	set	_Global_semFull,r1
+	store	r1,[r14+-208]
+!   Prepare Argument: offset=12  value=0  sizeInBytes=4
+	mov	0,r1
+	store	r1,[r15+4]
+!   Send message Init
+	load	[r14+-208],r1
+	load	[r1],r2
+	cmp	r2,0
+	be	 _runtimeErrorUninitializedObject
+	store	r1,[r15]
+	add	r2,4,r2
+	call	r2
 ! CALL STATEMENT...
-!   _temp_316 = _StringConst_23
+!   _temp_320 = _StringConst_23
 	set	_StringConst_23,r1
 	store	r1,[r14+-204]
-!   Prepare Argument: offset=8  value=_temp_316  sizeInBytes=4
+!   Prepare Argument: offset=8  value=_temp_320  sizeInBytes=4
 	load	[r14+-204],r1
 	store	r1,[r15+0]
 !   Call the function
-	mov	328,r13		! source line 328
+	mov	334,r13		! source line 334
 	mov	"\0\0CE",r10
 	call	print
 ! SEND STATEMENT...
-	mov	330,r13		! source line 330
+	mov	336,r13		! source line 336
 	mov	"\0\0SE",r10
-!   _temp_317 = _StringConst_24
+!   _temp_321 = _StringConst_24
 	set	_StringConst_24,r1
 	store	r1,[r14+-200]
-!   _temp_318 = &_Global_thArray
+!   _temp_322 = &_Global_thArray
 	set	_Global_thArray,r1
 	store	r1,[r14+-196]
-!   Move address of _temp_318 [0 ] into _temp_319
+!   Move address of _temp_322 [0 ] into _temp_323
 !     make sure index expr is >= 0
 	mov	0,r2
 	cmp	r2,0
@@ -23631,7 +23687,7 @@ _Label_627:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-192]
-!   Prepare Argument: offset=12  value=_temp_317  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_321  sizeInBytes=4
 	load	[r14+-200],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -23643,15 +23699,15 @@ _Label_627:
 	add	r2,4,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	331,r13		! source line 331
+	mov	337,r13		! source line 337
 	mov	"\0\0SE",r10
-!   _temp_320 = _function_49_Consumer
-	set	_function_49_Consumer,r1
+!   _temp_324 = _function_51_Consumer
+	set	_function_51_Consumer,r1
 	store	r1,[r14+-188]
-!   _temp_321 = &_Global_thArray
+!   _temp_325 = &_Global_thArray
 	set	_Global_thArray,r1
 	store	r1,[r14+-184]
-!   Move address of _temp_321 [0 ] into _temp_322
+!   Move address of _temp_325 [0 ] into _temp_326
 !     make sure index expr is >= 0
 	mov	0,r2
 	cmp	r2,0
@@ -23670,7 +23726,7 @@ _Label_627:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-180]
-!   Prepare Argument: offset=12  value=_temp_320  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_324  sizeInBytes=4
 	load	[r14+-188],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=1  sizeInBytes=4
@@ -23685,15 +23741,15 @@ _Label_627:
 	add	r2,8,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	333,r13		! source line 333
+	mov	339,r13		! source line 339
 	mov	"\0\0SE",r10
-!   _temp_323 = _StringConst_25
+!   _temp_327 = _StringConst_25
 	set	_StringConst_25,r1
 	store	r1,[r14+-176]
-!   _temp_324 = &_Global_thArray
+!   _temp_328 = &_Global_thArray
 	set	_Global_thArray,r1
 	store	r1,[r14+-172]
-!   Move address of _temp_324 [1 ] into _temp_325
+!   Move address of _temp_328 [1 ] into _temp_329
 !     make sure index expr is >= 0
 	mov	1,r2
 	cmp	r2,0
@@ -23712,7 +23768,7 @@ _Label_627:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-168]
-!   Prepare Argument: offset=12  value=_temp_323  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_327  sizeInBytes=4
 	load	[r14+-176],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -23724,15 +23780,15 @@ _Label_627:
 	add	r2,4,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	334,r13		! source line 334
+	mov	340,r13		! source line 340
 	mov	"\0\0SE",r10
-!   _temp_326 = _function_49_Consumer
-	set	_function_49_Consumer,r1
+!   _temp_330 = _function_51_Consumer
+	set	_function_51_Consumer,r1
 	store	r1,[r14+-164]
-!   _temp_327 = &_Global_thArray
+!   _temp_331 = &_Global_thArray
 	set	_Global_thArray,r1
 	store	r1,[r14+-160]
-!   Move address of _temp_327 [1 ] into _temp_328
+!   Move address of _temp_331 [1 ] into _temp_332
 !     make sure index expr is >= 0
 	mov	1,r2
 	cmp	r2,0
@@ -23751,7 +23807,7 @@ _Label_627:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-156]
-!   Prepare Argument: offset=12  value=_temp_326  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_330  sizeInBytes=4
 	load	[r14+-164],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=2  sizeInBytes=4
@@ -23766,15 +23822,15 @@ _Label_627:
 	add	r2,8,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	336,r13		! source line 336
+	mov	342,r13		! source line 342
 	mov	"\0\0SE",r10
-!   _temp_329 = _StringConst_26
+!   _temp_333 = _StringConst_26
 	set	_StringConst_26,r1
 	store	r1,[r14+-152]
-!   _temp_330 = &_Global_thArray
+!   _temp_334 = &_Global_thArray
 	set	_Global_thArray,r1
 	store	r1,[r14+-148]
-!   Move address of _temp_330 [2 ] into _temp_331
+!   Move address of _temp_334 [2 ] into _temp_335
 !     make sure index expr is >= 0
 	mov	2,r2
 	cmp	r2,0
@@ -23793,7 +23849,7 @@ _Label_627:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-144]
-!   Prepare Argument: offset=12  value=_temp_329  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_333  sizeInBytes=4
 	load	[r14+-152],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -23805,15 +23861,15 @@ _Label_627:
 	add	r2,4,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	337,r13		! source line 337
+	mov	343,r13		! source line 343
 	mov	"\0\0SE",r10
-!   _temp_332 = _function_49_Consumer
-	set	_function_49_Consumer,r1
+!   _temp_336 = _function_51_Consumer
+	set	_function_51_Consumer,r1
 	store	r1,[r14+-140]
-!   _temp_333 = &_Global_thArray
+!   _temp_337 = &_Global_thArray
 	set	_Global_thArray,r1
 	store	r1,[r14+-136]
-!   Move address of _temp_333 [2 ] into _temp_334
+!   Move address of _temp_337 [2 ] into _temp_338
 !     make sure index expr is >= 0
 	mov	2,r2
 	cmp	r2,0
@@ -23832,7 +23888,7 @@ _Label_627:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-132]
-!   Prepare Argument: offset=12  value=_temp_332  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_336  sizeInBytes=4
 	load	[r14+-140],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=3  sizeInBytes=4
@@ -23847,15 +23903,15 @@ _Label_627:
 	add	r2,8,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	339,r13		! source line 339
+	mov	345,r13		! source line 345
 	mov	"\0\0SE",r10
-!   _temp_335 = _StringConst_27
+!   _temp_339 = _StringConst_27
 	set	_StringConst_27,r1
 	store	r1,[r14+-128]
-!   _temp_336 = &_Global_thArray
+!   _temp_340 = &_Global_thArray
 	set	_Global_thArray,r1
 	store	r1,[r14+-124]
-!   Move address of _temp_336 [3 ] into _temp_337
+!   Move address of _temp_340 [3 ] into _temp_341
 !     make sure index expr is >= 0
 	mov	3,r2
 	cmp	r2,0
@@ -23874,7 +23930,7 @@ _Label_627:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-120]
-!   Prepare Argument: offset=12  value=_temp_335  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_339  sizeInBytes=4
 	load	[r14+-128],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -23886,15 +23942,15 @@ _Label_627:
 	add	r2,4,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	340,r13		! source line 340
+	mov	346,r13		! source line 346
 	mov	"\0\0SE",r10
-!   _temp_338 = _function_50_Producer
-	set	_function_50_Producer,r1
+!   _temp_342 = _function_52_Producer
+	set	_function_52_Producer,r1
 	store	r1,[r14+-116]
-!   _temp_339 = &_Global_thArray
+!   _temp_343 = &_Global_thArray
 	set	_Global_thArray,r1
 	store	r1,[r14+-112]
-!   Move address of _temp_339 [3 ] into _temp_340
+!   Move address of _temp_343 [3 ] into _temp_344
 !     make sure index expr is >= 0
 	mov	3,r2
 	cmp	r2,0
@@ -23913,7 +23969,7 @@ _Label_627:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-108]
-!   Prepare Argument: offset=12  value=_temp_338  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_342  sizeInBytes=4
 	load	[r14+-116],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=1  sizeInBytes=4
@@ -23928,15 +23984,15 @@ _Label_627:
 	add	r2,8,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	342,r13		! source line 342
+	mov	348,r13		! source line 348
 	mov	"\0\0SE",r10
-!   _temp_341 = _StringConst_28
+!   _temp_345 = _StringConst_28
 	set	_StringConst_28,r1
 	store	r1,[r14+-104]
-!   _temp_342 = &_Global_thArray
+!   _temp_346 = &_Global_thArray
 	set	_Global_thArray,r1
 	store	r1,[r14+-100]
-!   Move address of _temp_342 [4 ] into _temp_343
+!   Move address of _temp_346 [4 ] into _temp_347
 !     make sure index expr is >= 0
 	mov	4,r2
 	cmp	r2,0
@@ -23955,7 +24011,7 @@ _Label_627:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-96]
-!   Prepare Argument: offset=12  value=_temp_341  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_345  sizeInBytes=4
 	load	[r14+-104],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -23967,15 +24023,15 @@ _Label_627:
 	add	r2,4,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	343,r13		! source line 343
+	mov	349,r13		! source line 349
 	mov	"\0\0SE",r10
-!   _temp_344 = _function_50_Producer
-	set	_function_50_Producer,r1
+!   _temp_348 = _function_52_Producer
+	set	_function_52_Producer,r1
 	store	r1,[r14+-92]
-!   _temp_345 = &_Global_thArray
+!   _temp_349 = &_Global_thArray
 	set	_Global_thArray,r1
 	store	r1,[r14+-88]
-!   Move address of _temp_345 [4 ] into _temp_346
+!   Move address of _temp_349 [4 ] into _temp_350
 !     make sure index expr is >= 0
 	mov	4,r2
 	cmp	r2,0
@@ -23994,7 +24050,7 @@ _Label_627:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-84]
-!   Prepare Argument: offset=12  value=_temp_344  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_348  sizeInBytes=4
 	load	[r14+-92],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=2  sizeInBytes=4
@@ -24009,15 +24065,15 @@ _Label_627:
 	add	r2,8,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	345,r13		! source line 345
+	mov	351,r13		! source line 351
 	mov	"\0\0SE",r10
-!   _temp_347 = _StringConst_29
+!   _temp_351 = _StringConst_29
 	set	_StringConst_29,r1
 	store	r1,[r14+-80]
-!   _temp_348 = &_Global_thArray
+!   _temp_352 = &_Global_thArray
 	set	_Global_thArray,r1
 	store	r1,[r14+-76]
-!   Move address of _temp_348 [5 ] into _temp_349
+!   Move address of _temp_352 [5 ] into _temp_353
 !     make sure index expr is >= 0
 	mov	5,r2
 	cmp	r2,0
@@ -24036,7 +24092,7 @@ _Label_627:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-72]
-!   Prepare Argument: offset=12  value=_temp_347  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_351  sizeInBytes=4
 	load	[r14+-80],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -24048,15 +24104,15 @@ _Label_627:
 	add	r2,4,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	346,r13		! source line 346
+	mov	352,r13		! source line 352
 	mov	"\0\0SE",r10
-!   _temp_350 = _function_50_Producer
-	set	_function_50_Producer,r1
+!   _temp_354 = _function_52_Producer
+	set	_function_52_Producer,r1
 	store	r1,[r14+-68]
-!   _temp_351 = &_Global_thArray
+!   _temp_355 = &_Global_thArray
 	set	_Global_thArray,r1
 	store	r1,[r14+-64]
-!   Move address of _temp_351 [5 ] into _temp_352
+!   Move address of _temp_355 [5 ] into _temp_356
 !     make sure index expr is >= 0
 	mov	5,r2
 	cmp	r2,0
@@ -24075,7 +24131,7 @@ _Label_627:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-60]
-!   Prepare Argument: offset=12  value=_temp_350  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_354  sizeInBytes=4
 	load	[r14+-68],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=3  sizeInBytes=4
@@ -24090,15 +24146,15 @@ _Label_627:
 	add	r2,8,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	348,r13		! source line 348
+	mov	354,r13		! source line 354
 	mov	"\0\0SE",r10
-!   _temp_353 = _StringConst_30
+!   _temp_357 = _StringConst_30
 	set	_StringConst_30,r1
 	store	r1,[r14+-56]
-!   _temp_354 = &_Global_thArray
+!   _temp_358 = &_Global_thArray
 	set	_Global_thArray,r1
 	store	r1,[r14+-52]
-!   Move address of _temp_354 [6 ] into _temp_355
+!   Move address of _temp_358 [6 ] into _temp_359
 !     make sure index expr is >= 0
 	mov	6,r2
 	cmp	r2,0
@@ -24117,7 +24173,7 @@ _Label_627:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-48]
-!   Prepare Argument: offset=12  value=_temp_353  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_357  sizeInBytes=4
 	load	[r14+-56],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -24129,15 +24185,15 @@ _Label_627:
 	add	r2,4,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	349,r13		! source line 349
+	mov	355,r13		! source line 355
 	mov	"\0\0SE",r10
-!   _temp_356 = _function_50_Producer
-	set	_function_50_Producer,r1
+!   _temp_360 = _function_52_Producer
+	set	_function_52_Producer,r1
 	store	r1,[r14+-44]
-!   _temp_357 = &_Global_thArray
+!   _temp_361 = &_Global_thArray
 	set	_Global_thArray,r1
 	store	r1,[r14+-40]
-!   Move address of _temp_357 [6 ] into _temp_358
+!   Move address of _temp_361 [6 ] into _temp_362
 !     make sure index expr is >= 0
 	mov	6,r2
 	cmp	r2,0
@@ -24156,7 +24212,7 @@ _Label_627:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-36]
-!   Prepare Argument: offset=12  value=_temp_356  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_360  sizeInBytes=4
 	load	[r14+-44],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=4  sizeInBytes=4
@@ -24171,15 +24227,15 @@ _Label_627:
 	add	r2,8,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	351,r13		! source line 351
+	mov	357,r13		! source line 357
 	mov	"\0\0SE",r10
-!   _temp_359 = _StringConst_31
+!   _temp_363 = _StringConst_31
 	set	_StringConst_31,r1
 	store	r1,[r14+-32]
-!   _temp_360 = &_Global_thArray
+!   _temp_364 = &_Global_thArray
 	set	_Global_thArray,r1
 	store	r1,[r14+-28]
-!   Move address of _temp_360 [7 ] into _temp_361
+!   Move address of _temp_364 [7 ] into _temp_365
 !     make sure index expr is >= 0
 	mov	7,r2
 	cmp	r2,0
@@ -24198,7 +24254,7 @@ _Label_627:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-24]
-!   Prepare Argument: offset=12  value=_temp_359  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_363  sizeInBytes=4
 	load	[r14+-32],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -24210,15 +24266,15 @@ _Label_627:
 	add	r2,4,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	352,r13		! source line 352
+	mov	358,r13		! source line 358
 	mov	"\0\0SE",r10
-!   _temp_362 = _function_50_Producer
-	set	_function_50_Producer,r1
+!   _temp_366 = _function_52_Producer
+	set	_function_52_Producer,r1
 	store	r1,[r14+-20]
-!   _temp_363 = &_Global_thArray
+!   _temp_367 = &_Global_thArray
 	set	_Global_thArray,r1
 	store	r1,[r14+-16]
-!   Move address of _temp_363 [7 ] into _temp_364
+!   Move address of _temp_367 [7 ] into _temp_368
 !     make sure index expr is >= 0
 	mov	7,r2
 	cmp	r2,0
@@ -24237,7 +24293,7 @@ _Label_627:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-12]
-!   Prepare Argument: offset=12  value=_temp_362  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_366  sizeInBytes=4
 	load	[r14+-20],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=5  sizeInBytes=4
@@ -24253,444 +24309,472 @@ _Label_627:
 	call	r2
 ! CALL STATEMENT...
 !   Call the function
-	mov	354,r13		! source line 354
+	mov	360,r13		! source line 360
 	mov	"\0\0CA",r10
 	call	_P_Thread_ThreadFinish
 ! RETURN STATEMENT...
-	mov	354,r13		! source line 354
+	mov	360,r13		! source line 360
 	mov	"\0\0RE",r10
-	add	r15,212,r15
+	add	r15,220,r15
 	pop	r13
 	pop	r14
 	ret
 ! 
 ! Routine Descriptor
 ! 
-_RoutineDescriptor__function_51_ProducerConsumer:
+_RoutineDescriptor__function_53_ProducerConsumer:
 	.word	_sourceFileName
-	.word	_Label_365
+	.word	_Label_369
 	.word	0		! total size of parameters
-	.word	208		! frame size = 208
-	.word	_Label_366
+	.word	216		! frame size = 216
+	.word	_Label_370
 	.word	-12
 	.word	4
-	.word	_Label_367
+	.word	_Label_371
 	.word	-16
 	.word	4
-	.word	_Label_368
+	.word	_Label_372
 	.word	-20
 	.word	4
-	.word	_Label_369
+	.word	_Label_373
 	.word	-24
 	.word	4
-	.word	_Label_370
+	.word	_Label_374
 	.word	-28
 	.word	4
-	.word	_Label_371
+	.word	_Label_375
 	.word	-32
 	.word	4
-	.word	_Label_372
+	.word	_Label_376
 	.word	-36
 	.word	4
-	.word	_Label_373
+	.word	_Label_377
 	.word	-40
 	.word	4
-	.word	_Label_374
+	.word	_Label_378
 	.word	-44
 	.word	4
-	.word	_Label_375
+	.word	_Label_379
 	.word	-48
 	.word	4
-	.word	_Label_376
+	.word	_Label_380
 	.word	-52
 	.word	4
-	.word	_Label_377
+	.word	_Label_381
 	.word	-56
 	.word	4
-	.word	_Label_378
+	.word	_Label_382
 	.word	-60
 	.word	4
-	.word	_Label_379
+	.word	_Label_383
 	.word	-64
 	.word	4
-	.word	_Label_380
+	.word	_Label_384
 	.word	-68
 	.word	4
-	.word	_Label_381
+	.word	_Label_385
 	.word	-72
 	.word	4
-	.word	_Label_382
+	.word	_Label_386
 	.word	-76
 	.word	4
-	.word	_Label_383
+	.word	_Label_387
 	.word	-80
 	.word	4
-	.word	_Label_384
+	.word	_Label_388
 	.word	-84
 	.word	4
-	.word	_Label_385
+	.word	_Label_389
 	.word	-88
 	.word	4
-	.word	_Label_386
+	.word	_Label_390
 	.word	-92
 	.word	4
-	.word	_Label_387
+	.word	_Label_391
 	.word	-96
 	.word	4
-	.word	_Label_388
+	.word	_Label_392
 	.word	-100
 	.word	4
-	.word	_Label_389
+	.word	_Label_393
 	.word	-104
 	.word	4
-	.word	_Label_390
+	.word	_Label_394
 	.word	-108
 	.word	4
-	.word	_Label_391
+	.word	_Label_395
 	.word	-112
 	.word	4
-	.word	_Label_392
+	.word	_Label_396
 	.word	-116
 	.word	4
-	.word	_Label_393
+	.word	_Label_397
 	.word	-120
 	.word	4
-	.word	_Label_394
+	.word	_Label_398
 	.word	-124
 	.word	4
-	.word	_Label_395
+	.word	_Label_399
 	.word	-128
 	.word	4
-	.word	_Label_396
+	.word	_Label_400
 	.word	-132
 	.word	4
-	.word	_Label_397
+	.word	_Label_401
 	.word	-136
 	.word	4
-	.word	_Label_398
+	.word	_Label_402
 	.word	-140
 	.word	4
-	.word	_Label_399
+	.word	_Label_403
 	.word	-144
 	.word	4
-	.word	_Label_400
+	.word	_Label_404
 	.word	-148
 	.word	4
-	.word	_Label_401
+	.word	_Label_405
 	.word	-152
 	.word	4
-	.word	_Label_402
+	.word	_Label_406
 	.word	-156
 	.word	4
-	.word	_Label_403
+	.word	_Label_407
 	.word	-160
 	.word	4
-	.word	_Label_404
+	.word	_Label_408
 	.word	-164
 	.word	4
-	.word	_Label_405
+	.word	_Label_409
 	.word	-168
 	.word	4
-	.word	_Label_406
+	.word	_Label_410
 	.word	-172
 	.word	4
-	.word	_Label_407
+	.word	_Label_411
 	.word	-176
 	.word	4
-	.word	_Label_408
+	.word	_Label_412
 	.word	-180
 	.word	4
-	.word	_Label_409
+	.word	_Label_413
 	.word	-184
 	.word	4
-	.word	_Label_410
+	.word	_Label_414
 	.word	-188
 	.word	4
-	.word	_Label_411
+	.word	_Label_415
 	.word	-192
 	.word	4
-	.word	_Label_412
+	.word	_Label_416
 	.word	-196
 	.word	4
-	.word	_Label_413
+	.word	_Label_417
 	.word	-200
 	.word	4
-	.word	_Label_414
+	.word	_Label_418
 	.word	-204
 	.word	4
+	.word	_Label_419
+	.word	-208
+	.word	4
+	.word	_Label_420
+	.word	-212
+	.word	4
 	.word	0
-_Label_365:
-	.ascii	"ProducerConsumer\0"
-	.align
-_Label_366:
-	.byte	'?'
-	.ascii	"_temp_364\0"
-	.align
-_Label_367:
-	.byte	'?'
-	.ascii	"_temp_363\0"
-	.align
-_Label_368:
-	.byte	'?'
-	.ascii	"_temp_362\0"
-	.align
 _Label_369:
-	.byte	'?'
-	.ascii	"_temp_361\0"
+	.ascii	"ProducerConsumer\0"
 	.align
 _Label_370:
 	.byte	'?'
-	.ascii	"_temp_360\0"
+	.ascii	"_temp_368\0"
 	.align
 _Label_371:
 	.byte	'?'
-	.ascii	"_temp_359\0"
+	.ascii	"_temp_367\0"
 	.align
 _Label_372:
 	.byte	'?'
-	.ascii	"_temp_358\0"
+	.ascii	"_temp_366\0"
 	.align
 _Label_373:
 	.byte	'?'
-	.ascii	"_temp_357\0"
+	.ascii	"_temp_365\0"
 	.align
 _Label_374:
 	.byte	'?'
-	.ascii	"_temp_356\0"
+	.ascii	"_temp_364\0"
 	.align
 _Label_375:
 	.byte	'?'
-	.ascii	"_temp_355\0"
+	.ascii	"_temp_363\0"
 	.align
 _Label_376:
 	.byte	'?'
-	.ascii	"_temp_354\0"
+	.ascii	"_temp_362\0"
 	.align
 _Label_377:
 	.byte	'?'
-	.ascii	"_temp_353\0"
+	.ascii	"_temp_361\0"
 	.align
 _Label_378:
 	.byte	'?'
-	.ascii	"_temp_352\0"
+	.ascii	"_temp_360\0"
 	.align
 _Label_379:
 	.byte	'?'
-	.ascii	"_temp_351\0"
+	.ascii	"_temp_359\0"
 	.align
 _Label_380:
 	.byte	'?'
-	.ascii	"_temp_350\0"
+	.ascii	"_temp_358\0"
 	.align
 _Label_381:
 	.byte	'?'
-	.ascii	"_temp_349\0"
+	.ascii	"_temp_357\0"
 	.align
 _Label_382:
 	.byte	'?'
-	.ascii	"_temp_348\0"
+	.ascii	"_temp_356\0"
 	.align
 _Label_383:
 	.byte	'?'
-	.ascii	"_temp_347\0"
+	.ascii	"_temp_355\0"
 	.align
 _Label_384:
 	.byte	'?'
-	.ascii	"_temp_346\0"
+	.ascii	"_temp_354\0"
 	.align
 _Label_385:
 	.byte	'?'
-	.ascii	"_temp_345\0"
+	.ascii	"_temp_353\0"
 	.align
 _Label_386:
 	.byte	'?'
-	.ascii	"_temp_344\0"
+	.ascii	"_temp_352\0"
 	.align
 _Label_387:
 	.byte	'?'
-	.ascii	"_temp_343\0"
+	.ascii	"_temp_351\0"
 	.align
 _Label_388:
 	.byte	'?'
-	.ascii	"_temp_342\0"
+	.ascii	"_temp_350\0"
 	.align
 _Label_389:
 	.byte	'?'
-	.ascii	"_temp_341\0"
+	.ascii	"_temp_349\0"
 	.align
 _Label_390:
 	.byte	'?'
-	.ascii	"_temp_340\0"
+	.ascii	"_temp_348\0"
 	.align
 _Label_391:
 	.byte	'?'
-	.ascii	"_temp_339\0"
+	.ascii	"_temp_347\0"
 	.align
 _Label_392:
 	.byte	'?'
-	.ascii	"_temp_338\0"
+	.ascii	"_temp_346\0"
 	.align
 _Label_393:
 	.byte	'?'
-	.ascii	"_temp_337\0"
+	.ascii	"_temp_345\0"
 	.align
 _Label_394:
 	.byte	'?'
-	.ascii	"_temp_336\0"
+	.ascii	"_temp_344\0"
 	.align
 _Label_395:
 	.byte	'?'
-	.ascii	"_temp_335\0"
+	.ascii	"_temp_343\0"
 	.align
 _Label_396:
 	.byte	'?'
-	.ascii	"_temp_334\0"
+	.ascii	"_temp_342\0"
 	.align
 _Label_397:
 	.byte	'?'
-	.ascii	"_temp_333\0"
+	.ascii	"_temp_341\0"
 	.align
 _Label_398:
 	.byte	'?'
-	.ascii	"_temp_332\0"
+	.ascii	"_temp_340\0"
 	.align
 _Label_399:
 	.byte	'?'
-	.ascii	"_temp_331\0"
+	.ascii	"_temp_339\0"
 	.align
 _Label_400:
 	.byte	'?'
-	.ascii	"_temp_330\0"
+	.ascii	"_temp_338\0"
 	.align
 _Label_401:
 	.byte	'?'
-	.ascii	"_temp_329\0"
+	.ascii	"_temp_337\0"
 	.align
 _Label_402:
 	.byte	'?'
-	.ascii	"_temp_328\0"
+	.ascii	"_temp_336\0"
 	.align
 _Label_403:
 	.byte	'?'
-	.ascii	"_temp_327\0"
+	.ascii	"_temp_335\0"
 	.align
 _Label_404:
 	.byte	'?'
-	.ascii	"_temp_326\0"
+	.ascii	"_temp_334\0"
 	.align
 _Label_405:
 	.byte	'?'
-	.ascii	"_temp_325\0"
+	.ascii	"_temp_333\0"
 	.align
 _Label_406:
 	.byte	'?'
-	.ascii	"_temp_324\0"
+	.ascii	"_temp_332\0"
 	.align
 _Label_407:
 	.byte	'?'
-	.ascii	"_temp_323\0"
+	.ascii	"_temp_331\0"
 	.align
 _Label_408:
 	.byte	'?'
-	.ascii	"_temp_322\0"
+	.ascii	"_temp_330\0"
 	.align
 _Label_409:
 	.byte	'?'
-	.ascii	"_temp_321\0"
+	.ascii	"_temp_329\0"
 	.align
 _Label_410:
 	.byte	'?'
-	.ascii	"_temp_320\0"
+	.ascii	"_temp_328\0"
 	.align
 _Label_411:
 	.byte	'?'
-	.ascii	"_temp_319\0"
+	.ascii	"_temp_327\0"
 	.align
 _Label_412:
 	.byte	'?'
-	.ascii	"_temp_318\0"
+	.ascii	"_temp_326\0"
 	.align
 _Label_413:
 	.byte	'?'
-	.ascii	"_temp_317\0"
+	.ascii	"_temp_325\0"
 	.align
 _Label_414:
 	.byte	'?'
-	.ascii	"_temp_316\0"
+	.ascii	"_temp_324\0"
+	.align
+_Label_415:
+	.byte	'?'
+	.ascii	"_temp_323\0"
+	.align
+_Label_416:
+	.byte	'?'
+	.ascii	"_temp_322\0"
+	.align
+_Label_417:
+	.byte	'?'
+	.ascii	"_temp_321\0"
+	.align
+_Label_418:
+	.byte	'?'
+	.ascii	"_temp_320\0"
+	.align
+_Label_419:
+	.byte	'?'
+	.ascii	"_temp_319\0"
+	.align
+_Label_420:
+	.byte	'?'
+	.ascii	"_temp_318\0"
 	.align
 ! 
 ! ===============  FUNCTION Producer  ===============
 ! 
-_function_50_Producer:
+_function_52_Producer:
 	push	r14
 	mov	r15,r14
 	push	r13
-	set	_RoutineDescriptor__function_50_Producer,r1
+	set	_RoutineDescriptor__function_52_Producer,r1
 	push	r1
-	mov	10,r1
-_Label_628:
+	mov	12,r1
+_Label_745:
 	push	r0
 	sub	r1,1,r1
-	bne	_Label_628
-	mov	357,r13		! source line 357
+	bne	_Label_745
+	mov	363,r13		! source line 363
 	mov	"\0\0FU",r10
 ! VARIABLE INITIALIZATION...
 ! c
-!   _temp_416 = 65 + myId		(int)
+!   _temp_422 = 65 + myId		(int)
 	mov	65,r1
 	load	[r14+8],r2
 	add	r1,r2,r1
 	bvs	_runtimeErrorOverflow
-	store	r1,[r14+-36]
-!   _temp_415 = _temp_416 - 1		(int)
-	load	[r14+-36],r1
+	store	r1,[r14+-44]
+!   _temp_421 = _temp_422 - 1		(int)
+	load	[r14+-44],r1
 	mov	1,r2
 	sub	r1,r2,r1
 	bvs	_runtimeErrorOverflow
-	store	r1,[r14+-40]
-!   c = intToChar (_temp_415)
-	load	[r14+-40],r1
+	store	r1,[r14+-48]
+!   c = intToChar (_temp_421)
+	load	[r14+-48],r1
 	storeb	r1,[r14+-9]
 ! FOR STATEMENT...
-	mov	361,r13		! source line 361
+	mov	367,r13		! source line 367
 	mov	"\0\0FO",r10
 !   Calculate and save the FOR-LOOP starting value
-!   _temp_421 = 1		(4 bytes)
+!   _temp_427 = 1		(4 bytes)
 	mov	1,r1
-	store	r1,[r14+-32]
+	store	r1,[r14+-40]
 !   Calculate and save the FOR-LOOP ending value
-!   _temp_422 = 5		(4 bytes)
+!   _temp_428 = 5		(4 bytes)
 	mov	5,r1
-	store	r1,[r14+-28]
+	store	r1,[r14+-36]
 !   Initialize FOR-LOOP index variable
-!   Data Move: i = _temp_421  (sizeInBytes=4)
-	load	[r14+-32],r1
-	store	r1,[r14+-44]
-_Label_417:
+!   Data Move: i = _temp_427  (sizeInBytes=4)
+	load	[r14+-40],r1
+	store	r1,[r14+-52]
+_Label_423:
 !   Perform the FOR-LOOP termination test
-!   if i > _temp_422 then goto _Label_420		
-	load	[r14+-44],r1
-	load	[r14+-28],r2
+!   if i > _temp_428 then goto _Label_426		
+	load	[r14+-52],r1
+	load	[r14+-36],r2
 	cmp	r1,r2
 	bvs	_runtimeErrorOverflow
-	bg	_Label_420
-_Label_418:
-	mov	361,r13		! source line 361
+	bg	_Label_426
+_Label_424:
+	mov	367,r13		! source line 367
 	mov	"\0\0FB",r10
+! SEND STATEMENT...
+	mov	369,r13		! source line 369
+	mov	"\0\0SE",r10
+!   _temp_429 = &_Global_semEmpty
+	set	_Global_semEmpty,r1
+	store	r1,[r14+-32]
+!   Send message Down
+	load	[r14+-32],r1
+	load	[r1],r2
+	cmp	r2,0
+	be	 _runtimeErrorUninitializedObject
+	store	r1,[r15]
+	add	r2,8,r2
+	call	r2
 ! ASSIGNMENT STATEMENT...
-	mov	365,r13		! source line 365
+	mov	372,r13		! source line 372
 	mov	"\0\0AS",r10
-!   _temp_423 = &_Global_buffer
+!   _temp_430 = &_Global_buffer
 	set	_Global_buffer,r1
-	store	r1,[r14+-24]
-!   Move address of _temp_423 [_Global_bufferNextIn ] into _temp_424
+	store	r1,[r14+-28]
+!   Move address of _temp_430 [_Global_bufferNextIn ] into _temp_431
 !     make sure index expr is >= 0
 	set	_Global_bufferNextIn,r2
 	load	[r2],r2
 	cmp	r2,0
 	bl	_runtimeErrorBadArrayIndex
 !     make sure index expr is < array size
-	load	[r14+-24],r1
+	load	[r14+-28],r1
 	load	[r1],r3
 	cmp	r3,0
 	ble	_runtimeErrorUninitializedArray
@@ -24702,23 +24786,23 @@ _Label_418:
 	mul	r2,r3,r2
 	add	r2,4,r2
 	add	r2,r1,r2
-	store	r2,[r14+-20]
-!   Data Move: *_temp_424 = c  (sizeInBytes=1)
+	store	r2,[r14+-24]
+!   Data Move: *_temp_431 = c  (sizeInBytes=1)
 	loadb	[r14+-9],r1
-	load	[r14+-20],r2
+	load	[r14+-24],r2
 	storeb	r1,[r2]
 ! ASSIGNMENT STATEMENT...
-	mov	366,r13		! source line 366
+	mov	373,r13		! source line 373
 	mov	"\0\0AS",r10
-!   _temp_425 = _Global_bufferNextIn + 1		(int)
+!   _temp_432 = _Global_bufferNextIn + 1		(int)
 	set	_Global_bufferNextIn,r1
 	load	[r1],r1
 	mov	1,r2
 	add	r1,r2,r1
 	bvs	_runtimeErrorOverflow
-	store	r1,[r14+-16]
-!   _Global_bufferNextIn = _temp_425 rem 5		(int)
-	load	[r14+-16],r1
+	store	r1,[r14+-20]
+!   _Global_bufferNextIn = _temp_432 rem 5		(int)
+	load	[r14+-20],r1
 	mov	5,r2
 	cmp	r2,0
 	be	_runtimeErrorZeroDivide
@@ -24727,7 +24811,7 @@ _Label_418:
 	set	_Global_bufferNextIn,r2
 	store	r1,[r2]
 ! ASSIGNMENT STATEMENT...
-	mov	367,r13		! source line 367
+	mov	374,r13		! source line 374
 	mov	"\0\0AS",r10
 !   _Global_bufferSize = _Global_bufferSize + 1		(int)
 	set	_Global_bufferSize,r1
@@ -24742,147 +24826,189 @@ _Label_418:
 	loadb	[r14+-9],r1
 	storeb	r1,[r15+0]
 !   Call the function
-	mov	370,r13		! source line 370
+	mov	377,r13		! source line 377
 	mov	"\0\0CA",r10
-	call	_function_48_PrintBuffer
+	call	_function_50_PrintBuffer
+! SEND STATEMENT...
+	mov	380,r13		! source line 380
+	mov	"\0\0SE",r10
+!   _temp_433 = &_Global_semFull
+	set	_Global_semFull,r1
+	store	r1,[r14+-16]
+!   Send message Up
+	load	[r14+-16],r1
+	load	[r1],r2
+	cmp	r2,0
+	be	 _runtimeErrorUninitializedObject
+	store	r1,[r15]
+	add	r2,12,r2
+	call	r2
 !   Increment the FOR-LOOP index variable and jump back
-_Label_419:
+_Label_425:
 !   i = i + 1
-	load	[r14+-44],r1
+	load	[r14+-52],r1
 	add	r1,1,r1
 	bvs	_runtimeErrorOverflow
-	store	r1,[r14+-44]
-	jmp	_Label_417
+	store	r1,[r14+-52]
+	jmp	_Label_423
 ! END FOR
-_Label_420:
+_Label_426:
 ! RETURN STATEMENT...
-	mov	361,r13		! source line 361
+	mov	367,r13		! source line 367
 	mov	"\0\0RE",r10
-	add	r15,44,r15
+	add	r15,52,r15
 	pop	r13
 	pop	r14
 	ret
 ! 
 ! Routine Descriptor
 ! 
-_RoutineDescriptor__function_50_Producer:
+_RoutineDescriptor__function_52_Producer:
 	.word	_sourceFileName
-	.word	_Label_426
+	.word	_Label_434
 	.word	4		! total size of parameters
-	.word	40		! frame size = 40
-	.word	_Label_427
+	.word	48		! frame size = 48
+	.word	_Label_435
 	.word	8
 	.word	4
-	.word	_Label_428
+	.word	_Label_436
 	.word	-16
 	.word	4
-	.word	_Label_429
+	.word	_Label_437
 	.word	-20
 	.word	4
-	.word	_Label_430
+	.word	_Label_438
 	.word	-24
 	.word	4
-	.word	_Label_431
+	.word	_Label_439
 	.word	-28
 	.word	4
-	.word	_Label_432
+	.word	_Label_440
 	.word	-32
 	.word	4
-	.word	_Label_433
+	.word	_Label_441
 	.word	-36
 	.word	4
-	.word	_Label_434
+	.word	_Label_442
 	.word	-40
 	.word	4
-	.word	_Label_435
+	.word	_Label_443
 	.word	-44
 	.word	4
-	.word	_Label_436
+	.word	_Label_444
+	.word	-48
+	.word	4
+	.word	_Label_445
+	.word	-52
+	.word	4
+	.word	_Label_446
 	.word	-9
 	.word	1
 	.word	0
-_Label_426:
-	.ascii	"Producer\0"
-	.align
-_Label_427:
-	.byte	'I'
-	.ascii	"myId\0"
-	.align
-_Label_428:
-	.byte	'?'
-	.ascii	"_temp_425\0"
-	.align
-_Label_429:
-	.byte	'?'
-	.ascii	"_temp_424\0"
-	.align
-_Label_430:
-	.byte	'?'
-	.ascii	"_temp_423\0"
-	.align
-_Label_431:
-	.byte	'?'
-	.ascii	"_temp_422\0"
-	.align
-_Label_432:
-	.byte	'?'
-	.ascii	"_temp_421\0"
-	.align
-_Label_433:
-	.byte	'?'
-	.ascii	"_temp_416\0"
-	.align
 _Label_434:
-	.byte	'?'
-	.ascii	"_temp_415\0"
+	.ascii	"Producer\0"
 	.align
 _Label_435:
 	.byte	'I'
-	.ascii	"i\0"
+	.ascii	"myId\0"
 	.align
 _Label_436:
+	.byte	'?'
+	.ascii	"_temp_433\0"
+	.align
+_Label_437:
+	.byte	'?'
+	.ascii	"_temp_432\0"
+	.align
+_Label_438:
+	.byte	'?'
+	.ascii	"_temp_431\0"
+	.align
+_Label_439:
+	.byte	'?'
+	.ascii	"_temp_430\0"
+	.align
+_Label_440:
+	.byte	'?'
+	.ascii	"_temp_429\0"
+	.align
+_Label_441:
+	.byte	'?'
+	.ascii	"_temp_428\0"
+	.align
+_Label_442:
+	.byte	'?'
+	.ascii	"_temp_427\0"
+	.align
+_Label_443:
+	.byte	'?'
+	.ascii	"_temp_422\0"
+	.align
+_Label_444:
+	.byte	'?'
+	.ascii	"_temp_421\0"
+	.align
+_Label_445:
+	.byte	'I'
+	.ascii	"i\0"
+	.align
+_Label_446:
 	.byte	'C'
 	.ascii	"c\0"
 	.align
 ! 
 ! ===============  FUNCTION Consumer  ===============
 ! 
-_function_49_Consumer:
+_function_51_Consumer:
 	push	r14
 	mov	r15,r14
 	push	r13
-	set	_RoutineDescriptor__function_49_Consumer,r1
+	set	_RoutineDescriptor__function_51_Consumer,r1
 	push	r1
-	mov	5,r1
-_Label_629:
+	mov	7,r1
+_Label_746:
 	push	r0
 	sub	r1,1,r1
-	bne	_Label_629
-	mov	377,r13		! source line 377
+	bne	_Label_746
+	mov	385,r13		! source line 385
 	mov	"\0\0FU",r10
 ! VARIABLE INITIALIZATION...
 ! WHILE STATEMENT...
-	mov	380,r13		! source line 380
+	mov	388,r13		! source line 388
 	mov	"\0\0WH",r10
-_Label_437:
-!	jmp	_Label_438
-_Label_438:
-	mov	380,r13		! source line 380
+_Label_447:
+!	jmp	_Label_448
+_Label_448:
+	mov	388,r13		! source line 388
 	mov	"\0\0WB",r10
+! SEND STATEMENT...
+	mov	390,r13		! source line 390
+	mov	"\0\0SE",r10
+!   _temp_450 = &_Global_semFull
+	set	_Global_semFull,r1
+	store	r1,[r14+-32]
+!   Send message Down
+	load	[r14+-32],r1
+	load	[r1],r2
+	cmp	r2,0
+	be	 _runtimeErrorUninitializedObject
+	store	r1,[r15]
+	add	r2,8,r2
+	call	r2
 ! ASSIGNMENT STATEMENT...
-	mov	384,r13		! source line 384
+	mov	393,r13		! source line 393
 	mov	"\0\0AS",r10
-!   _temp_440 = &_Global_buffer
+!   _temp_451 = &_Global_buffer
 	set	_Global_buffer,r1
-	store	r1,[r14+-24]
-!   Move address of _temp_440 [_Global_bufferNextOut ] into _temp_441
+	store	r1,[r14+-28]
+!   Move address of _temp_451 [_Global_bufferNextOut ] into _temp_452
 !     make sure index expr is >= 0
 	set	_Global_bufferNextOut,r2
 	load	[r2],r2
 	cmp	r2,0
 	bl	_runtimeErrorBadArrayIndex
 !     make sure index expr is < array size
-	load	[r14+-24],r1
+	load	[r14+-28],r1
 	load	[r1],r3
 	cmp	r3,0
 	ble	_runtimeErrorUninitializedArray
@@ -24894,23 +25020,23 @@ _Label_438:
 	mul	r2,r3,r2
 	add	r2,4,r2
 	add	r2,r1,r2
-	store	r2,[r14+-20]
-!   Data Move: c = *_temp_441  (sizeInBytes=1)
-	load	[r14+-20],r1
+	store	r2,[r14+-24]
+!   Data Move: c = *_temp_452  (sizeInBytes=1)
+	load	[r14+-24],r1
 	loadb	[r1],r1
 	storeb	r1,[r14+-9]
 ! ASSIGNMENT STATEMENT...
-	mov	385,r13		! source line 385
+	mov	394,r13		! source line 394
 	mov	"\0\0AS",r10
-!   _temp_442 = _Global_bufferNextOut + 1		(int)
+!   _temp_453 = _Global_bufferNextOut + 1		(int)
 	set	_Global_bufferNextOut,r1
 	load	[r1],r1
 	mov	1,r2
 	add	r1,r2,r1
 	bvs	_runtimeErrorOverflow
-	store	r1,[r14+-16]
-!   _Global_bufferNextOut = _temp_442 rem 5		(int)
-	load	[r14+-16],r1
+	store	r1,[r14+-20]
+!   _Global_bufferNextOut = _temp_453 rem 5		(int)
+	load	[r14+-20],r1
 	mov	5,r2
 	cmp	r2,0
 	be	_runtimeErrorZeroDivide
@@ -24919,7 +25045,7 @@ _Label_438:
 	set	_Global_bufferNextOut,r2
 	store	r1,[r2]
 ! ASSIGNMENT STATEMENT...
-	mov	386,r13		! source line 386
+	mov	395,r13		! source line 395
 	mov	"\0\0AS",r10
 !   _Global_bufferSize = _Global_bufferSize - 1		(int)
 	set	_Global_bufferSize,r1
@@ -24934,85 +25060,113 @@ _Label_438:
 	loadb	[r14+-9],r1
 	storeb	r1,[r15+0]
 !   Call the function
-	mov	389,r13		! source line 389
+	mov	398,r13		! source line 398
 	mov	"\0\0CA",r10
-	call	_function_48_PrintBuffer
+	call	_function_50_PrintBuffer
+! SEND STATEMENT...
+	mov	401,r13		! source line 401
+	mov	"\0\0SE",r10
+!   _temp_454 = &_Global_semEmpty
+	set	_Global_semEmpty,r1
+	store	r1,[r14+-16]
+!   Send message Up
+	load	[r14+-16],r1
+	load	[r1],r2
+	cmp	r2,0
+	be	 _runtimeErrorUninitializedObject
+	store	r1,[r15]
+	add	r2,12,r2
+	call	r2
 ! END WHILE...
-	jmp	_Label_437
-_Label_439:
+	jmp	_Label_447
+_Label_449:
 ! 
 ! Routine Descriptor
 ! 
-_RoutineDescriptor__function_49_Consumer:
+_RoutineDescriptor__function_51_Consumer:
 	.word	_sourceFileName
-	.word	_Label_443
+	.word	_Label_455
 	.word	4		! total size of parameters
-	.word	20		! frame size = 20
-	.word	_Label_444
+	.word	28		! frame size = 28
+	.word	_Label_456
 	.word	8
 	.word	4
-	.word	_Label_445
+	.word	_Label_457
 	.word	-16
 	.word	4
-	.word	_Label_446
+	.word	_Label_458
 	.word	-20
 	.word	4
-	.word	_Label_447
+	.word	_Label_459
 	.word	-24
 	.word	4
-	.word	_Label_448
+	.word	_Label_460
+	.word	-28
+	.word	4
+	.word	_Label_461
+	.word	-32
+	.word	4
+	.word	_Label_462
 	.word	-9
 	.word	1
 	.word	0
-_Label_443:
+_Label_455:
 	.ascii	"Consumer\0"
 	.align
-_Label_444:
+_Label_456:
 	.byte	'I'
 	.ascii	"myId\0"
 	.align
-_Label_445:
+_Label_457:
 	.byte	'?'
-	.ascii	"_temp_442\0"
+	.ascii	"_temp_454\0"
 	.align
-_Label_446:
+_Label_458:
 	.byte	'?'
-	.ascii	"_temp_441\0"
+	.ascii	"_temp_453\0"
 	.align
-_Label_447:
+_Label_459:
 	.byte	'?'
-	.ascii	"_temp_440\0"
+	.ascii	"_temp_452\0"
 	.align
-_Label_448:
+_Label_460:
+	.byte	'?'
+	.ascii	"_temp_451\0"
+	.align
+_Label_461:
+	.byte	'?'
+	.ascii	"_temp_450\0"
+	.align
+_Label_462:
 	.byte	'C'
 	.ascii	"c\0"
 	.align
 ! 
 ! ===============  FUNCTION PrintBuffer  ===============
 ! 
-_function_48_PrintBuffer:
+_function_50_PrintBuffer:
 	push	r14
 	mov	r15,r14
 	push	r13
-	set	_RoutineDescriptor__function_48_PrintBuffer,r1
+	set	_RoutineDescriptor__function_50_PrintBuffer,r1
 	push	r1
 	mov	14,r1
-_Label_630:
+_Label_747:
 	push	r0
 	sub	r1,1,r1
-	bne	_Label_630
-	mov	396,r13		! source line 396
+	bne	_Label_747
+	mov	406,r13		! source line 406
 	mov	"\0\0FU",r10
 ! VARIABLE INITIALIZATION...
 ! CALL STATEMENT...
-!   _temp_449 = _StringConst_32
+!   _temp_463 = _StringConst_32
 	set	_StringConst_32,r1
 	store	r1,[r14+-52]
-!   Prepare Argument: offset=8  value=_temp_449  sizeInBytes=4
+!   Prepare Argument: offset=8  value=_temp_463  sizeInBytes=4
 	load	[r14+-52],r1
 	store	r1,[r15+0]
 !   Call the function
-	mov	411,r13		! source line 411
+	mov	421,r13		! source line 421
 	mov	"\0\0CE",r10
 	call	print
 ! CALL STATEMENT...
@@ -25021,20 +25175,20 @@ _Label_630:
 	load	[r1],r1
 	cmp	r1,r0
 	be	_runtimeErrorNullPointer
-!   _temp_451 = _P_Thread_currentThread + 72
+!   _temp_465 = _P_Thread_currentThread + 72
 	set	_P_Thread_currentThread,r1
 	load	[r1],r1
 	add	r1,72,r1
 	store	r1,[r14+-44]
-!   Data Move: _temp_450 = *_temp_451  (sizeInBytes=4)
+!   Data Move: _temp_464 = *_temp_465  (sizeInBytes=4)
 	load	[r14+-44],r1
 	load	[r1],r1
 	store	r1,[r14+-48]
-!   Prepare Argument: offset=8  value=_temp_450  sizeInBytes=4
+!   Prepare Argument: offset=8  value=_temp_464  sizeInBytes=4
 	load	[r14+-48],r1
 	store	r1,[r15+0]
 !   Call the function
-	mov	412,r13		! source line 412
+	mov	422,r13		! source line 422
 	mov	"\0\0CE",r10
 	call	print
 ! CALL STATEMENT...
@@ -25042,53 +25196,53 @@ _Label_630:
 	loadb	[r14+8],r1
 	storeb	r1,[r15+0]
 !   Call the function
-	mov	413,r13		! source line 413
+	mov	423,r13		! source line 423
 	mov	"\0\0CE",r10
 	call	printChar
 ! CALL STATEMENT...
 !   Call the function
-	mov	414,r13		! source line 414
+	mov	424,r13		! source line 424
 	mov	"\0\0CA",r10
 	call	_P_System_nl
 ! ASSIGNMENT STATEMENT...
-	mov	416,r13		! source line 416
+	mov	426,r13		! source line 426
 	mov	"\0\0AS",r10
 !   j = _Global_bufferNextOut		(4 bytes)
 	set	_Global_bufferNextOut,r1
 	load	[r1],r1
 	store	r1,[r14+-60]
 ! FOR STATEMENT...
-	mov	417,r13		! source line 417
+	mov	427,r13		! source line 427
 	mov	"\0\0FO",r10
 !   Calculate and save the FOR-LOOP starting value
-!   _temp_456 = 1		(4 bytes)
+!   _temp_470 = 1		(4 bytes)
 	mov	1,r1
 	store	r1,[r14+-40]
 !   Calculate and save the FOR-LOOP ending value
-!   _temp_457 = _Global_bufferSize		(4 bytes)
+!   _temp_471 = _Global_bufferSize		(4 bytes)
 	set	_Global_bufferSize,r1
 	load	[r1],r1
 	store	r1,[r14+-36]
 !   Initialize FOR-LOOP index variable
-!   Data Move: i = _temp_456  (sizeInBytes=4)
+!   Data Move: i = _temp_470  (sizeInBytes=4)
 	load	[r14+-40],r1
 	store	r1,[r14+-56]
-_Label_452:
+_Label_466:
 !   Perform the FOR-LOOP termination test
-!   if i > _temp_457 then goto _Label_455		
+!   if i > _temp_471 then goto _Label_469		
 	load	[r14+-56],r1
 	load	[r14+-36],r2
 	cmp	r1,r2
 	bvs	_runtimeErrorOverflow
-	bg	_Label_455
-_Label_453:
-	mov	417,r13		! source line 417
+	bg	_Label_469
+_Label_467:
+	mov	427,r13		! source line 427
 	mov	"\0\0FB",r10
 ! CALL STATEMENT...
-!   _temp_459 = &_Global_buffer
+!   _temp_473 = &_Global_buffer
 	set	_Global_buffer,r1
 	store	r1,[r14+-32]
-!   Move address of _temp_459 [j ] into _temp_460
+!   Move address of _temp_473 [j ] into _temp_474
 !     make sure index expr is >= 0
 	load	[r14+-60],r2
 	cmp	r2,0
@@ -25107,27 +25261,27 @@ _Label_453:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-28]
-!   Data Move: _temp_458 = *_temp_460  (sizeInBytes=1)
+!   Data Move: _temp_472 = *_temp_474  (sizeInBytes=1)
 	load	[r14+-28],r1
 	loadb	[r1],r1
 	storeb	r1,[r14+-9]
-!   Prepare Argument: offset=8  value=_temp_458  sizeInBytes=1
+!   Prepare Argument: offset=8  value=_temp_472  sizeInBytes=1
 	loadb	[r14+-9],r1
 	storeb	r1,[r15+0]
 !   Call the function
-	mov	418,r13		! source line 418
+	mov	428,r13		! source line 428
 	mov	"\0\0CE",r10
 	call	printChar
 ! ASSIGNMENT STATEMENT...
-	mov	419,r13		! source line 419
+	mov	429,r13		! source line 429
 	mov	"\0\0AS",r10
-!   _temp_461 = j + 1		(int)
+!   _temp_475 = j + 1		(int)
 	load	[r14+-60],r1
 	mov	1,r2
 	add	r1,r2,r1
 	bvs	_runtimeErrorOverflow
 	store	r1,[r14+-24]
-!   j = _temp_461 rem 5		(int)
+!   j = _temp_475 rem 5		(int)
 	load	[r14+-24],r1
 	mov	5,r2
 	cmp	r2,0
@@ -25136,24 +25290,24 @@ _Label_453:
 	bvs	_runtimeErrorOverflow
 	store	r1,[r14+-60]
 !   Increment the FOR-LOOP index variable and jump back
-_Label_454:
+_Label_468:
 !   i = i + 1
 	load	[r14+-56],r1
 	add	r1,1,r1
 	bvs	_runtimeErrorOverflow
 	store	r1,[r14+-56]
-	jmp	_Label_452
+	jmp	_Label_466
 ! END FOR
-_Label_455:
+_Label_469:
 ! FOR STATEMENT...
-	mov	422,r13		! source line 422
+	mov	432,r13		! source line 432
 	mov	"\0\0FO",r10
 !   Calculate and save the FOR-LOOP starting value
-!   _temp_466 = 1		(4 bytes)
+!   _temp_480 = 1		(4 bytes)
 	mov	1,r1
 	store	r1,[r14+-20]
 !   Calculate and save the FOR-LOOP ending value
-!   _temp_467 = 5 - _Global_bufferSize		(int)
+!   _temp_481 = 5 - _Global_bufferSize		(int)
 	mov	5,r1
 	set	_Global_bufferSize,r2
 	load	[r2],r2
@@ -25161,40 +25315,40 @@ _Label_455:
 	bvs	_runtimeErrorOverflow
 	store	r1,[r14+-16]
 !   Initialize FOR-LOOP index variable
-!   Data Move: i = _temp_466  (sizeInBytes=4)
+!   Data Move: i = _temp_480  (sizeInBytes=4)
 	load	[r14+-20],r1
 	store	r1,[r14+-56]
-_Label_462:
+_Label_476:
 !   Perform the FOR-LOOP termination test
-!   if i > _temp_467 then goto _Label_465		
+!   if i > _temp_481 then goto _Label_479		
 	load	[r14+-56],r1
 	load	[r14+-16],r2
 	cmp	r1,r2
 	bvs	_runtimeErrorOverflow
-	bg	_Label_465
-_Label_463:
-	mov	422,r13		! source line 422
+	bg	_Label_479
+_Label_477:
+	mov	432,r13		! source line 432
 	mov	"\0\0FB",r10
 ! CALL STATEMENT...
 !   Prepare Argument: offset=8  value=32  sizeInBytes=1
 	mov	32,r1
 	storeb	r1,[r15+0]
 !   Call the function
-	mov	423,r13		! source line 423
+	mov	433,r13		! source line 433
 	mov	"\0\0CE",r10
 	call	printChar
 !   Increment the FOR-LOOP index variable and jump back
-_Label_464:
+_Label_478:
 !   i = i + 1
 	load	[r14+-56],r1
 	add	r1,1,r1
 	bvs	_runtimeErrorOverflow
 	store	r1,[r14+-56]
-	jmp	_Label_462
+	jmp	_Label_476
 ! END FOR
-_Label_465:
+_Label_479:
 ! RETURN STATEMENT...
-	mov	422,r13		! source line 422
+	mov	432,r13		! source line 432
 	mov	"\0\0RE",r10
 	add	r15,60,r15
 	pop	r13
@@ -25203,239 +25357,261 @@ _Label_465:
 ! 
 ! Routine Descriptor
 ! 
-_RoutineDescriptor__function_48_PrintBuffer:
+_RoutineDescriptor__function_50_PrintBuffer:
 	.word	_sourceFileName
-	.word	_Label_468
+	.word	_Label_482
 	.word	4		! total size of parameters
 	.word	56		! frame size = 56
-	.word	_Label_469
+	.word	_Label_483
 	.word	8
 	.word	1
-	.word	_Label_470
+	.word	_Label_484
 	.word	-16
 	.word	4
-	.word	_Label_471
+	.word	_Label_485
 	.word	-20
 	.word	4
-	.word	_Label_472
+	.word	_Label_486
 	.word	-24
 	.word	4
-	.word	_Label_473
+	.word	_Label_487
 	.word	-28
 	.word	4
-	.word	_Label_474
+	.word	_Label_488
 	.word	-32
 	.word	4
-	.word	_Label_475
+	.word	_Label_489
 	.word	-9
 	.word	1
-	.word	_Label_476
+	.word	_Label_490
 	.word	-36
 	.word	4
-	.word	_Label_477
+	.word	_Label_491
 	.word	-40
 	.word	4
-	.word	_Label_478
+	.word	_Label_492
 	.word	-44
 	.word	4
-	.word	_Label_479
+	.word	_Label_493
 	.word	-48
 	.word	4
-	.word	_Label_480
+	.word	_Label_494
 	.word	-52
 	.word	4
-	.word	_Label_481
+	.word	_Label_495
 	.word	-56
 	.word	4
-	.word	_Label_482
+	.word	_Label_496
 	.word	-60
 	.word	4
 	.word	0
-_Label_468:
+_Label_482:
 	.ascii	"PrintBuffer\0"
 	.align
-_Label_469:
+_Label_483:
 	.byte	'C'
 	.ascii	"c\0"
 	.align
-_Label_470:
+_Label_484:
 	.byte	'?'
-	.ascii	"_temp_467\0"
+	.ascii	"_temp_481\0"
 	.align
-_Label_471:
+_Label_485:
 	.byte	'?'
-	.ascii	"_temp_466\0"
+	.ascii	"_temp_480\0"
 	.align
-_Label_472:
+_Label_486:
 	.byte	'?'
-	.ascii	"_temp_461\0"
+	.ascii	"_temp_475\0"
 	.align
-_Label_473:
+_Label_487:
 	.byte	'?'
-	.ascii	"_temp_460\0"
+	.ascii	"_temp_474\0"
 	.align
-_Label_474:
+_Label_488:
 	.byte	'?'
-	.ascii	"_temp_459\0"
+	.ascii	"_temp_473\0"
 	.align
-_Label_475:
+_Label_489:
 	.byte	'C'
-	.ascii	"_temp_458\0"
+	.ascii	"_temp_472\0"
 	.align
-_Label_476:
+_Label_490:
 	.byte	'?'
-	.ascii	"_temp_457\0"
+	.ascii	"_temp_471\0"
 	.align
-_Label_477:
+_Label_491:
 	.byte	'?'
-	.ascii	"_temp_456\0"
+	.ascii	"_temp_470\0"
 	.align
-_Label_478:
+_Label_492:
 	.byte	'?'
-	.ascii	"_temp_451\0"
+	.ascii	"_temp_465\0"
 	.align
-_Label_479:
+_Label_493:
 	.byte	'?'
-	.ascii	"_temp_450\0"
+	.ascii	"_temp_464\0"
 	.align
-_Label_480:
+_Label_494:
 	.byte	'?'
-	.ascii	"_temp_449\0"
+	.ascii	"_temp_463\0"
 	.align
-_Label_481:
+_Label_495:
 	.byte	'I'
 	.ascii	"i\0"
 	.align
-_Label_482:
+_Label_496:
 	.byte	'I'
 	.ascii	"j\0"
 	.align
 ! 
 ! ===============  FUNCTION DiningPhilosophers  ===============
 ! 
-_function_47_DiningPhilosophers:
+_function_49_DiningPhilosophers:
 	push	r14
 	mov	r15,r14
 	push	r13
-	set	_RoutineDescriptor__function_47_DiningPhilosophers,r1
+	set	_RoutineDescriptor__function_49_DiningPhilosophers,r1
 	push	r1
-	mov	41,r1
-_Label_631:
+	mov	43,r1
+_Label_748:
 	push	r0
 	sub	r1,1,r1
-	bne	_Label_631
-	mov	468,r13		! source line 468
+	bne	_Label_748
+	mov	478,r13		! source line 478
 	mov	"\0\0FU",r10
 ! VARIABLE INITIALIZATION...
 ! CALL STATEMENT...
-!   _temp_483 = _StringConst_33
+!   _temp_497 = _StringConst_33
 	set	_StringConst_33,r1
+	store	r1,[r14+-168]
+!   Prepare Argument: offset=8  value=_temp_497  sizeInBytes=4
+	load	[r14+-168],r1
+	store	r1,[r15+0]
+!   Call the function
+	mov	480,r13		! source line 480
+	mov	"\0\0CE",r10
+	call	print
+! CALL STATEMENT...
+!   _temp_498 = _StringConst_34
+	set	_StringConst_34,r1
+	store	r1,[r14+-164]
+!   Prepare Argument: offset=8  value=_temp_498  sizeInBytes=4
+	load	[r14+-164],r1
+	store	r1,[r15+0]
+!   Call the function
+	mov	481,r13		! source line 481
+	mov	"\0\0CE",r10
+	call	print
+! CALL STATEMENT...
+!   _temp_499 = _StringConst_35
+	set	_StringConst_35,r1
 	store	r1,[r14+-160]
-!   Prepare Argument: offset=8  value=_temp_483  sizeInBytes=4
+!   Prepare Argument: offset=8  value=_temp_499  sizeInBytes=4
 	load	[r14+-160],r1
 	store	r1,[r15+0]
 !   Call the function
-	mov	470,r13		! source line 470
+	mov	482,r13		! source line 482
 	mov	"\0\0CE",r10
 	call	print
 ! CALL STATEMENT...
-!   _temp_484 = _StringConst_34
-	set	_StringConst_34,r1
+!   _temp_500 = _StringConst_36
+	set	_StringConst_36,r1
 	store	r1,[r14+-156]
-!   Prepare Argument: offset=8  value=_temp_484  sizeInBytes=4
+!   Prepare Argument: offset=8  value=_temp_500  sizeInBytes=4
 	load	[r14+-156],r1
 	store	r1,[r15+0]
 !   Call the function
-	mov	471,r13		! source line 471
+	mov	483,r13		! source line 483
 	mov	"\0\0CE",r10
 	call	print
 ! CALL STATEMENT...
-!   _temp_485 = _StringConst_35
-	set	_StringConst_35,r1
+!   _temp_501 = _StringConst_37
+	set	_StringConst_37,r1
 	store	r1,[r14+-152]
-!   Prepare Argument: offset=8  value=_temp_485  sizeInBytes=4
+!   Prepare Argument: offset=8  value=_temp_501  sizeInBytes=4
 	load	[r14+-152],r1
 	store	r1,[r15+0]
 !   Call the function
-	mov	472,r13		! source line 472
-	mov	"\0\0CE",r10
-	call	print
-! CALL STATEMENT...
-!   _temp_486 = _StringConst_36
-	set	_StringConst_36,r1
-	store	r1,[r14+-148]
-!   Prepare Argument: offset=8  value=_temp_486  sizeInBytes=4
-	load	[r14+-148],r1
-	store	r1,[r15+0]
-!   Call the function
-	mov	473,r13		! source line 473
-	mov	"\0\0CE",r10
-	call	print
-! CALL STATEMENT...
-!   _temp_487 = _StringConst_37
-	set	_StringConst_37,r1
-	store	r1,[r14+-144]
-!   Prepare Argument: offset=8  value=_temp_487  sizeInBytes=4
-	load	[r14+-144],r1
-	store	r1,[r15+0]
-!   Call the function
-	mov	474,r13		! source line 474
+	mov	484,r13		! source line 484
 	mov	"\0\0CE",r10
 	call	print
 ! ASSIGNMENT STATEMENT...
-	mov	476,r13		! source line 476
+	mov	486,r13		! source line 486
 	mov	"\0\0AS",r10
 !   NEW CLASS Constructor...
-!   ZeroMemory: _Global_mon = zeros  (sizeInBytes=28)
+!   ZeroMemory: _Global_mon = zeros  (sizeInBytes=132)
 	set	_Global_mon,r4
-	mov	7,r3
-_Label_632:
+	mov	33,r3
+_Label_749:
 	store	r0,[r4]
 	add	r4,4,r4
 	sub	r3,1,r3
-	bne	_Label_632
+	bne	_Label_749
 !   _Global_mon = _P_Main_ForkMonitor
 	set	_P_Main_ForkMonitor,r1
 	set	_Global_mon,r2
 	store	r1,[r2]
 ! SEND STATEMENT...
-	mov	477,r13		! source line 477
+	mov	487,r13		! source line 487
 	mov	"\0\0SE",r10
-!   _temp_489 = &_Global_mon
+!   _temp_503 = &_Global_mon
 	set	_Global_mon,r1
-	store	r1,[r14+-136]
+	store	r1,[r14+-144]
 !   Send message Init
-	load	[r14+-136],r1
+	load	[r14+-144],r1
 	load	[r1],r2
 	cmp	r2,0
 	be	 _runtimeErrorUninitializedObject
 	store	r1,[r15]
 	add	r2,4,r2
 	call	r2
+! CALL STATEMENT...
+!   _temp_504 = _StringConst_38
+	set	_StringConst_38,r1
+	store	r1,[r14+-140]
+!   Prepare Argument: offset=8  value=_temp_504  sizeInBytes=4
+	load	[r14+-140],r1
+	store	r1,[r15+0]
+!   Call the function
+	mov	488,r13		! source line 488
+	mov	"\0\0CE",r10
+	call	print
 ! SEND STATEMENT...
-	mov	478,r13		! source line 478
+	mov	489,r13		! source line 489
 	mov	"\0\0SE",r10
-!   _temp_490 = &_Global_mon
+!   _temp_505 = &_Global_mon
 	set	_Global_mon,r1
-	store	r1,[r14+-132]
+	store	r1,[r14+-136]
 !   Send message PrintAllStatus
-	load	[r14+-132],r1
+	load	[r14+-136],r1
 	load	[r1],r2
 	cmp	r2,0
 	be	 _runtimeErrorUninitializedObject
 	store	r1,[r15]
 	add	r2,16,r2
 	call	r2
+! CALL STATEMENT...
+!   _temp_506 = _StringConst_39
+	set	_StringConst_39,r1
+	store	r1,[r14+-132]
+!   Prepare Argument: offset=8  value=_temp_506  sizeInBytes=4
+	load	[r14+-132],r1
+	store	r1,[r15+0]
+!   Call the function
+	mov	490,r13		! source line 490
+	mov	"\0\0CE",r10
+	call	print
 ! SEND STATEMENT...
-	mov	480,r13		! source line 480
+	mov	492,r13		! source line 492
 	mov	"\0\0SE",r10
-!   _temp_491 = _StringConst_38
-	set	_StringConst_38,r1
+!   _temp_507 = _StringConst_40
+	set	_StringConst_40,r1
 	store	r1,[r14+-128]
-!   _temp_492 = &_Global_philospher
+!   _temp_508 = &_Global_philospher
 	set	_Global_philospher,r1
 	store	r1,[r14+-124]
-!   Move address of _temp_492 [0 ] into _temp_493
+!   Move address of _temp_508 [0 ] into _temp_509
 !     make sure index expr is >= 0
 	mov	0,r2
 	cmp	r2,0
@@ -25454,7 +25630,7 @@ _Label_632:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-120]
-!   Prepare Argument: offset=12  value=_temp_491  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_507  sizeInBytes=4
 	load	[r14+-128],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -25466,15 +25642,15 @@ _Label_632:
 	add	r2,4,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	481,r13		! source line 481
+	mov	493,r13		! source line 493
 	mov	"\0\0SE",r10
-!   _temp_494 = _function_46_PhilosphizeAndEat
-	set	_function_46_PhilosphizeAndEat,r1
+!   _temp_510 = _function_48_PhilosphizeAndEat
+	set	_function_48_PhilosphizeAndEat,r1
 	store	r1,[r14+-116]
-!   _temp_495 = &_Global_philospher
+!   _temp_511 = &_Global_philospher
 	set	_Global_philospher,r1
 	store	r1,[r14+-112]
-!   Move address of _temp_495 [0 ] into _temp_496
+!   Move address of _temp_511 [0 ] into _temp_512
 !     make sure index expr is >= 0
 	mov	0,r2
 	cmp	r2,0
@@ -25493,7 +25669,7 @@ _Label_632:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-108]
-!   Prepare Argument: offset=12  value=_temp_494  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_510  sizeInBytes=4
 	load	[r14+-116],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=0  sizeInBytes=4
@@ -25508,15 +25684,15 @@ _Label_632:
 	add	r2,8,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	483,r13		! source line 483
+	mov	495,r13		! source line 495
 	mov	"\0\0SE",r10
-!   _temp_497 = _StringConst_39
-	set	_StringConst_39,r1
+!   _temp_513 = _StringConst_41
+	set	_StringConst_41,r1
 	store	r1,[r14+-104]
-!   _temp_498 = &_Global_philospher
+!   _temp_514 = &_Global_philospher
 	set	_Global_philospher,r1
 	store	r1,[r14+-100]
-!   Move address of _temp_498 [1 ] into _temp_499
+!   Move address of _temp_514 [1 ] into _temp_515
 !     make sure index expr is >= 0
 	mov	1,r2
 	cmp	r2,0
@@ -25535,7 +25711,7 @@ _Label_632:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-96]
-!   Prepare Argument: offset=12  value=_temp_497  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_513  sizeInBytes=4
 	load	[r14+-104],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -25547,15 +25723,15 @@ _Label_632:
 	add	r2,4,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	484,r13		! source line 484
+	mov	496,r13		! source line 496
 	mov	"\0\0SE",r10
-!   _temp_500 = _function_46_PhilosphizeAndEat
-	set	_function_46_PhilosphizeAndEat,r1
+!   _temp_516 = _function_48_PhilosphizeAndEat
+	set	_function_48_PhilosphizeAndEat,r1
 	store	r1,[r14+-92]
-!   _temp_501 = &_Global_philospher
+!   _temp_517 = &_Global_philospher
 	set	_Global_philospher,r1
 	store	r1,[r14+-88]
-!   Move address of _temp_501 [1 ] into _temp_502
+!   Move address of _temp_517 [1 ] into _temp_518
 !     make sure index expr is >= 0
 	mov	1,r2
 	cmp	r2,0
@@ -25574,7 +25750,7 @@ _Label_632:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-84]
-!   Prepare Argument: offset=12  value=_temp_500  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_516  sizeInBytes=4
 	load	[r14+-92],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=1  sizeInBytes=4
@@ -25589,15 +25765,15 @@ _Label_632:
 	add	r2,8,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	486,r13		! source line 486
+	mov	498,r13		! source line 498
 	mov	"\0\0SE",r10
-!   _temp_503 = _StringConst_40
-	set	_StringConst_40,r1
+!   _temp_519 = _StringConst_42
+	set	_StringConst_42,r1
 	store	r1,[r14+-80]
-!   _temp_504 = &_Global_philospher
+!   _temp_520 = &_Global_philospher
 	set	_Global_philospher,r1
 	store	r1,[r14+-76]
-!   Move address of _temp_504 [2 ] into _temp_505
+!   Move address of _temp_520 [2 ] into _temp_521
 !     make sure index expr is >= 0
 	mov	2,r2
 	cmp	r2,0
@@ -25616,7 +25792,7 @@ _Label_632:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-72]
-!   Prepare Argument: offset=12  value=_temp_503  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_519  sizeInBytes=4
 	load	[r14+-80],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -25628,15 +25804,15 @@ _Label_632:
 	add	r2,4,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	487,r13		! source line 487
+	mov	499,r13		! source line 499
 	mov	"\0\0SE",r10
-!   _temp_506 = _function_46_PhilosphizeAndEat
-	set	_function_46_PhilosphizeAndEat,r1
+!   _temp_522 = _function_48_PhilosphizeAndEat
+	set	_function_48_PhilosphizeAndEat,r1
 	store	r1,[r14+-68]
-!   _temp_507 = &_Global_philospher
+!   _temp_523 = &_Global_philospher
 	set	_Global_philospher,r1
 	store	r1,[r14+-64]
-!   Move address of _temp_507 [2 ] into _temp_508
+!   Move address of _temp_523 [2 ] into _temp_524
 !     make sure index expr is >= 0
 	mov	2,r2
 	cmp	r2,0
@@ -25655,7 +25831,7 @@ _Label_632:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-60]
-!   Prepare Argument: offset=12  value=_temp_506  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_522  sizeInBytes=4
 	load	[r14+-68],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=2  sizeInBytes=4
@@ -25670,15 +25846,15 @@ _Label_632:
 	add	r2,8,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	489,r13		! source line 489
+	mov	501,r13		! source line 501
 	mov	"\0\0SE",r10
-!   _temp_509 = _StringConst_41
-	set	_StringConst_41,r1
+!   _temp_525 = _StringConst_43
+	set	_StringConst_43,r1
 	store	r1,[r14+-56]
-!   _temp_510 = &_Global_philospher
+!   _temp_526 = &_Global_philospher
 	set	_Global_philospher,r1
 	store	r1,[r14+-52]
-!   Move address of _temp_510 [3 ] into _temp_511
+!   Move address of _temp_526 [3 ] into _temp_527
 !     make sure index expr is >= 0
 	mov	3,r2
 	cmp	r2,0
@@ -25697,7 +25873,7 @@ _Label_632:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-48]
-!   Prepare Argument: offset=12  value=_temp_509  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_525  sizeInBytes=4
 	load	[r14+-56],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -25709,15 +25885,15 @@ _Label_632:
 	add	r2,4,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	490,r13		! source line 490
+	mov	502,r13		! source line 502
 	mov	"\0\0SE",r10
-!   _temp_512 = _function_46_PhilosphizeAndEat
-	set	_function_46_PhilosphizeAndEat,r1
+!   _temp_528 = _function_48_PhilosphizeAndEat
+	set	_function_48_PhilosphizeAndEat,r1
 	store	r1,[r14+-44]
-!   _temp_513 = &_Global_philospher
+!   _temp_529 = &_Global_philospher
 	set	_Global_philospher,r1
 	store	r1,[r14+-40]
-!   Move address of _temp_513 [3 ] into _temp_514
+!   Move address of _temp_529 [3 ] into _temp_530
 !     make sure index expr is >= 0
 	mov	3,r2
 	cmp	r2,0
@@ -25736,7 +25912,7 @@ _Label_632:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-36]
-!   Prepare Argument: offset=12  value=_temp_512  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_528  sizeInBytes=4
 	load	[r14+-44],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=3  sizeInBytes=4
@@ -25751,15 +25927,15 @@ _Label_632:
 	add	r2,8,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	492,r13		! source line 492
+	mov	504,r13		! source line 504
 	mov	"\0\0SE",r10
-!   _temp_515 = _StringConst_42
-	set	_StringConst_42,r1
+!   _temp_531 = _StringConst_44
+	set	_StringConst_44,r1
 	store	r1,[r14+-32]
-!   _temp_516 = &_Global_philospher
+!   _temp_532 = &_Global_philospher
 	set	_Global_philospher,r1
 	store	r1,[r14+-28]
-!   Move address of _temp_516 [4 ] into _temp_517
+!   Move address of _temp_532 [4 ] into _temp_533
 !     make sure index expr is >= 0
 	mov	4,r2
 	cmp	r2,0
@@ -25778,7 +25954,7 @@ _Label_632:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-24]
-!   Prepare Argument: offset=12  value=_temp_515  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_531  sizeInBytes=4
 	load	[r14+-32],r1
 	store	r1,[r15+4]
 !   Send message Init
@@ -25790,15 +25966,15 @@ _Label_632:
 	add	r2,4,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	493,r13		! source line 493
+	mov	505,r13		! source line 505
 	mov	"\0\0SE",r10
-!   _temp_518 = _function_46_PhilosphizeAndEat
-	set	_function_46_PhilosphizeAndEat,r1
+!   _temp_534 = _function_48_PhilosphizeAndEat
+	set	_function_48_PhilosphizeAndEat,r1
 	store	r1,[r14+-20]
-!   _temp_519 = &_Global_philospher
+!   _temp_535 = &_Global_philospher
 	set	_Global_philospher,r1
 	store	r1,[r14+-16]
-!   Move address of _temp_519 [4 ] into _temp_520
+!   Move address of _temp_535 [4 ] into _temp_536
 !     make sure index expr is >= 0
 	mov	4,r2
 	cmp	r2,0
@@ -25817,7 +25993,7 @@ _Label_632:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-12]
-!   Prepare Argument: offset=12  value=_temp_518  sizeInBytes=4
+!   Prepare Argument: offset=12  value=_temp_534  sizeInBytes=4
 	load	[r14+-20],r1
 	store	r1,[r15+4]
 !   Prepare Argument: offset=16  value=4  sizeInBytes=4
@@ -25832,344 +26008,372 @@ _Label_632:
 	add	r2,8,r2
 	call	r2
 ! RETURN STATEMENT...
-	mov	493,r13		! source line 493
+	mov	505,r13		! source line 505
 	mov	"\0\0RE",r10
-	add	r15,168,r15
+	add	r15,176,r15
 	pop	r13
 	pop	r14
 	ret
 ! 
 ! Routine Descriptor
 ! 
-_RoutineDescriptor__function_47_DiningPhilosophers:
+_RoutineDescriptor__function_49_DiningPhilosophers:
 	.word	_sourceFileName
-	.word	_Label_521
+	.word	_Label_537
 	.word	0		! total size of parameters
-	.word	164		! frame size = 164
-	.word	_Label_522
+	.word	172		! frame size = 172
+	.word	_Label_538
 	.word	-12
 	.word	4
-	.word	_Label_523
+	.word	_Label_539
 	.word	-16
 	.word	4
-	.word	_Label_524
+	.word	_Label_540
 	.word	-20
 	.word	4
-	.word	_Label_525
+	.word	_Label_541
 	.word	-24
 	.word	4
-	.word	_Label_526
+	.word	_Label_542
 	.word	-28
 	.word	4
-	.word	_Label_527
+	.word	_Label_543
 	.word	-32
 	.word	4
-	.word	_Label_528
+	.word	_Label_544
 	.word	-36
 	.word	4
-	.word	_Label_529
+	.word	_Label_545
 	.word	-40
 	.word	4
-	.word	_Label_530
+	.word	_Label_546
 	.word	-44
 	.word	4
-	.word	_Label_531
+	.word	_Label_547
 	.word	-48
 	.word	4
-	.word	_Label_532
+	.word	_Label_548
 	.word	-52
 	.word	4
-	.word	_Label_533
+	.word	_Label_549
 	.word	-56
 	.word	4
-	.word	_Label_534
+	.word	_Label_550
 	.word	-60
 	.word	4
-	.word	_Label_535
+	.word	_Label_551
 	.word	-64
 	.word	4
-	.word	_Label_536
+	.word	_Label_552
 	.word	-68
 	.word	4
-	.word	_Label_537
+	.word	_Label_553
 	.word	-72
 	.word	4
-	.word	_Label_538
+	.word	_Label_554
 	.word	-76
 	.word	4
-	.word	_Label_539
+	.word	_Label_555
 	.word	-80
 	.word	4
-	.word	_Label_540
+	.word	_Label_556
 	.word	-84
 	.word	4
-	.word	_Label_541
+	.word	_Label_557
 	.word	-88
 	.word	4
-	.word	_Label_542
+	.word	_Label_558
 	.word	-92
 	.word	4
-	.word	_Label_543
+	.word	_Label_559
 	.word	-96
 	.word	4
-	.word	_Label_544
+	.word	_Label_560
 	.word	-100
 	.word	4
-	.word	_Label_545
+	.word	_Label_561
 	.word	-104
 	.word	4
-	.word	_Label_546
+	.word	_Label_562
 	.word	-108
 	.word	4
-	.word	_Label_547
+	.word	_Label_563
 	.word	-112
 	.word	4
-	.word	_Label_548
+	.word	_Label_564
 	.word	-116
 	.word	4
-	.word	_Label_549
+	.word	_Label_565
 	.word	-120
 	.word	4
-	.word	_Label_550
+	.word	_Label_566
 	.word	-124
 	.word	4
-	.word	_Label_551
+	.word	_Label_567
 	.word	-128
 	.word	4
-	.word	_Label_552
+	.word	_Label_568
 	.word	-132
 	.word	4
-	.word	_Label_553
+	.word	_Label_569
 	.word	-136
 	.word	4
-	.word	_Label_554
+	.word	_Label_570
 	.word	-140
 	.word	4
-	.word	_Label_555
+	.word	_Label_571
 	.word	-144
 	.word	4
-	.word	_Label_556
+	.word	_Label_572
 	.word	-148
 	.word	4
-	.word	_Label_557
+	.word	_Label_573
 	.word	-152
 	.word	4
-	.word	_Label_558
+	.word	_Label_574
 	.word	-156
 	.word	4
-	.word	_Label_559
+	.word	_Label_575
 	.word	-160
 	.word	4
+	.word	_Label_576
+	.word	-164
+	.word	4
+	.word	_Label_577
+	.word	-168
+	.word	4
 	.word	0
-_Label_521:
-	.ascii	"DiningPhilosophers\0"
-	.align
-_Label_522:
-	.byte	'?'
-	.ascii	"_temp_520\0"
-	.align
-_Label_523:
-	.byte	'?'
-	.ascii	"_temp_519\0"
-	.align
-_Label_524:
-	.byte	'?'
-	.ascii	"_temp_518\0"
-	.align
-_Label_525:
-	.byte	'?'
-	.ascii	"_temp_517\0"
-	.align
-_Label_526:
-	.byte	'?'
-	.ascii	"_temp_516\0"
-	.align
-_Label_527:
-	.byte	'?'
-	.ascii	"_temp_515\0"
-	.align
-_Label_528:
-	.byte	'?'
-	.ascii	"_temp_514\0"
-	.align
-_Label_529:
-	.byte	'?'
-	.ascii	"_temp_513\0"
-	.align
-_Label_530:
-	.byte	'?'
-	.ascii	"_temp_512\0"
-	.align
-_Label_531:
-	.byte	'?'
-	.ascii	"_temp_511\0"
-	.align
-_Label_532:
-	.byte	'?'
-	.ascii	"_temp_510\0"
-	.align
-_Label_533:
-	.byte	'?'
-	.ascii	"_temp_509\0"
-	.align
-_Label_534:
-	.byte	'?'
-	.ascii	"_temp_508\0"
-	.align
-_Label_535:
-	.byte	'?'
-	.ascii	"_temp_507\0"
-	.align
-_Label_536:
-	.byte	'?'
-	.ascii	"_temp_506\0"
-	.align
 _Label_537:
-	.byte	'?'
-	.ascii	"_temp_505\0"
+	.ascii	"DiningPhilosophers\0"
 	.align
 _Label_538:
 	.byte	'?'
-	.ascii	"_temp_504\0"
+	.ascii	"_temp_536\0"
 	.align
 _Label_539:
 	.byte	'?'
-	.ascii	"_temp_503\0"
+	.ascii	"_temp_535\0"
 	.align
 _Label_540:
 	.byte	'?'
-	.ascii	"_temp_502\0"
+	.ascii	"_temp_534\0"
 	.align
 _Label_541:
 	.byte	'?'
-	.ascii	"_temp_501\0"
+	.ascii	"_temp_533\0"
 	.align
 _Label_542:
 	.byte	'?'
-	.ascii	"_temp_500\0"
+	.ascii	"_temp_532\0"
 	.align
 _Label_543:
 	.byte	'?'
-	.ascii	"_temp_499\0"
+	.ascii	"_temp_531\0"
 	.align
 _Label_544:
 	.byte	'?'
-	.ascii	"_temp_498\0"
+	.ascii	"_temp_530\0"
 	.align
 _Label_545:
 	.byte	'?'
-	.ascii	"_temp_497\0"
+	.ascii	"_temp_529\0"
 	.align
 _Label_546:
 	.byte	'?'
-	.ascii	"_temp_496\0"
+	.ascii	"_temp_528\0"
 	.align
 _Label_547:
 	.byte	'?'
-	.ascii	"_temp_495\0"
+	.ascii	"_temp_527\0"
 	.align
 _Label_548:
 	.byte	'?'
-	.ascii	"_temp_494\0"
+	.ascii	"_temp_526\0"
 	.align
 _Label_549:
 	.byte	'?'
-	.ascii	"_temp_493\0"
+	.ascii	"_temp_525\0"
 	.align
 _Label_550:
 	.byte	'?'
-	.ascii	"_temp_492\0"
+	.ascii	"_temp_524\0"
 	.align
 _Label_551:
 	.byte	'?'
-	.ascii	"_temp_491\0"
+	.ascii	"_temp_523\0"
 	.align
 _Label_552:
 	.byte	'?'
-	.ascii	"_temp_490\0"
+	.ascii	"_temp_522\0"
 	.align
 _Label_553:
 	.byte	'?'
-	.ascii	"_temp_489\0"
+	.ascii	"_temp_521\0"
 	.align
 _Label_554:
 	.byte	'?'
-	.ascii	"_temp_488\0"
+	.ascii	"_temp_520\0"
 	.align
 _Label_555:
 	.byte	'?'
-	.ascii	"_temp_487\0"
+	.ascii	"_temp_519\0"
 	.align
 _Label_556:
 	.byte	'?'
-	.ascii	"_temp_486\0"
+	.ascii	"_temp_518\0"
 	.align
 _Label_557:
 	.byte	'?'
-	.ascii	"_temp_485\0"
+	.ascii	"_temp_517\0"
 	.align
 _Label_558:
 	.byte	'?'
-	.ascii	"_temp_484\0"
+	.ascii	"_temp_516\0"
 	.align
 _Label_559:
 	.byte	'?'
-	.ascii	"_temp_483\0"
+	.ascii	"_temp_515\0"
+	.align
+_Label_560:
+	.byte	'?'
+	.ascii	"_temp_514\0"
+	.align
+_Label_561:
+	.byte	'?'
+	.ascii	"_temp_513\0"
+	.align
+_Label_562:
+	.byte	'?'
+	.ascii	"_temp_512\0"
+	.align
+_Label_563:
+	.byte	'?'
+	.ascii	"_temp_511\0"
+	.align
+_Label_564:
+	.byte	'?'
+	.ascii	"_temp_510\0"
+	.align
+_Label_565:
+	.byte	'?'
+	.ascii	"_temp_509\0"
+	.align
+_Label_566:
+	.byte	'?'
+	.ascii	"_temp_508\0"
+	.align
+_Label_567:
+	.byte	'?'
+	.ascii	"_temp_507\0"
+	.align
+_Label_568:
+	.byte	'?'
+	.ascii	"_temp_506\0"
+	.align
+_Label_569:
+	.byte	'?'
+	.ascii	"_temp_505\0"
+	.align
+_Label_570:
+	.byte	'?'
+	.ascii	"_temp_504\0"
+	.align
+_Label_571:
+	.byte	'?'
+	.ascii	"_temp_503\0"
+	.align
+_Label_572:
+	.byte	'?'
+	.ascii	"_temp_502\0"
+	.align
+_Label_573:
+	.byte	'?'
+	.ascii	"_temp_501\0"
+	.align
+_Label_574:
+	.byte	'?'
+	.ascii	"_temp_500\0"
+	.align
+_Label_575:
+	.byte	'?'
+	.ascii	"_temp_499\0"
+	.align
+_Label_576:
+	.byte	'?'
+	.ascii	"_temp_498\0"
+	.align
+_Label_577:
+	.byte	'?'
+	.ascii	"_temp_497\0"
 	.align
 ! 
 ! ===============  FUNCTION PhilosphizeAndEat  ===============
 ! 
-_function_46_PhilosphizeAndEat:
+_function_48_PhilosphizeAndEat:
 	push	r14
 	mov	r15,r14
 	push	r13
-	set	_RoutineDescriptor__function_46_PhilosphizeAndEat,r1
+	set	_RoutineDescriptor__function_48_PhilosphizeAndEat,r1
 	push	r1
-	mov	7,r1
-_Label_633:
+	mov	10,r1
+_Label_750:
 	push	r0
 	sub	r1,1,r1
-	bne	_Label_633
-	mov	497,r13		! source line 497
+	bne	_Label_750
+	mov	510,r13		! source line 510
 	mov	"\0\0FU",r10
 ! VARIABLE INITIALIZATION...
+! SEND STATEMENT...
+	mov	516,r13		! source line 516
+	mov	"\0\0SE",r10
+!   _temp_578 = &_Global_mon
+	set	_Global_mon,r1
+	store	r1,[r14+-36]
+!   Send message PrintAllStatus
+	load	[r14+-36],r1
+	load	[r1],r2
+	cmp	r2,0
+	be	 _runtimeErrorUninitializedObject
+	store	r1,[r15]
+	add	r2,16,r2
+	call	r2
 ! FOR STATEMENT...
-	mov	503,r13		! source line 503
+	mov	517,r13		! source line 517
 	mov	"\0\0FO",r10
 !   Calculate and save the FOR-LOOP starting value
-!   _temp_564 = 1		(4 bytes)
+!   _temp_583 = 1		(4 bytes)
 	mov	1,r1
-	store	r1,[r14+-24]
+	store	r1,[r14+-32]
 !   Calculate and save the FOR-LOOP ending value
-!   _temp_565 = 7		(4 bytes)
+!   _temp_584 = 7		(4 bytes)
 	mov	7,r1
-	store	r1,[r14+-20]
-!   Initialize FOR-LOOP index variable
-!   Data Move: i = _temp_564  (sizeInBytes=4)
-	load	[r14+-24],r1
 	store	r1,[r14+-28]
-_Label_560:
+!   Initialize FOR-LOOP index variable
+!   Data Move: i = _temp_583  (sizeInBytes=4)
+	load	[r14+-32],r1
+	store	r1,[r14+-40]
+_Label_579:
 !   Perform the FOR-LOOP termination test
-!   if i > _temp_565 then goto _Label_563		
-	load	[r14+-28],r1
-	load	[r14+-20],r2
+!   if i > _temp_584 then goto _Label_582		
+	load	[r14+-40],r1
+	load	[r14+-28],r2
 	cmp	r1,r2
 	bvs	_runtimeErrorOverflow
-	bg	_Label_563
-_Label_561:
-	mov	503,r13		! source line 503
+	bg	_Label_582
+_Label_580:
+	mov	517,r13		! source line 517
 	mov	"\0\0FB",r10
 ! SEND STATEMENT...
-	mov	505,r13		! source line 505
+	mov	519,r13		! source line 519
 	mov	"\0\0SE",r10
-!   _temp_566 = &_Global_mon
+!   _temp_585 = &_Global_mon
 	set	_Global_mon,r1
-	store	r1,[r14+-16]
+	store	r1,[r14+-24]
 !   Prepare Argument: offset=12  value=p  sizeInBytes=4
 	load	[r14+8],r1
 	store	r1,[r15+4]
 !   Send message PickupForks
-	load	[r14+-16],r1
+	load	[r14+-24],r1
 	load	[r1],r2
 	cmp	r2,0
 	be	 _runtimeErrorUninitializedObject
@@ -26177,90 +26381,139 @@ _Label_561:
 	add	r2,8,r2
 	call	r2
 ! SEND STATEMENT...
-	mov	507,r13		! source line 507
+	mov	520,r13		! source line 520
 	mov	"\0\0SE",r10
-!   _temp_567 = &_Global_mon
+!   _temp_586 = &_Global_mon
 	set	_Global_mon,r1
-	store	r1,[r14+-12]
+	store	r1,[r14+-20]
+!   Send message PrintAllStatus
+	load	[r14+-20],r1
+	load	[r1],r2
+	cmp	r2,0
+	be	 _runtimeErrorUninitializedObject
+	store	r1,[r15]
+	add	r2,16,r2
+	call	r2
+! SEND STATEMENT...
+	mov	522,r13		! source line 522
+	mov	"\0\0SE",r10
+!   _temp_587 = &_Global_mon
+	set	_Global_mon,r1
+	store	r1,[r14+-16]
 !   Prepare Argument: offset=12  value=p  sizeInBytes=4
 	load	[r14+8],r1
 	store	r1,[r15+4]
 !   Send message PutDownForks
-	load	[r14+-12],r1
+	load	[r14+-16],r1
 	load	[r1],r2
 	cmp	r2,0
 	be	 _runtimeErrorUninitializedObject
 	store	r1,[r15]
 	add	r2,12,r2
 	call	r2
+! SEND STATEMENT...
+	mov	523,r13		! source line 523
+	mov	"\0\0SE",r10
+!   _temp_588 = &_Global_mon
+	set	_Global_mon,r1
+	store	r1,[r14+-12]
+!   Send message PrintAllStatus
+	load	[r14+-12],r1
+	load	[r1],r2
+	cmp	r2,0
+	be	 _runtimeErrorUninitializedObject
+	store	r1,[r15]
+	add	r2,16,r2
+	call	r2
 !   Increment the FOR-LOOP index variable and jump back
-_Label_562:
+_Label_581:
 !   i = i + 1
-	load	[r14+-28],r1
+	load	[r14+-40],r1
 	add	r1,1,r1
 	bvs	_runtimeErrorOverflow
-	store	r1,[r14+-28]
-	jmp	_Label_560
+	store	r1,[r14+-40]
+	jmp	_Label_579
 ! END FOR
-_Label_563:
+_Label_582:
 ! RETURN STATEMENT...
-	mov	503,r13		! source line 503
+	mov	517,r13		! source line 517
 	mov	"\0\0RE",r10
-	add	r15,32,r15
+	add	r15,44,r15
 	pop	r13
 	pop	r14
 	ret
 ! 
 ! Routine Descriptor
 ! 
-_RoutineDescriptor__function_46_PhilosphizeAndEat:
+_RoutineDescriptor__function_48_PhilosphizeAndEat:
 	.word	_sourceFileName
-	.word	_Label_568
+	.word	_Label_589
 	.word	4		! total size of parameters
-	.word	28		! frame size = 28
-	.word	_Label_569
+	.word	40		! frame size = 40
+	.word	_Label_590
 	.word	8
 	.word	4
-	.word	_Label_570
+	.word	_Label_591
 	.word	-12
 	.word	4
-	.word	_Label_571
+	.word	_Label_592
 	.word	-16
 	.word	4
-	.word	_Label_572
+	.word	_Label_593
 	.word	-20
 	.word	4
-	.word	_Label_573
+	.word	_Label_594
 	.word	-24
 	.word	4
-	.word	_Label_574
+	.word	_Label_595
 	.word	-28
 	.word	4
+	.word	_Label_596
+	.word	-32
+	.word	4
+	.word	_Label_597
+	.word	-36
+	.word	4
+	.word	_Label_598
+	.word	-40
+	.word	4
 	.word	0
-_Label_568:
+_Label_589:
 	.ascii	"PhilosphizeAndEat\0"
 	.align
-_Label_569:
+_Label_590:
 	.byte	'I'
 	.ascii	"p\0"
 	.align
-_Label_570:
+_Label_591:
 	.byte	'?'
-	.ascii	"_temp_567\0"
+	.ascii	"_temp_588\0"
 	.align
-_Label_571:
+_Label_592:
 	.byte	'?'
-	.ascii	"_temp_566\0"
+	.ascii	"_temp_587\0"
 	.align
-_Label_572:
+_Label_593:
 	.byte	'?'
-	.ascii	"_temp_565\0"
+	.ascii	"_temp_586\0"
 	.align
-_Label_573:
+_Label_594:
 	.byte	'?'
-	.ascii	"_temp_564\0"
+	.ascii	"_temp_585\0"
 	.align
-_Label_574:
+_Label_595:
+	.byte	'?'
+	.ascii	"_temp_584\0"
+	.align
+_Label_596:
+	.byte	'?'
+	.ascii	"_temp_583\0"
+	.align
+_Label_597:
+	.byte	'?'
+	.ascii	"_temp_578\0"
+	.align
+_Label_598:
 	.byte	'I'
 	.ascii	"i\0"
 	.align
@@ -26270,7 +26523,7 @@ _Label_574:
 ! Dispatch Table:
 ! 
 _P_Main_ForkMonitor:
-	.word	_Label_575
+	.word	_Label_599
 	jmp	_Method_P_Main_ForkMonitor_1	! 4:	Init
 	jmp	_Method_P_Main_ForkMonitor_2	! 8:	PickupForks
 	jmp	_Method_P_Main_ForkMonitor_3	! 12:	PutDownForks
@@ -26279,16 +26532,16 @@ _P_Main_ForkMonitor:
 ! 
 ! Class descriptor:
 ! 
-_Label_575:
+_Label_599:
 	.word	1129070931		! Magic number 0x434c4153 == 'CLAS'
-	.word	_Label_576
+	.word	_Label_600
 	.word	_sourceFileName
-	.word	511		! line number
-	.word	28		! size of instances, in bytes
+	.word	527		! line number
+	.word	132		! size of instances, in bytes
 	.word	_P_Main_ForkMonitor
 	.word	_P_System_Object
 	.word	0
-_Label_576:
+_Label_600:
 	.ascii	"ForkMonitor\0"
 	.align
 ! 
@@ -26300,13 +26553,253 @@ _Method_P_Main_ForkMonitor_1:
 	push	r13
 	set	_RoutineDescriptor__Method_P_Main_ForkMonitor_1,r1
 	push	r1
-	mov	524,r13		! source line 524
+	mov	53,r1
+_Label_751:
+	push	r0
+	sub	r1,1,r1
+	bne	_Label_751
+	mov	542,r13		! source line 542
 	mov	"\0\0ME",r10
 ! VARIABLE INITIALIZATION...
+! ASSIGNMENT STATEMENT...
+	mov	545,r13		! source line 545
+	mov	"\0\0AS",r10
+!   _temp_601 = &status
+	load	[r14+8],r1
+	add	r1,4,r1
+	store	r1,[r14+-208]
+!   NEW ARRAY Constructor...
+!   _temp_603 = &_temp_602
+	add	r14,-204,r1
+	store	r1,[r14+-180]
+!   _temp_603 = _temp_603 + 4
+	load	[r14+-180],r1
+	add	r1,4,r1
+	store	r1,[r14+-180]
+!   Next value...
+	mov	5,r1
+	store	r1,[r14+-176]
+_Label_605:
+!   Data Move: *_temp_603 = 3  (sizeInBytes=4)
+	mov	3,r1
+	load	[r14+-180],r2
+	store	r1,[r2]
+!   _temp_603 = _temp_603 + 4
+	load	[r14+-180],r1
+	add	r1,4,r1
+	store	r1,[r14+-180]
+!   _temp_604 = _temp_604 + -1
+	load	[r14+-176],r1
+	add	r1,-1,r1
+	store	r1,[r14+-176]
+!   if intNotZero (_temp_604) then goto _Label_605
+	load	[r14+-176],r1
+	cmp	r1,r0
+	bne	_Label_605
+!   Initialize the array size...
+	mov	5,r1
+	store	r1,[r14+-204]
+!   _temp_606 = &_temp_602
+	add	r14,-204,r1
+	store	r1,[r14+-172]
+!   make sure array has size 5
+	load	[r14+-208],r1
+	load	[r1],r1
+	set	5, r2
+	cmp	r1,0
+	be	_Label_752
+	cmp	r1,r2
+	bvs	_runtimeErrorOverflow
+	bne	_runtimeErrorWrongArraySize
+_Label_752:
+!   make sure array has size 5
+	load	[r14+-172],r1
+	load	[r1],r1
+	set	5, r2
+	cmp	r1,r2
+	bvs	_runtimeErrorOverflow
+	bne	_runtimeErrorWrongArraySize
+!   Data Move: *_temp_601 = *_temp_606  (sizeInBytes=24)
+	load	[r14+-172],r5
+	load	[r14+-208],r4
+	load	[r5],r1
+	store	r1,[r4]
+	load	[r5+4],r1
+	store	r1,[r4+4]
+	load	[r5+8],r1
+	store	r1,[r4+8]
+	load	[r5+12],r1
+	store	r1,[r4+12]
+	load	[r5+16],r1
+	store	r1,[r4+16]
+	load	[r5+20],r1
+	store	r1,[r4+20]
+! ASSIGNMENT STATEMENT...
+	mov	547,r13		! source line 547
+	mov	"\0\0AS",r10
+!   _temp_607 = &sem
+	load	[r14+8],r1
+	add	r1,28,r1
+	store	r1,[r14+-168]
+!   NEW ARRAY Constructor...
+!   _temp_609 = &_temp_608
+	add	r14,-164,r1
+	store	r1,[r14+-60]
+!   _temp_609 = _temp_609 + 4
+	load	[r14+-60],r1
+	add	r1,4,r1
+	store	r1,[r14+-60]
+!   Next value...
+!   NEW CLASS Constructor...
+!   ZeroMemory: _temp_611 = zeros  (sizeInBytes=20)
+	add	r14,-52,r4
+	store	r0,[r4]
+	store	r0,[r4+4]
+	store	r0,[r4+8]
+	store	r0,[r4+12]
+	store	r0,[r4+16]
+!   _temp_611 = _P_Synch_Semaphore
+	set	_P_Synch_Semaphore,r1
+	store	r1,[r14+-52]
+	mov	5,r1
+	store	r1,[r14+-56]
+_Label_613:
+!   Data Move: *_temp_609 = _temp_611  (sizeInBytes=20)
+	add	r14,-52,r5
+	load	[r14+-60],r4
+	load	[r5],r1
+	store	r1,[r4]
+	load	[r5+4],r1
+	store	r1,[r4+4]
+	load	[r5+8],r1
+	store	r1,[r4+8]
+	load	[r5+12],r1
+	store	r1,[r4+12]
+	load	[r5+16],r1
+	store	r1,[r4+16]
+!   _temp_609 = _temp_609 + 20
+	load	[r14+-60],r1
+	add	r1,20,r1
+	store	r1,[r14+-60]
+!   _temp_610 = _temp_610 + -1
+	load	[r14+-56],r1
+	add	r1,-1,r1
+	store	r1,[r14+-56]
+!   if intNotZero (_temp_610) then goto _Label_613
+	load	[r14+-56],r1
+	cmp	r1,r0
+	bne	_Label_613
+!   Initialize the array size...
+	mov	5,r1
+	store	r1,[r14+-164]
+!   _temp_614 = &_temp_608
+	add	r14,-164,r1
+	store	r1,[r14+-28]
+!   make sure array has size 5
+	load	[r14+-168],r1
+	load	[r1],r1
+	set	5, r2
+	cmp	r1,0
+	be	_Label_753
+	cmp	r1,r2
+	bvs	_runtimeErrorOverflow
+	bne	_runtimeErrorWrongArraySize
+_Label_753:
+!   make sure array has size 5
+	load	[r14+-28],r1
+	load	[r1],r1
+	set	5, r2
+	cmp	r1,r2
+	bvs	_runtimeErrorOverflow
+	bne	_runtimeErrorWrongArraySize
+!   Data Move: *_temp_607 = *_temp_614  (sizeInBytes=104)
+	load	[r14+-28],r5
+	load	[r14+-168],r4
+	mov	26,r3
+_Label_754:
+	load	[r5],r1
+	add	r5,4,r5
+	store	r1,[r4]
+	add	r4,4,r4
+	sub	r3,1,r3
+	bne	_Label_754
+! FOR STATEMENT...
+	mov	548,r13		! source line 548
+	mov	"\0\0FO",r10
+!   Calculate and save the FOR-LOOP starting value
+!   _temp_619 = 0		(4 bytes)
+	mov	0,r1
+	store	r1,[r14+-24]
+!   Calculate and save the FOR-LOOP ending value
+!   _temp_620 = 4		(4 bytes)
+	mov	4,r1
+	store	r1,[r14+-20]
+!   Initialize FOR-LOOP index variable
+!   Data Move: i = _temp_619  (sizeInBytes=4)
+	load	[r14+-24],r1
+	store	r1,[r14+-212]
+_Label_615:
+!   Perform the FOR-LOOP termination test
+!   if i > _temp_620 then goto _Label_618		
+	load	[r14+-212],r1
+	load	[r14+-20],r2
+	cmp	r1,r2
+	bvs	_runtimeErrorOverflow
+	bg	_Label_618
+_Label_616:
+	mov	548,r13		! source line 548
+	mov	"\0\0FB",r10
+! SEND STATEMENT...
+	mov	551,r13		! source line 551
+	mov	"\0\0SE",r10
+!   _temp_621 = &sem
+	load	[r14+8],r1
+	add	r1,28,r1
+	store	r1,[r14+-16]
+!   Move address of _temp_621 [i ] into _temp_622
+!     make sure index expr is >= 0
+	load	[r14+-212],r2
+	cmp	r2,0
+	bl	_runtimeErrorBadArrayIndex
+!     make sure index expr is < array size
+	load	[r14+-16],r1
+	load	[r1],r3
+	cmp	r3,0
+	ble	_runtimeErrorUninitializedArray
+	cmp	r2,r3
+	bvs	_runtimeErrorOverflow
+	bge	_runtimeErrorBadArrayIndex
+!     compute address of array element
+	set	20,r3
+	mul	r2,r3,r2
+	add	r2,4,r2
+	add	r2,r1,r2
+	store	r2,[r14+-12]
+!   Prepare Argument: offset=12  value=1  sizeInBytes=4
+	mov	1,r1
+	store	r1,[r15+4]
+!   Send message Init
+	load	[r14+-12],r1
+	load	[r1],r2
+	cmp	r2,0
+	be	 _runtimeErrorUninitializedObject
+	store	r1,[r15]
+	add	r2,4,r2
+	call	r2
+!   Increment the FOR-LOOP index variable and jump back
+_Label_617:
+!   i = i + 1
+	load	[r14+-212],r1
+	add	r1,1,r1
+	bvs	_runtimeErrorOverflow
+	store	r1,[r14+-212]
+	jmp	_Label_615
+! END FOR
+_Label_618:
 ! RETURN STATEMENT...
-	mov	524,r13		! source line 524
+	mov	548,r13		! source line 548
 	mov	"\0\0RE",r10
-	add	r15,4,r15
+	add	r15,216,r15
 	pop	r13
 	pop	r14
 	ret
@@ -26315,20 +26808,139 @@ _Method_P_Main_ForkMonitor_1:
 ! 
 _RoutineDescriptor__Method_P_Main_ForkMonitor_1:
 	.word	_sourceFileName
-	.word	_Label_577
+	.word	_Label_623
 	.word	4		! total size of parameters
-	.word	0		! frame size = 0
-	.word	_Label_578
+	.word	212		! frame size = 212
+	.word	_Label_624
 	.word	4		! size of self
 	.word	8		! offset of self
+	.word	_Label_625
+	.word	-12
+	.word	4
+	.word	_Label_626
+	.word	-16
+	.word	4
+	.word	_Label_627
+	.word	-20
+	.word	4
+	.word	_Label_628
+	.word	-24
+	.word	4
+	.word	_Label_629
+	.word	-28
+	.word	4
+	.word	_Label_630
+	.word	-32
+	.word	4
+	.word	_Label_631
+	.word	-52
+	.word	20
+	.word	_Label_632
+	.word	-56
+	.word	4
+	.word	_Label_633
+	.word	-60
+	.word	4
+	.word	_Label_634
+	.word	-164
+	.word	104
+	.word	_Label_635
+	.word	-168
+	.word	4
+	.word	_Label_636
+	.word	-172
+	.word	4
+	.word	_Label_637
+	.word	-176
+	.word	4
+	.word	_Label_638
+	.word	-180
+	.word	4
+	.word	_Label_639
+	.word	-204
+	.word	24
+	.word	_Label_640
+	.word	-208
+	.word	4
+	.word	_Label_641
+	.word	-212
+	.word	4
 	.word	0
-_Label_577:
+_Label_623:
 	.ascii	"ForkMonitor"
 	.ascii	"::"
 	.ascii	"Init\0"
 	.align
-_Label_578:
+_Label_624:
 	.ascii	"Pself\0"
+	.align
+_Label_625:
+	.byte	'?'
+	.ascii	"_temp_622\0"
+	.align
+_Label_626:
+	.byte	'?'
+	.ascii	"_temp_621\0"
+	.align
+_Label_627:
+	.byte	'?'
+	.ascii	"_temp_620\0"
+	.align
+_Label_628:
+	.byte	'?'
+	.ascii	"_temp_619\0"
+	.align
+_Label_629:
+	.byte	'?'
+	.ascii	"_temp_614\0"
+	.align
+_Label_630:
+	.byte	'?'
+	.ascii	"_temp_612\0"
+	.align
+_Label_631:
+	.byte	'?'
+	.ascii	"_temp_611\0"
+	.align
+_Label_632:
+	.byte	'?'
+	.ascii	"_temp_610\0"
+	.align
+_Label_633:
+	.byte	'?'
+	.ascii	"_temp_609\0"
+	.align
+_Label_634:
+	.byte	'?'
+	.ascii	"_temp_608\0"
+	.align
+_Label_635:
+	.byte	'?'
+	.ascii	"_temp_607\0"
+	.align
+_Label_636:
+	.byte	'?'
+	.ascii	"_temp_606\0"
+	.align
+_Label_637:
+	.byte	'?'
+	.ascii	"_temp_604\0"
+	.align
+_Label_638:
+	.byte	'?'
+	.ascii	"_temp_603\0"
+	.align
+_Label_639:
+	.byte	'?'
+	.ascii	"_temp_602\0"
+	.align
+_Label_640:
+	.byte	'?'
+	.ascii	"_temp_601\0"
+	.align
+_Label_641:
+	.byte	'I'
+	.ascii	"i\0"
 	.align
 ! 
 ! ===============  METHOD PickupForks  ===============
@@ -26339,13 +26951,328 @@ _Method_P_Main_ForkMonitor_2:
 	push	r13
 	set	_RoutineDescriptor__Method_P_Main_ForkMonitor_2,r1
 	push	r1
-	mov	529,r13		! source line 529
+	mov	23,r1
+_Label_755:
+	push	r0
+	sub	r1,1,r1
+	bne	_Label_755
+	mov	555,r13		! source line 555
 	mov	"\0\0ME",r10
 ! VARIABLE INITIALIZATION...
+! ASSIGNMENT STATEMENT...
+	mov	561,r13		! source line 561
+	mov	"\0\0AS",r10
+!   _temp_642 = p - 1		(int)
+	load	[r14+12],r1
+	mov	1,r2
+	sub	r1,r2,r1
+	bvs	_runtimeErrorOverflow
+	store	r1,[r14+-88]
+!   prev = _temp_642 rem 5		(int)
+	load	[r14+-88],r1
+	mov	5,r2
+	cmp	r2,0
+	be	_runtimeErrorZeroDivide
+	rem	r1,r2,r1
+	bvs	_runtimeErrorOverflow
+	store	r1,[r14+-92]
+! ASSIGNMENT STATEMENT...
+	mov	562,r13		! source line 562
+	mov	"\0\0AS",r10
+!   _temp_643 = p + 1		(int)
+	load	[r14+12],r1
+	mov	1,r2
+	add	r1,r2,r1
+	bvs	_runtimeErrorOverflow
+	store	r1,[r14+-84]
+!   next = _temp_643 rem 5		(int)
+	load	[r14+-84],r1
+	mov	5,r2
+	cmp	r2,0
+	be	_runtimeErrorZeroDivide
+	rem	r1,r2,r1
+	bvs	_runtimeErrorOverflow
+	store	r1,[r14+-96]
+! IF STATEMENT...
+	mov	563,r13		! source line 563
+	mov	"\0\0IF",r10
+!   _temp_647 = &status
+	load	[r14+8],r1
+	add	r1,4,r1
+	store	r1,[r14+-76]
+!   Move address of _temp_647 [prev ] into _temp_648
+!     make sure index expr is >= 0
+	load	[r14+-92],r2
+	cmp	r2,0
+	bl	_runtimeErrorBadArrayIndex
+!     make sure index expr is < array size
+	load	[r14+-76],r1
+	load	[r1],r3
+	cmp	r3,0
+	ble	_runtimeErrorUninitializedArray
+	cmp	r2,r3
+	bvs	_runtimeErrorOverflow
+	bge	_runtimeErrorBadArrayIndex
+!     compute address of array element
+	set	4,r3
+	mul	r2,r3,r2
+	add	r2,4,r2
+	add	r2,r1,r2
+	store	r2,[r14+-72]
+!   Data Move: _temp_646 = *_temp_648  (sizeInBytes=4)
+	load	[r14+-72],r1
+	load	[r1],r1
+	store	r1,[r14+-80]
+!   if _temp_646 != 2 then goto _Label_645		(int)
+	load	[r14+-80],r1
+	mov	2,r2
+	cmp	r1,r2
+	bne	_Label_645
+!	jmp	_Label_644
+_Label_644:
+! THEN...
+	mov	565,r13		! source line 565
+	mov	"\0\0TN",r10
+! ASSIGNMENT STATEMENT...
+	mov	565,r13		! source line 565
+	mov	"\0\0AS",r10
+!   _temp_649 = &status
+	load	[r14+8],r1
+	add	r1,4,r1
+	store	r1,[r14+-68]
+!   Move address of _temp_649 [p ] into _temp_650
+!     make sure index expr is >= 0
+	load	[r14+12],r2
+	cmp	r2,0
+	bl	_runtimeErrorBadArrayIndex
+!     make sure index expr is < array size
+	load	[r14+-68],r1
+	load	[r1],r3
+	cmp	r3,0
+	ble	_runtimeErrorUninitializedArray
+	cmp	r2,r3
+	bvs	_runtimeErrorOverflow
+	bge	_runtimeErrorBadArrayIndex
+!     compute address of array element
+	set	4,r3
+	mul	r2,r3,r2
+	add	r2,4,r2
+	add	r2,r1,r2
+	store	r2,[r14+-64]
+!   Data Move: *_temp_650 = 1  (sizeInBytes=4)
+	mov	1,r1
+	load	[r14+-64],r2
+	store	r1,[r2]
+! SEND STATEMENT...
+	mov	566,r13		! source line 566
+	mov	"\0\0SE",r10
+!   _temp_651 = &sem
+	load	[r14+8],r1
+	add	r1,28,r1
+	store	r1,[r14+-60]
+!   Move address of _temp_651 [prev ] into _temp_652
+!     make sure index expr is >= 0
+	load	[r14+-92],r2
+	cmp	r2,0
+	bl	_runtimeErrorBadArrayIndex
+!     make sure index expr is < array size
+	load	[r14+-60],r1
+	load	[r1],r3
+	cmp	r3,0
+	ble	_runtimeErrorUninitializedArray
+	cmp	r2,r3
+	bvs	_runtimeErrorOverflow
+	bge	_runtimeErrorBadArrayIndex
+!     compute address of array element
+	set	20,r3
+	mul	r2,r3,r2
+	add	r2,4,r2
+	add	r2,r1,r2
+	store	r2,[r14+-56]
+!   Send message Down
+	load	[r14+-56],r1
+	load	[r1],r2
+	cmp	r2,0
+	be	 _runtimeErrorUninitializedObject
+	store	r1,[r15]
+	add	r2,8,r2
+	call	r2
+! END IF...
+_Label_645:
+! IF STATEMENT...
+	mov	569,r13		! source line 569
+	mov	"\0\0IF",r10
+!   _temp_656 = &status
+	load	[r14+8],r1
+	add	r1,4,r1
+	store	r1,[r14+-48]
+!   Move address of _temp_656 [next ] into _temp_657
+!     make sure index expr is >= 0
+	load	[r14+-96],r2
+	cmp	r2,0
+	bl	_runtimeErrorBadArrayIndex
+!     make sure index expr is < array size
+	load	[r14+-48],r1
+	load	[r1],r3
+	cmp	r3,0
+	ble	_runtimeErrorUninitializedArray
+	cmp	r2,r3
+	bvs	_runtimeErrorOverflow
+	bge	_runtimeErrorBadArrayIndex
+!     compute address of array element
+	set	4,r3
+	mul	r2,r3,r2
+	add	r2,4,r2
+	add	r2,r1,r2
+	store	r2,[r14+-44]
+!   Data Move: _temp_655 = *_temp_657  (sizeInBytes=4)
+	load	[r14+-44],r1
+	load	[r1],r1
+	store	r1,[r14+-52]
+!   if _temp_655 != 2 then goto _Label_654		(int)
+	load	[r14+-52],r1
+	mov	2,r2
+	cmp	r1,r2
+	bne	_Label_654
+!	jmp	_Label_653
+_Label_653:
+! THEN...
+	mov	571,r13		! source line 571
+	mov	"\0\0TN",r10
+! ASSIGNMENT STATEMENT...
+	mov	571,r13		! source line 571
+	mov	"\0\0AS",r10
+!   _temp_658 = &status
+	load	[r14+8],r1
+	add	r1,4,r1
+	store	r1,[r14+-40]
+!   Move address of _temp_658 [p ] into _temp_659
+!     make sure index expr is >= 0
+	load	[r14+12],r2
+	cmp	r2,0
+	bl	_runtimeErrorBadArrayIndex
+!     make sure index expr is < array size
+	load	[r14+-40],r1
+	load	[r1],r3
+	cmp	r3,0
+	ble	_runtimeErrorUninitializedArray
+	cmp	r2,r3
+	bvs	_runtimeErrorOverflow
+	bge	_runtimeErrorBadArrayIndex
+!     compute address of array element
+	set	4,r3
+	mul	r2,r3,r2
+	add	r2,4,r2
+	add	r2,r1,r2
+	store	r2,[r14+-36]
+!   Data Move: *_temp_659 = 1  (sizeInBytes=4)
+	mov	1,r1
+	load	[r14+-36],r2
+	store	r1,[r2]
+! SEND STATEMENT...
+	mov	572,r13		! source line 572
+	mov	"\0\0SE",r10
+!   _temp_660 = &sem
+	load	[r14+8],r1
+	add	r1,28,r1
+	store	r1,[r14+-32]
+!   Move address of _temp_660 [next ] into _temp_661
+!     make sure index expr is >= 0
+	load	[r14+-96],r2
+	cmp	r2,0
+	bl	_runtimeErrorBadArrayIndex
+!     make sure index expr is < array size
+	load	[r14+-32],r1
+	load	[r1],r3
+	cmp	r3,0
+	ble	_runtimeErrorUninitializedArray
+	cmp	r2,r3
+	bvs	_runtimeErrorOverflow
+	bge	_runtimeErrorBadArrayIndex
+!     compute address of array element
+	set	20,r3
+	mul	r2,r3,r2
+	add	r2,4,r2
+	add	r2,r1,r2
+	store	r2,[r14+-28]
+!   Send message Down
+	load	[r14+-28],r1
+	load	[r1],r2
+	cmp	r2,0
+	be	 _runtimeErrorUninitializedObject
+	store	r1,[r15]
+	add	r2,8,r2
+	call	r2
+! END IF...
+_Label_654:
+! SEND STATEMENT...
+	mov	576,r13		! source line 576
+	mov	"\0\0SE",r10
+!   _temp_662 = &sem
+	load	[r14+8],r1
+	add	r1,28,r1
+	store	r1,[r14+-24]
+!   Move address of _temp_662 [p ] into _temp_663
+!     make sure index expr is >= 0
+	load	[r14+12],r2
+	cmp	r2,0
+	bl	_runtimeErrorBadArrayIndex
+!     make sure index expr is < array size
+	load	[r14+-24],r1
+	load	[r1],r3
+	cmp	r3,0
+	ble	_runtimeErrorUninitializedArray
+	cmp	r2,r3
+	bvs	_runtimeErrorOverflow
+	bge	_runtimeErrorBadArrayIndex
+!     compute address of array element
+	set	20,r3
+	mul	r2,r3,r2
+	add	r2,4,r2
+	add	r2,r1,r2
+	store	r2,[r14+-20]
+!   Send message Up
+	load	[r14+-20],r1
+	load	[r1],r2
+	cmp	r2,0
+	be	 _runtimeErrorUninitializedObject
+	store	r1,[r15]
+	add	r2,12,r2
+	call	r2
+! ASSIGNMENT STATEMENT...
+	mov	577,r13		! source line 577
+	mov	"\0\0AS",r10
+!   _temp_664 = &status
+	load	[r14+8],r1
+	add	r1,4,r1
+	store	r1,[r14+-16]
+!   Move address of _temp_664 [p ] into _temp_665
+!     make sure index expr is >= 0
+	load	[r14+12],r2
+	cmp	r2,0
+	bl	_runtimeErrorBadArrayIndex
+!     make sure index expr is < array size
+	load	[r14+-16],r1
+	load	[r1],r3
+	cmp	r3,0
+	ble	_runtimeErrorUninitializedArray
+	cmp	r2,r3
+	bvs	_runtimeErrorOverflow
+	bge	_runtimeErrorBadArrayIndex
+!     compute address of array element
+	set	4,r3
+	mul	r2,r3,r2
+	add	r2,4,r2
+	add	r2,r1,r2
+	store	r2,[r14+-12]
+!   Data Move: *_temp_665 = 2  (sizeInBytes=4)
+	mov	2,r1
+	load	[r14+-12],r2
+	store	r1,[r2]
 ! RETURN STATEMENT...
-	mov	529,r13		! source line 529
+	mov	577,r13		! source line 577
 	mov	"\0\0RE",r10
-	add	r15,4,r15
+	add	r15,96,r15
 	pop	r13
 	pop	r14
 	ret
@@ -26354,27 +27281,181 @@ _Method_P_Main_ForkMonitor_2:
 ! 
 _RoutineDescriptor__Method_P_Main_ForkMonitor_2:
 	.word	_sourceFileName
-	.word	_Label_579
+	.word	_Label_666
 	.word	8		! total size of parameters
-	.word	0		! frame size = 0
-	.word	_Label_580
+	.word	92		! frame size = 92
+	.word	_Label_667
 	.word	4		! size of self
 	.word	8		! offset of self
-	.word	_Label_581
+	.word	_Label_668
 	.word	12
 	.word	4
+	.word	_Label_669
+	.word	-12
+	.word	4
+	.word	_Label_670
+	.word	-16
+	.word	4
+	.word	_Label_671
+	.word	-20
+	.word	4
+	.word	_Label_672
+	.word	-24
+	.word	4
+	.word	_Label_673
+	.word	-28
+	.word	4
+	.word	_Label_674
+	.word	-32
+	.word	4
+	.word	_Label_675
+	.word	-36
+	.word	4
+	.word	_Label_676
+	.word	-40
+	.word	4
+	.word	_Label_677
+	.word	-44
+	.word	4
+	.word	_Label_678
+	.word	-48
+	.word	4
+	.word	_Label_679
+	.word	-52
+	.word	4
+	.word	_Label_680
+	.word	-56
+	.word	4
+	.word	_Label_681
+	.word	-60
+	.word	4
+	.word	_Label_682
+	.word	-64
+	.word	4
+	.word	_Label_683
+	.word	-68
+	.word	4
+	.word	_Label_684
+	.word	-72
+	.word	4
+	.word	_Label_685
+	.word	-76
+	.word	4
+	.word	_Label_686
+	.word	-80
+	.word	4
+	.word	_Label_687
+	.word	-84
+	.word	4
+	.word	_Label_688
+	.word	-88
+	.word	4
+	.word	_Label_689
+	.word	-92
+	.word	4
+	.word	_Label_690
+	.word	-96
+	.word	4
 	.word	0
-_Label_579:
+_Label_666:
 	.ascii	"ForkMonitor"
 	.ascii	"::"
 	.ascii	"PickupForks\0"
 	.align
-_Label_580:
+_Label_667:
 	.ascii	"Pself\0"
 	.align
-_Label_581:
+_Label_668:
 	.byte	'I'
 	.ascii	"p\0"
+	.align
+_Label_669:
+	.byte	'?'
+	.ascii	"_temp_665\0"
+	.align
+_Label_670:
+	.byte	'?'
+	.ascii	"_temp_664\0"
+	.align
+_Label_671:
+	.byte	'?'
+	.ascii	"_temp_663\0"
+	.align
+_Label_672:
+	.byte	'?'
+	.ascii	"_temp_662\0"
+	.align
+_Label_673:
+	.byte	'?'
+	.ascii	"_temp_661\0"
+	.align
+_Label_674:
+	.byte	'?'
+	.ascii	"_temp_660\0"
+	.align
+_Label_675:
+	.byte	'?'
+	.ascii	"_temp_659\0"
+	.align
+_Label_676:
+	.byte	'?'
+	.ascii	"_temp_658\0"
+	.align
+_Label_677:
+	.byte	'?'
+	.ascii	"_temp_657\0"
+	.align
+_Label_678:
+	.byte	'?'
+	.ascii	"_temp_656\0"
+	.align
+_Label_679:
+	.byte	'?'
+	.ascii	"_temp_655\0"
+	.align
+_Label_680:
+	.byte	'?'
+	.ascii	"_temp_652\0"
+	.align
+_Label_681:
+	.byte	'?'
+	.ascii	"_temp_651\0"
+	.align
+_Label_682:
+	.byte	'?'
+	.ascii	"_temp_650\0"
+	.align
+_Label_683:
+	.byte	'?'
+	.ascii	"_temp_649\0"
+	.align
+_Label_684:
+	.byte	'?'
+	.ascii	"_temp_648\0"
+	.align
+_Label_685:
+	.byte	'?'
+	.ascii	"_temp_647\0"
+	.align
+_Label_686:
+	.byte	'?'
+	.ascii	"_temp_646\0"
+	.align
+_Label_687:
+	.byte	'?'
+	.ascii	"_temp_643\0"
+	.align
+_Label_688:
+	.byte	'?'
+	.ascii	"_temp_642\0"
+	.align
+_Label_689:
+	.byte	'I'
+	.ascii	"prev\0"
+	.align
+_Label_690:
+	.byte	'I'
+	.ascii	"next\0"
 	.align
 ! 
 ! ===============  METHOD PutDownForks  ===============
@@ -26385,13 +27466,82 @@ _Method_P_Main_ForkMonitor_3:
 	push	r13
 	set	_RoutineDescriptor__Method_P_Main_ForkMonitor_3,r1
 	push	r1
-	mov	534,r13		! source line 534
+	mov	5,r1
+_Label_756:
+	push	r0
+	sub	r1,1,r1
+	bne	_Label_756
+	mov	585,r13		! source line 585
 	mov	"\0\0ME",r10
 ! VARIABLE INITIALIZATION...
+! SEND STATEMENT...
+	mov	587,r13		! source line 587
+	mov	"\0\0SE",r10
+!   _temp_691 = &sem
+	load	[r14+8],r1
+	add	r1,28,r1
+	store	r1,[r14+-24]
+!   Move address of _temp_691 [p ] into _temp_692
+!     make sure index expr is >= 0
+	load	[r14+12],r2
+	cmp	r2,0
+	bl	_runtimeErrorBadArrayIndex
+!     make sure index expr is < array size
+	load	[r14+-24],r1
+	load	[r1],r3
+	cmp	r3,0
+	ble	_runtimeErrorUninitializedArray
+	cmp	r2,r3
+	bvs	_runtimeErrorOverflow
+	bge	_runtimeErrorBadArrayIndex
+!     compute address of array element
+	set	20,r3
+	mul	r2,r3,r2
+	add	r2,4,r2
+	add	r2,r1,r2
+	store	r2,[r14+-20]
+!   Send message Up
+	load	[r14+-20],r1
+	load	[r1],r2
+	cmp	r2,0
+	be	 _runtimeErrorUninitializedObject
+	store	r1,[r15]
+	add	r2,12,r2
+	call	r2
+! ASSIGNMENT STATEMENT...
+	mov	588,r13		! source line 588
+	mov	"\0\0AS",r10
+!   _temp_693 = &status
+	load	[r14+8],r1
+	add	r1,4,r1
+	store	r1,[r14+-16]
+!   Move address of _temp_693 [p ] into _temp_694
+!     make sure index expr is >= 0
+	load	[r14+12],r2
+	cmp	r2,0
+	bl	_runtimeErrorBadArrayIndex
+!     make sure index expr is < array size
+	load	[r14+-16],r1
+	load	[r1],r3
+	cmp	r3,0
+	ble	_runtimeErrorUninitializedArray
+	cmp	r2,r3
+	bvs	_runtimeErrorOverflow
+	bge	_runtimeErrorBadArrayIndex
+!     compute address of array element
+	set	4,r3
+	mul	r2,r3,r2
+	add	r2,4,r2
+	add	r2,r1,r2
+	store	r2,[r14+-12]
+!   Data Move: *_temp_694 = 3  (sizeInBytes=4)
+	mov	3,r1
+	load	[r14+-12],r2
+	store	r1,[r2]
 ! RETURN STATEMENT...
-	mov	534,r13		! source line 534
+	mov	588,r13		! source line 588
 	mov	"\0\0RE",r10
-	add	r15,4,r15
+	add	r15,24,r15
 	pop	r13
 	pop	r14
 	ret
@@ -26400,27 +27550,55 @@ _Method_P_Main_ForkMonitor_3:
 ! 
 _RoutineDescriptor__Method_P_Main_ForkMonitor_3:
 	.word	_sourceFileName
-	.word	_Label_582
+	.word	_Label_695
 	.word	8		! total size of parameters
-	.word	0		! frame size = 0
-	.word	_Label_583
+	.word	20		! frame size = 20
+	.word	_Label_696
 	.word	4		! size of self
 	.word	8		! offset of self
-	.word	_Label_584
+	.word	_Label_697
 	.word	12
 	.word	4
+	.word	_Label_698
+	.word	-12
+	.word	4
+	.word	_Label_699
+	.word	-16
+	.word	4
+	.word	_Label_700
+	.word	-20
+	.word	4
+	.word	_Label_701
+	.word	-24
+	.word	4
 	.word	0
-_Label_582:
+_Label_695:
 	.ascii	"ForkMonitor"
 	.ascii	"::"
 	.ascii	"PutDownForks\0"
 	.align
-_Label_583:
+_Label_696:
 	.ascii	"Pself\0"
 	.align
-_Label_584:
+_Label_697:
 	.byte	'I'
 	.ascii	"p\0"
+	.align
+_Label_698:
+	.byte	'?'
+	.ascii	"_temp_694\0"
+	.align
+_Label_699:
+	.byte	'?'
+	.ascii	"_temp_693\0"
+	.align
+_Label_700:
+	.byte	'?'
+	.ascii	"_temp_692\0"
+	.align
+_Label_701:
+	.byte	'?'
+	.ascii	"_temp_691\0"
 	.align
 ! 
 ! ===============  METHOD PrintAllStatus  ===============
@@ -26432,48 +27610,48 @@ _Method_P_Main_ForkMonitor_4:
 	set	_RoutineDescriptor__Method_P_Main_ForkMonitor_4,r1
 	push	r1
 	mov	10,r1
-_Label_634:
+_Label_757:
 	push	r0
 	sub	r1,1,r1
-	bne	_Label_634
-	mov	539,r13		! source line 539
+	bne	_Label_757
+	mov	591,r13		! source line 591
 	mov	"\0\0ME",r10
 ! VARIABLE INITIALIZATION...
 ! FOR STATEMENT...
-	mov	553,r13		! source line 553
+	mov	605,r13		! source line 605
 	mov	"\0\0FO",r10
 !   Calculate and save the FOR-LOOP starting value
-!   _temp_589 = 0		(4 bytes)
+!   _temp_706 = 0		(4 bytes)
 	mov	0,r1
 	store	r1,[r14+-40]
 !   Calculate and save the FOR-LOOP ending value
-!   _temp_590 = 4		(4 bytes)
+!   _temp_707 = 4		(4 bytes)
 	mov	4,r1
 	store	r1,[r14+-36]
 !   Initialize FOR-LOOP index variable
-!   Data Move: p = _temp_589  (sizeInBytes=4)
+!   Data Move: p = _temp_706  (sizeInBytes=4)
 	load	[r14+-40],r1
 	store	r1,[r14+-44]
-_Label_585:
+_Label_702:
 !   Perform the FOR-LOOP termination test
-!   if p > _temp_590 then goto _Label_588		
+!   if p > _temp_707 then goto _Label_705		
 	load	[r14+-44],r1
 	load	[r14+-36],r2
 	cmp	r1,r2
 	bvs	_runtimeErrorOverflow
-	bg	_Label_588
-_Label_586:
-	mov	553,r13		! source line 553
+	bg	_Label_705
+_Label_703:
+	mov	605,r13		! source line 605
 	mov	"\0\0FB",r10
 ! SWITCH STATEMENT (using series of tests)...
-	mov	554,r13		! source line 554
+	mov	606,r13		! source line 606
 	mov	"\0\0SW",r10
 !   Evaluate the switch expression...
-!   _temp_597 = &status
+!   _temp_714 = &status
 	load	[r14+8],r1
 	add	r1,4,r1
 	store	r1,[r14+-28]
-!   Move address of _temp_597 [p ] into _temp_598
+!   Move address of _temp_714 [p ] into _temp_715
 !     make sure index expr is >= 0
 	load	[r14+-44],r2
 	cmp	r2,0
@@ -26492,91 +27670,91 @@ _Label_586:
 	add	r2,4,r2
 	add	r2,r1,r2
 	store	r2,[r14+-24]
-!   Data Move: _temp_596 = *_temp_598  (sizeInBytes=4)
+!   Data Move: _temp_713 = *_temp_715  (sizeInBytes=4)
 	load	[r14+-24],r1
 	load	[r1],r1
 	store	r1,[r14+-32]
 !   Branch to the right case label
 	load	[r14+-32],r1
 	cmp	r1,1
-	be	_Label_593
+	be	_Label_710
 	cmp	r1,2
-	be	_Label_594
+	be	_Label_711
 	cmp	r1,3
-	be	_Label_595
-	jmp	_Label_591
+	be	_Label_712
+	jmp	_Label_708
 ! CASE 1...
-_Label_593:
+_Label_710:
 ! CALL STATEMENT...
-!   _temp_599 = _StringConst_43
-	set	_StringConst_43,r1
+!   _temp_716 = _StringConst_45
+	set	_StringConst_45,r1
 	store	r1,[r14+-20]
-!   Prepare Argument: offset=8  value=_temp_599  sizeInBytes=4
+!   Prepare Argument: offset=8  value=_temp_716  sizeInBytes=4
 	load	[r14+-20],r1
 	store	r1,[r15+0]
 !   Call the function
-	mov	556,r13		! source line 556
+	mov	608,r13		! source line 608
 	mov	"\0\0CE",r10
 	call	print
 ! BREAK STATEMENT...
-	mov	557,r13		! source line 557
+	mov	609,r13		! source line 609
 	mov	"\0\0BR",r10
-	jmp	_Label_592
+	jmp	_Label_709
 ! CASE 2...
-_Label_594:
+_Label_711:
 ! CALL STATEMENT...
-!   _temp_600 = _StringConst_44
-	set	_StringConst_44,r1
+!   _temp_717 = _StringConst_46
+	set	_StringConst_46,r1
 	store	r1,[r14+-16]
-!   Prepare Argument: offset=8  value=_temp_600  sizeInBytes=4
+!   Prepare Argument: offset=8  value=_temp_717  sizeInBytes=4
 	load	[r14+-16],r1
 	store	r1,[r15+0]
 !   Call the function
-	mov	559,r13		! source line 559
+	mov	611,r13		! source line 611
 	mov	"\0\0CE",r10
 	call	print
 ! BREAK STATEMENT...
-	mov	560,r13		! source line 560
+	mov	612,r13		! source line 612
 	mov	"\0\0BR",r10
-	jmp	_Label_592
+	jmp	_Label_709
 ! CASE 3...
-_Label_595:
+_Label_712:
 ! CALL STATEMENT...
-!   _temp_601 = _StringConst_45
-	set	_StringConst_45,r1
+!   _temp_718 = _StringConst_47
+	set	_StringConst_47,r1
 	store	r1,[r14+-12]
-!   Prepare Argument: offset=8  value=_temp_601  sizeInBytes=4
+!   Prepare Argument: offset=8  value=_temp_718  sizeInBytes=4
 	load	[r14+-12],r1
 	store	r1,[r15+0]
 !   Call the function
-	mov	562,r13		! source line 562
+	mov	614,r13		! source line 614
 	mov	"\0\0CE",r10
 	call	print
 ! BREAK STATEMENT...
-	mov	563,r13		! source line 563
+	mov	615,r13		! source line 615
 	mov	"\0\0BR",r10
-	jmp	_Label_592
+	jmp	_Label_709
 ! DEFAULT CASE...
-_Label_591:
+_Label_708:
 ! END SWITCH...
-_Label_592:
+_Label_709:
 !   Increment the FOR-LOOP index variable and jump back
-_Label_587:
+_Label_704:
 !   p = p + 1
 	load	[r14+-44],r1
 	add	r1,1,r1
 	bvs	_runtimeErrorOverflow
 	store	r1,[r14+-44]
-	jmp	_Label_585
+	jmp	_Label_702
 ! END FOR
-_Label_588:
+_Label_705:
 ! CALL STATEMENT...
 !   Call the function
-	mov	566,r13		! source line 566
+	mov	618,r13		! source line 618
 	mov	"\0\0CA",r10
 	call	_P_System_nl
 ! RETURN STATEMENT...
-	mov	566,r13		! source line 566
+	mov	618,r13		! source line 618
 	mov	"\0\0RE",r10
 	add	r15,44,r15
 	pop	r13
@@ -26587,81 +27765,81 @@ _Label_588:
 ! 
 _RoutineDescriptor__Method_P_Main_ForkMonitor_4:
 	.word	_sourceFileName
-	.word	_Label_602
+	.word	_Label_719
 	.word	4		! total size of parameters
 	.word	40		! frame size = 40
-	.word	_Label_603
+	.word	_Label_720
 	.word	4		! size of self
 	.word	8		! offset of self
-	.word	_Label_604
+	.word	_Label_721
 	.word	-12
 	.word	4
-	.word	_Label_605
+	.word	_Label_722
 	.word	-16
 	.word	4
-	.word	_Label_606
+	.word	_Label_723
 	.word	-20
 	.word	4
-	.word	_Label_607
+	.word	_Label_724
 	.word	-24
 	.word	4
-	.word	_Label_608
+	.word	_Label_725
 	.word	-28
 	.word	4
-	.word	_Label_609
+	.word	_Label_726
 	.word	-32
 	.word	4
-	.word	_Label_610
+	.word	_Label_727
 	.word	-36
 	.word	4
-	.word	_Label_611
+	.word	_Label_728
 	.word	-40
 	.word	4
-	.word	_Label_612
+	.word	_Label_729
 	.word	-44
 	.word	4
 	.word	0
-_Label_602:
+_Label_719:
 	.ascii	"ForkMonitor"
 	.ascii	"::"
 	.ascii	"PrintAllStatus\0"
 	.align
-_Label_603:
+_Label_720:
 	.ascii	"Pself\0"
 	.align
-_Label_604:
+_Label_721:
 	.byte	'?'
-	.ascii	"_temp_601\0"
+	.ascii	"_temp_718\0"
 	.align
-_Label_605:
+_Label_722:
 	.byte	'?'
-	.ascii	"_temp_600\0"
+	.ascii	"_temp_717\0"
 	.align
-_Label_606:
+_Label_723:
 	.byte	'?'
-	.ascii	"_temp_599\0"
+	.ascii	"_temp_716\0"
 	.align
-_Label_607:
+_Label_724:
 	.byte	'?'
-	.ascii	"_temp_598\0"
+	.ascii	"_temp_715\0"
 	.align
-_Label_608:
+_Label_725:
 	.byte	'?'
-	.ascii	"_temp_597\0"
+	.ascii	"_temp_714\0"
 	.align
-_Label_609:
+_Label_726:
 	.byte	'?'
-	.ascii	"_temp_596\0"
+	.ascii	"_temp_713\0"
 	.align
-_Label_610:
+_Label_727:
 	.byte	'?'
-	.ascii	"_temp_590\0"
+	.ascii	"_temp_707\0"
 	.align
-_Label_611:
+_Label_728:
 	.byte	'?'
-	.ascii	"_temp_589\0"
+	.ascii	"_temp_706\0"
 	.align
-_Label_612:
+_Label_729:
 	.byte	'I'
 	.ascii	"p\0"
 	.align
