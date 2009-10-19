@@ -47,10 +47,20 @@ public class MjcLexer extends SourceLexer implements MjcTokens {
                     }
 
         case '>'  : nextChar();
-                    return token='>';
+                    if (c=='=') {
+                      nextChar();
+                      return token=GTEQ;
+                    } else {
+                      return token='>';
+                    }
 
         case '<'  : nextChar();
-                    return token='<';
+                    if (c=='=') {
+                      nextChar();
+                      return token=LTEQ;
+                    } else {
+                      return token='<';
+                    }
 
         case '!'  : nextChar();
                     if (c=='=') {
@@ -80,10 +90,20 @@ public class MjcLexer extends SourceLexer implements MjcTokens {
                     return token='^';
 
         case '+'  : nextChar();
-                    return token='+';
+                    if (c=='=') {
+                      nextChar();
+                      return token=PLUSEQ;
+                    } else {
+                      return token='+';
+                    }
 
         case '-'  : nextChar();
-                    return token='-';
+                    if (c=='=') {
+                      nextChar();
+                      return token=MINUSEQ;
+                    } else {
+                      return token='-';
+                    }
 
         case '*'  : nextChar();
                     return token='*';
@@ -191,6 +211,10 @@ public class MjcLexer extends SourceLexer implements MjcTokens {
     reserved.put("null",    new Integer(NULL));
     reserved.put("true",    new Integer(TRUE));
     reserved.put("false",   new Integer(FALSE));
+    reserved.put("private", new Integer(PRIVATE));
+    reserved.put("protected",new Integer(PROTECTED));
+    reserved.put("public",  new Integer(PUBLIC));
+    reserved.put("abstract",new Integer(ABSTRACT));
   }
 
   //- Numeric integer literals ----------------------------------------------

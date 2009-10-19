@@ -24,6 +24,14 @@ interface MjcTokens {
     int TRUE = 20;
     int VOID = 21;
     int WHILE = 22;
+    int GTEQ = 23;
+    int LTEQ = 24;
+    int PLUSEQ = 25;
+    int MINUSEQ = 26;
+    int PRIVATE = 27;
+    int PROTECTED = 28;
+    int PUBLIC = 29;
+    int ABSTRACT = 30;
     // '!' (code=33)
     // '&' (code=38)
     // '(' (code=40)

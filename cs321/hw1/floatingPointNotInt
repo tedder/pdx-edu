@@ -1,0 +1,3 @@
+// test that integers stop parsing at the period. Should be an illegal character.
+int i = 302.11;
+// not detected as an error.

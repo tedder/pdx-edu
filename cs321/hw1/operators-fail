@@ -1,0 +1,5 @@
+// these operators should parse but may not work.
+foo &= bar;
+foo >= bar;
+foo != bar;
+foo |= bar;
