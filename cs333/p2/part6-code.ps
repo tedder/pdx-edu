@@ -1,0 +1,1429 @@
+%!PS-Adobe-3.0
+%%BoundingBox: 18 36 594 756
+%%Title: Enscript Output
+%%Creator: GNU enscript 1.6.4
+%%CreationDate: Sun Oct 18 19:20:32 2009
+%%Orientation: Portrait
+%%Pages: (atend)
+%%DocumentMedia: Letter 612 792 0 () ()
+%%DocumentNeededResources: (atend)
+%%EndComments
+%%BeginProlog
+%%BeginResource: procset Enscript-Prolog 1.6 4
+%
+% Procedures.
+%
+
+/_S {	% save current state
+  /_s save def
+} def
+/_R {	% restore from saved state
+  _s restore
+} def
+
+/S {	% showpage protecting gstate
+  gsave
+  showpage
+  grestore
+} bind def
+
+/MF {	% fontname newfontname -> -	make a new encoded font
+  /newfontname exch def
+  /fontname exch def
+
+  /fontdict fontname findfont def
+  /newfont fontdict maxlength dict def
+
+  fontdict {
+    exch
+    dup /FID eq {
+      % skip FID pair
+      pop pop
+    } {
+      % copy to the new font dictionary
+      exch newfont 3 1 roll put
+    } ifelse
+  } forall
+
+  newfont /FontName newfontname put
+
+  % insert only valid encoding vectors
+  encoding_vector length 256 eq {
+    newfont /Encoding encoding_vector put
+  } if
+
+  newfontname newfont definefont pop
+} def
+
+/MF_PS { % fontname newfontname -> -	make a new font preserving its enc
+  /newfontname exch def
+  /fontname exch def
+
+  /fontdict fontname findfont def
+  /newfont fontdict maxlength dict def
+
+  fontdict {
+    exch
+    dup /FID eq {
+      % skip FID pair
+      pop pop
+    } {
+      % copy to the new font dictionary
+      exch newfont 3 1 roll put
+    } ifelse
+  } forall
+
+  newfont /FontName newfontname put
+
+  newfontname newfont definefont pop
+} def
+
+/SF { % fontname width height -> -	set a new font
+  /height exch def
+  /width exch def
+
+  findfont
+  [width 0 0 height 0 0] makefont setfont
+} def
+
+/SUF { % fontname width height -> -	set a new user font
+  /height exch def
+  /width exch def
+
+  /F-gs-user-font MF
+  /F-gs-user-font width height SF
+} def
+
+/SUF_PS { % fontname width height -> -	set a new user font preserving its enc
+  /height exch def
+  /width exch def
+
+  /F-gs-user-font MF_PS
+  /F-gs-user-font width height SF
+} def
+
+/M {moveto} bind def
+/s {show} bind def
+
+/Box {	% x y w h -> -			define box path
+  /d_h exch def /d_w exch def /d_y exch def /d_x exch def
+  d_x d_y  moveto
+  d_w 0 rlineto
+  0 d_h rlineto
+  d_w neg 0 rlineto
+  closepath
+} def
+
+/bgs {	% x y height blskip gray str -> -	show string with bg color
+  /str exch def
+  /gray exch def
+  /blskip exch def
+  /height exch def
+  /y exch def
+  /x exch def
+
+  gsave
+    x y blskip sub str stringwidth pop height Box
+    gray setgray
+    fill
+  grestore
+  x y M str s
+} def
+
+/bgcs { % x y height blskip red green blue str -> -  show string with bg color
+  /str exch def
+  /blue exch def
+  /green exch def
+  /red exch def
+  /blskip exch def
+  /height exch def
+  /y exch def
+  /x exch def
+
+  gsave
+    x y blskip sub str stringwidth pop height Box
+    red green blue setrgbcolor
+    fill
+  grestore
+  x y M str s
+} def
+
+% Highlight bars.
+/highlight_bars {	% nlines lineheight output_y_margin gray -> -
+  gsave
+    setgray
+    /ymarg exch def
+    /lineheight exch def
+    /nlines exch def
+
+    % This 2 is just a magic number to sync highlight lines to text.
+    0 d_header_y ymarg sub 2 sub translate
+
+    /cw d_output_w cols div def
+    /nrows d_output_h ymarg 2 mul sub lineheight div cvi def
+
+    % for each column
+    0 1 cols 1 sub {
+      cw mul /xp exch def
+
+      % for each rows
+      0 1 nrows 1 sub {
+        /rn exch def
+        rn lineheight mul neg /yp exch def
+        rn nlines idiv 2 mod 0 eq {
+	  % Draw highlight bar.  4 is just a magic indentation.
+	  xp 4 add yp cw 8 sub lineheight neg Box fill
+	} if
+      } for
+    } for
+
+  grestore
+} def
+
+% Line highlight bar.
+/line_highlight {	% x y width height gray -> -
+  gsave
+    /gray exch def
+    Box gray setgray fill
+  grestore
+} def
+
+% Column separator lines.
+/column_lines {
+  gsave
+    .1 setlinewidth
+    0 d_footer_h translate
+    /cw d_output_w cols div def
+    1 1 cols 1 sub {
+      cw mul 0 moveto
+      0 d_output_h rlineto stroke
+    } for
+  grestore
+} def
+
+% Column borders.
+/column_borders {
+  gsave
+    .1 setlinewidth
+    0 d_footer_h moveto
+    0 d_output_h rlineto
+    d_output_w 0 rlineto
+    0 d_output_h neg rlineto
+    closepath stroke
+  grestore
+} def
+
+% Do the actual underlay drawing
+/draw_underlay {
+  ul_style 0 eq {
+    ul_str true charpath stroke
+  } {
+    ul_str show
+  } ifelse
+} def
+
+% Underlay
+/underlay {	% - -> -
+  gsave
+    0 d_page_h translate
+    d_page_h neg d_page_w atan rotate
+
+    ul_gray setgray
+    ul_font setfont
+    /dw d_page_h dup mul d_page_w dup mul add sqrt def
+    ul_str stringwidth pop dw exch sub 2 div ul_h_ptsize -2 div moveto
+    draw_underlay
+  grestore
+} def
+
+/user_underlay {	% - -> -
+  gsave
+    ul_x ul_y translate
+    ul_angle rotate
+    ul_gray setgray
+    ul_font setfont
+    0 0 ul_h_ptsize 2 div sub moveto
+    draw_underlay
+  grestore
+} def
+
+% Page prefeed
+/page_prefeed {		% bool -> -
+  statusdict /prefeed known {
+    statusdict exch /prefeed exch put
+  } {
+    pop
+  } ifelse
+} def
+
+% Wrapped line markers
+/wrapped_line_mark {	% x y charwith charheight type -> -
+  /type exch def
+  /h exch def
+  /w exch def
+  /y exch def
+  /x exch def
+
+  type 2 eq {
+    % Black boxes (like TeX does)
+    gsave
+      0 setlinewidth
+      x w 4 div add y M
+      0 h rlineto w 2 div 0 rlineto 0 h neg rlineto
+      closepath fill
+    grestore
+  } {
+    type 3 eq {
+      % Small arrows
+      gsave
+        .2 setlinewidth
+        x w 2 div add y h 2 div add M
+        w 4 div 0 rlineto
+        x w 4 div add y lineto stroke
+
+        x w 4 div add w 8 div add y h 4 div add M
+        x w 4 div add y lineto
+	w 4 div h 8 div rlineto stroke
+      grestore
+    } {
+      % do nothing
+    } ifelse
+  } ifelse
+} def
+
+% EPSF import.
+
+/BeginEPSF {
+  /b4_Inc_state save def    		% Save state for cleanup
+  /dict_count countdictstack def	% Count objects on dict stack
+  /op_count count 1 sub def		% Count objects on operand stack
+  userdict begin
+  /showpage { } def
+  0 setgray 0 setlinecap
+  1 setlinewidth 0 setlinejoin
+  10 setmiterlimit [ ] 0 setdash newpath
+  /languagelevel where {
+    pop languagelevel
+    1 ne {
+      false setstrokeadjust false setoverprint
+    } if
+  } if
+} bind def
+
+/EndEPSF {
+  count op_count sub { pos } repeat	% Clean up stacks
+  countdictstack dict_count sub { end } repeat
+  b4_Inc_state restore
+} bind def
+
+% Check PostScript language level.
+/languagelevel where {
+  pop /gs_languagelevel languagelevel def
+} {
+  /gs_languagelevel 1 def
+} ifelse
+%%EndResource
+%%BeginResource: procset Enscript-Encoding-88591 1.6 4
+/encoding_vector [
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/space        	/exclam       	/quotedbl     	/numbersign   	
+/dollar       	/percent      	/ampersand    	/quoteright   	
+/parenleft    	/parenright   	/asterisk     	/plus         	
+/comma        	/hyphen       	/period       	/slash        	
+/zero         	/one          	/two          	/three        	
+/four         	/five         	/six          	/seven        	
+/eight        	/nine         	/colon        	/semicolon    	
+/less         	/equal        	/greater      	/question     	
+/at           	/A            	/B            	/C            	
+/D            	/E            	/F            	/G            	
+/H            	/I            	/J            	/K            	
+/L            	/M            	/N            	/O            	
+/P            	/Q            	/R            	/S            	
+/T            	/U            	/V            	/W            	
+/X            	/Y            	/Z            	/bracketleft  	
+/backslash    	/bracketright 	/asciicircum  	/underscore   	
+/quoteleft    	/a            	/b            	/c            	
+/d            	/e            	/f            	/g            	
+/h            	/i            	/j            	/k            	
+/l            	/m            	/n            	/o            	
+/p            	/q            	/r            	/s            	
+/t            	/u            	/v            	/w            	
+/x            	/y            	/z            	/braceleft    	
+/bar          	/braceright   	/tilde        	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/space        	/exclamdown   	/cent         	/sterling     	
+/currency     	/yen          	/brokenbar    	/section      	
+/dieresis     	/copyright    	/ordfeminine  	/guillemotleft	
+/logicalnot   	/hyphen       	/registered   	/macron       	
+/degree       	/plusminus    	/twosuperior  	/threesuperior	
+/acute        	/mu           	/paragraph    	/bullet       	
+/cedilla      	/onesuperior  	/ordmasculine 	/guillemotright	
+/onequarter   	/onehalf      	/threequarters	/questiondown 	
+/Agrave       	/Aacute       	/Acircumflex  	/Atilde       	
+/Adieresis    	/Aring        	/AE           	/Ccedilla     	
+/Egrave       	/Eacute       	/Ecircumflex  	/Edieresis    	
+/Igrave       	/Iacute       	/Icircumflex  	/Idieresis    	
+/Eth          	/Ntilde       	/Ograve       	/Oacute       	
+/Ocircumflex  	/Otilde       	/Odieresis    	/multiply     	
+/Oslash       	/Ugrave       	/Uacute       	/Ucircumflex  	
+/Udieresis    	/Yacute       	/Thorn        	/germandbls   	
+/agrave       	/aacute       	/acircumflex  	/atilde       	
+/adieresis    	/aring        	/ae           	/ccedilla     	
+/egrave       	/eacute       	/ecircumflex  	/edieresis    	
+/igrave       	/iacute       	/icircumflex  	/idieresis    	
+/eth          	/ntilde       	/ograve       	/oacute       	
+/ocircumflex  	/otilde       	/odieresis    	/divide       	
+/oslash       	/ugrave       	/uacute       	/ucircumflex  	
+/udieresis    	/yacute       	/thorn        	/ydieresis    	
+] def
+%%EndResource
+%%EndProlog
+%%BeginSetup
+%%IncludeResource: font Courier-Bold
+%%IncludeResource: font Courier
+/HFpt_w 10 def
+/HFpt_h 10 def
+/Courier-Bold /HF-gs-font MF
+/HF /HF-gs-font findfont [HFpt_w 0 0 HFpt_h 0 0] makefont def
+/Courier /F-gs-font MF
+/F-gs-font 10 10 SF
+/#copies 1 def
+% Pagedevice definitions:
+gs_languagelevel 1 gt {
+  <<
+    /PageSize [612 792] 
+  >> setpagedevice
+} if
+%%BeginResource: procset Enscript-Header-simple 1.6 4
+
+/do_header {	% print default simple header
+  gsave
+    d_header_x d_header_y HFpt_h 3 div add translate
+
+    HF setfont
+    user_header_p {
+      5 0 moveto user_header_left_str show
+
+      d_header_w user_header_center_str stringwidth pop sub 2 div
+      0 moveto user_header_center_str show
+
+      d_header_w user_header_right_str stringwidth pop sub 5 sub
+      0 moveto user_header_right_str show
+    } {
+      5 0 moveto fname show
+      45 0 rmoveto fmodstr show
+      45 0 rmoveto pagenumstr show
+    } ifelse
+
+  grestore
+} def
+%%EndResource
+/d_page_w 576 def
+/d_page_h 720 def
+/d_header_x 0 def
+/d_header_y 705 def
+/d_header_w 576 def
+/d_header_h 15 def
+/d_footer_x 0 def
+/d_footer_y 0 def
+/d_footer_w 576 def
+/d_footer_h 0 def
+/d_output_w 576 def
+/d_output_h 705 def
+/cols 1 def
+%%EndSetup
+%%Page: (1) 1
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 1 def
+/fname (Synch.c) def
+/fdir () def
+/ftail (Synch.c) def
+% User defined strings:
+/fmodstr (Sun Oct 18 19:15:39 2009) def
+/pagenumstr (1) def
+/user_header_p true def
+/user_header_left_str (Synch.c) def
+/user_header_center_str (Ted Timmons CS333 Project 2 part 6) def
+/user_header_right_str (Pg 1 of 6) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(code Synch) s
+5 670 M
+(  -- OS Class: Project 2) s
+5 659 M
+(  --) s
+5 648 M
+(  -- Ted Timmons, tedt@pdx.edu / ted@perljam.net) s
+5 626 M
+(-----------------------------  Semaphore  ---------------------------------) s
+5 604 M
+(  behavior Semaphore) s
+5 593 M
+(    -- This class provides the following methods:) s
+5 582 M
+(    --    Up\(\)  ...also known as "V" or "Signal"...) s
+5 571 M
+(    --         Increment the semaphore count.  Wake up a thread if) s
+5 560 M
+(    --         there are any waiting.  This operation always executes) s
+5 549 M
+(    --         quickly and will not suspend the thread.) s
+5 538 M
+(    --    Down\(\)   ...also known as "P" or "Wait"...) s
+5 527 M
+(    --         Decrement the semaphore count.  If the count would go) s
+5 516 M
+(    --         negative, wait for some other thread to do an Up\(\)) s
+5 505 M
+(    --         first.  Conceptually, the count will never go negative.) s
+5 494 M
+(    --    Init\(initialCount\)) s
+5 483 M
+(    --         Each semaphore must be initialized.  Normally, you should) s
+5 472 M
+(    --         invoke this method, providing an 'initialCount' of zero.) s
+5 461 M
+(    --         If the semaphore is initialized with 0, then a Down\(\)) s
+5 450 M
+(    --         operation before any Up\(\) will wait for the first) s
+5 439 M
+(    --         Up\(\).  If initialized with i, then it is as if i Up\(\)) s
+5 428 M
+(    --         operations have been performed already.) s
+5 417 M
+(    --) s
+5 406 M
+(    -- NOTE: The user should never look at a semaphore's count since the value) s
+5 395 M
+(    -- retrieved may be out-of-date, due to other threads performing Up\(\) or) s
+5 384 M
+(    -- Down\(\) operations since the retrieval of the count.) s
+5 362 M
+(      ----------  Semaphore . Init  ----------) s
+5 340 M
+(      method Init \(initialCount: int\)) s
+5 329 M
+(          if initialCount < 0) s
+5 318 M
+(            FatalError \("Semaphore created with initialCount < 0"\)) s
+5 307 M
+(          endIf) s
+5 296 M
+(          count = initialCount) s
+5 285 M
+(          waitingThreads = new List [Thread]) s
+5 274 M
+(        endMethod) s
+5 252 M
+(      ----------  Semaphore . Up  ----------) s
+5 230 M
+(      method Up \(\)) s
+5 219 M
+(          var) s
+5 208 M
+(            oldIntStat: int) s
+5 197 M
+(            t: ptr to Thread) s
+5 186 M
+(          oldIntStat = SetInterruptsTo \(DISABLED\)) s
+5 175 M
+(          if count == 0x7fffffff) s
+5 164 M
+(            FatalError \("Semaphore count overflowed during 'Up' operation"\)) s
+5 153 M
+(          endIf) s
+5 142 M
+(          count = count + 1) s
+5 131 M
+(          if count <= 0) s
+5 120 M
+(            t = waitingThreads.Remove \(\)) s
+5 109 M
+(            t.status = READY) s
+5 98 M
+(            readyList.AddToEnd \(t\)) s
+5 87 M
+(          endIf) s
+5 76 M
+(          oldIntStat = SetInterruptsTo \(oldIntStat\)) s
+5 65 M
+(        endMethod) s
+5 43 M
+(      ----------  Semaphore . Down  ----------) s
+5 21 M
+(      method Down \(\)) s
+5 10 M
+(          var) s
+_R
+S
+%%Page: (2) 2
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 2 def
+/fname (Synch.c) def
+/fdir () def
+/ftail (Synch.c) def
+% User defined strings:
+/fmodstr (Sun Oct 18 19:15:39 2009) def
+/pagenumstr (2) def
+/user_header_p true def
+/user_header_left_str (Synch.c) def
+/user_header_center_str (Ted Timmons CS333 Project 2 part 6) def
+/user_header_right_str (Pg 2 of 6) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(            oldIntStat: int) s
+5 681 M
+(          oldIntStat = SetInterruptsTo \(DISABLED\)) s
+5 670 M
+(          if count == 0x80000000) s
+5 659 M
+(            FatalError \("Semaphore count underflowed during 'Down' operation"\)) s
+5 648 M
+(          endIf) s
+5 637 M
+(          count = count - 1) s
+5 626 M
+(          if count < 0) s
+5 615 M
+(            waitingThreads.AddToEnd \(currentThread\)) s
+5 604 M
+(            currentThread.Sleep \(\)) s
+5 593 M
+(          endIf) s
+5 582 M
+(          oldIntStat = SetInterruptsTo \(oldIntStat\)) s
+5 571 M
+(        endMethod) s
+5 549 M
+(  endBehavior) s
+5 527 M
+(-----------------------------  Mutex  ---------------------------------) s
+5 505 M
+(  behavior Mutex) s
+5 494 M
+(    -- This class provides the following methods:) s
+5 483 M
+(    --    Lock\(\)) s
+5 472 M
+(    --         Acquire the mutex if free, otherwise wait until the mutex is) s
+5 461 M
+(    --         free and then get it.) s
+5 450 M
+(    --    Unlock\(\)) s
+5 439 M
+(    --         Release the mutex.  If other threads are waiting, then) s
+5 428 M
+(    --         wake up the oldest one and give it the lock.) s
+5 417 M
+(    --    Init\(\)) s
+5 406 M
+(    --         Each mutex must be initialized.) s
+5 395 M
+(    --    IsHeldByCurrentThread\(\)) s
+5 384 M
+(    --         Return TRUE iff the current \(invoking\) thread holds a lock) s
+5 373 M
+(    --         on the mutex.) s
+5 351 M
+(      ----------  Mutex . Init  ----------) s
+5 318 M
+(      -- Takes initial state of the mutex \(LOCKED, UNLOCKED\).) s
+5 307 M
+(      --    Init\(\)) s
+5 296 M
+(      --         Each mutex must be initialized.) s
+5 285 M
+(      method Init \(\)) s
+5 263 M
+(          if waitCount < 0) s
+5 252 M
+(            FatalError \("Mutex created with waitCount < 0"\)) s
+5 241 M
+(          endIf) s
+5 219 M
+(          -- set up our variables:) s
+5 208 M
+(          -- heldBy: the Thread that is holding the lock) s
+5 197 M
+(          heldBy = null) s
+5 186 M
+(          -- state: the lock itself) s
+5 175 M
+(          state = UNLOCKED) s
+5 164 M
+(          -- waitingThreads: FIFO queue of threads that are asleep, waiting for lock) s
+5 153 M
+(          waitingThreads = new List [Thread]) s
+5 142 M
+(          -- waitCount: the number of items on the list/queue.) s
+5 131 M
+(          waitCount = 0) s
+5 109 M
+(        endMethod) s
+5 87 M
+(      ----------  Mutex . Lock  ----------) s
+5 65 M
+(      --    Lock\(\)) s
+5 54 M
+(      --         Acquire the mutex if free, otherwise wait until the mutex is) s
+5 43 M
+(      --         free and then get it.) s
+5 32 M
+(      method Lock \(\)) s
+5 21 M
+(          var oldIntStat: int) s
+5 10 M
+(          -- var oldState: int) s
+_R
+S
+%%Page: (3) 3
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 3 def
+/fname (Synch.c) def
+/fdir () def
+/ftail (Synch.c) def
+% User defined strings:
+/fmodstr (Sun Oct 18 19:15:39 2009) def
+/pagenumstr (3) def
+/user_header_p true def
+/user_header_left_str (Synch.c) def
+/user_header_center_str (Ted Timmons CS333 Project 2 part 6) def
+/user_header_right_str (Pg 3 of 6) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 681 M
+(          -- critical section, disable interrupts.) s
+5 670 M
+(          oldIntStat = SetInterruptsTo \(DISABLED\)) s
+5 648 M
+(          -- if an "if" is used here instead of "while", that will potentially cause) s
+5 637 M
+(          -- the code to wake up while the lock is held elsewhere. The "while" makes) s
+5 626 M
+(          -- sure that we loop until the lock is actually available, not simply until) s
+5 615 M
+(          -- we wake up.) s
+5 604 M
+(          while state == LOCKED) s
+5 593 M
+(            -- print \(" sleeping on lock, we don't have it \("\)) s
+5 582 M
+(            -- print \(currentThread.name\)) s
+5 571 M
+(            -- print \("\).\\n"\)) s
+5 560 M
+(            waitingThreads.AddToEnd \(currentThread\)) s
+5 549 M
+(            waitCount = waitCount + 1) s
+5 538 M
+(            currentThread.Sleep \(\)) s
+5 527 M
+(          endWhile) s
+5 505 M
+(          -- We are guaranteed to have state=UNLOCKED at this point.) s
+5 494 M
+(          -- mutex is free, so we'll acquire it.) s
+5 483 M
+(          -- print \(" getting the lock for "\)) s
+5 472 M
+(          -- print \(currentThread.name\)) s
+5 461 M
+(          -- print \("\\n"\)) s
+5 439 M
+(          -- sanity-check/assert that we aren't locking an already-held lock) s
+5 428 M
+(          if heldBy != null) s
+5 417 M
+(            -- print \("holding a held lock. state: "\)) s
+5 406 M
+(            -- if \(state == LOCKED\)) s
+5 395 M
+(            --   print \("locked"\)) s
+5 384 M
+(            -- endIf) s
+5 373 M
+(            -- print \("\\n"\)) s
+5 362 M
+(            FatalError \("about to hold a held lock, eep!"\)) s
+5 351 M
+(          endIf) s
+5 329 M
+(          -- actually lock the state and indicate who it is held by) s
+5 318 M
+(          state = LOCKED) s
+5 307 M
+(          heldBy = currentThread) s
+5 285 M
+(          -- success!) s
+5 274 M
+(          oldIntStat = SetInterruptsTo \(oldIntStat\)) s
+5 263 M
+(        endMethod) s
+5 241 M
+(      ----------  Mutex . Unlock  ----------) s
+5 219 M
+(      method Unlock \(\)) s
+5 208 M
+(          var) s
+5 197 M
+(            oldIntStat: int) s
+5 186 M
+(            nextThread: ptr to Thread) s
+5 164 M
+(          oldIntStat = SetInterruptsTo \(DISABLED\)) s
+5 142 M
+(          if state == UNLOCKED) s
+5 131 M
+(            FatalError \("asked for lock to be released, but nothing was locked!"\)) s
+5 120 M
+(          endIf) s
+5 98 M
+(          -- Make sure we are releasing a lock that we hold, not someone else.) s
+5 87 M
+(          if heldBy != currentThread) s
+5 76 M
+(            -- print \("heldby: "\)) s
+5 65 M
+(            -- print \(heldBy.name\)) s
+5 54 M
+(            -- print \(" .. currentThread: "\)) s
+5 43 M
+(            -- print \(currentThread.name\)) s
+5 32 M
+(            -- print \("\\n"\)) s
+5 21 M
+(            FatalError \("thread was not locked by currentThread."\)) s
+5 10 M
+(          endIf) s
+_R
+S
+%%Page: (4) 4
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 4 def
+/fname (Synch.c) def
+/fdir () def
+/ftail (Synch.c) def
+% User defined strings:
+/fmodstr (Sun Oct 18 19:15:39 2009) def
+/pagenumstr (4) def
+/user_header_p true def
+/user_header_left_str (Synch.c) def
+/user_header_center_str (Ted Timmons CS333 Project 2 part 6) def
+/user_header_right_str (Pg 4 of 6) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 681 M
+(          -- print \(" unlocking for "\)) s
+5 670 M
+(          -- print \(currentThread.name\)) s
+5 659 M
+(          -- print \("\\n"\)) s
+5 648 M
+(          -- Actually release the lock, now that we've verified everything.) s
+5 637 M
+(          state = UNLOCKED) s
+5 626 M
+(          heldBy = null) s
+5 604 M
+(          -- pull our next thread from the \(lock\) waiting list.) s
+5 593 M
+(          -- Don't start it, but mark it ready.) s
+5 582 M
+(          if waitCount > 0) s
+5 571 M
+(            waitCount = waitCount - 1) s
+5 560 M
+(            nextThread = waitingThreads.Remove\(\)) s
+5 549 M
+(            nextThread.status = READY) s
+5 538 M
+(            readyList.AddToEnd \(nextThread\)) s
+5 527 M
+(          endIf) s
+5 505 M
+(          oldIntStat = SetInterruptsTo \(oldIntStat\)) s
+5 483 M
+(        endMethod) s
+5 461 M
+(      ----------  Mutex . IsHeldByCurrentThread  ----------) s
+5 439 M
+(      method IsHeldByCurrentThread \(\) returns bool) s
+5 417 M
+(          -- is it locked? Are we holding it? Great!) s
+5 406 M
+(          if \(state == LOCKED && heldBy == currentThread\)) s
+5 395 M
+(            return true) s
+5 384 M
+(          endIf) s
+5 362 M
+(          -- Not held, or at least not held by us.) s
+5 351 M
+(          return false) s
+5 340 M
+(        endMethod) s
+5 318 M
+(  endBehavior) s
+5 296 M
+(-----------------------------  Condition  ---------------------------------) s
+5 274 M
+(  behavior Condition) s
+5 263 M
+(    -- This class is used to implement monitors.  Each monitor will have a) s
+5 252 M
+(    -- mutex lock and one or more condition variables.  The lock ensures that) s
+5 241 M
+(    -- only one process at a time may execute code in the monitor.  Within the) s
+5 230 M
+(    -- monitor code, a thread can execute Wait\(\) and Signal\(\) operations) s
+5 219 M
+(    -- on the condition variables to make sure certain condions are met.) s
+5 208 M
+(    --) s
+5 197 M
+(    -- The condition variables here implement "Mesa-style" semantics, which) s
+5 186 M
+(    -- means that in the time between a Signal\(\) operation and the awakening) s
+5 175 M
+(    -- and execution of the corrsponding waiting thread, other threads may) s
+5 164 M
+(    -- have snuck in and run.  The waiting thread should always re-check the) s
+5 153 M
+(    -- data to ensure that the condition which was signalled is still true.) s
+5 142 M
+(    --) s
+5 131 M
+(    -- This class provides the following methods:) s
+5 120 M
+(    --    Wait\(mutex\)) s
+5 109 M
+(    --         This method assumes the mutex has alreasy been locked.) s
+5 98 M
+(    --         It unlocks it, and goes to sleep waiting for a signal on) s
+5 87 M
+(    --         this condition.  When the signal is received, this method) s
+5 76 M
+(    --         re-awakens, re-locks the mutex, and returns.) s
+5 65 M
+(    --    Signal\(mutex\)) s
+5 54 M
+(    --         If there are any threads waiting on this condition, this) s
+5 43 M
+(    --         method will wake up the oldest and schedule it to run.) s
+5 32 M
+(    --         However, since this thread holds the mutex and never unlocks) s
+5 21 M
+(    --         it, the newly awakened thread will be forced to wait before) s
+5 10 M
+(    --         it can re-acquire the mutex and resume execution.) s
+_R
+S
+%%Page: (5) 5
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 5 def
+/fname (Synch.c) def
+/fdir () def
+/ftail (Synch.c) def
+% User defined strings:
+/fmodstr (Sun Oct 18 19:15:39 2009) def
+/pagenumstr (5) def
+/user_header_p true def
+/user_header_left_str (Synch.c) def
+/user_header_center_str (Ted Timmons CS333 Project 2 part 6) def
+/user_header_right_str (Pg 5 of 6) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(    --    Broadcast\(mutex\)) s
+5 681 M
+(    --         This method is like Signal\(\) except that it wakes up all) s
+5 670 M
+(    --         threads waiting on this condition, not just the next one.) s
+5 659 M
+(    --    Init\(\)) s
+5 648 M
+(    --         Each condition must be initialized.) s
+5 626 M
+(      ----------  Condition . Init  ----------) s
+5 604 M
+(      method Init \(\)) s
+5 593 M
+(          waitingThreads = new List [Thread]) s
+5 582 M
+(        endMethod) s
+5 560 M
+(      ----------  Condition . Wait  ----------) s
+5 538 M
+(      method Wait \(mutex: ptr to Mutex\)) s
+5 527 M
+(          var) s
+5 516 M
+(            oldIntStat: int) s
+5 505 M
+(          if ! mutex.IsHeldByCurrentThread \(\)) s
+5 494 M
+(            FatalError \("Attempt to wait on condition when mutex is not held"\)) s
+5 483 M
+(          endIf) s
+5 472 M
+(          oldIntStat = SetInterruptsTo \(DISABLED\)) s
+5 461 M
+(          mutex.Unlock \(\)) s
+5 450 M
+(          waitingThreads.AddToEnd \(currentThread\)) s
+5 439 M
+(          currentThread.Sleep \(\)) s
+5 428 M
+(          mutex.Lock \(\)) s
+5 417 M
+(          oldIntStat = SetInterruptsTo \(oldIntStat\)) s
+5 406 M
+(        endMethod) s
+5 384 M
+(      ----------  Condition . Signal  ----------) s
+5 362 M
+(      method Signal \(mutex: ptr to Mutex\)) s
+5 351 M
+(          var) s
+5 340 M
+(            oldIntStat: int) s
+5 329 M
+(            t: ptr to Thread) s
+5 318 M
+(          if ! mutex.IsHeldByCurrentThread \(\)) s
+5 307 M
+(            FatalError \("Attempt to signal a condition when mutex is not held"\)) s
+5 296 M
+(          endIf) s
+5 285 M
+(          oldIntStat = SetInterruptsTo \(DISABLED\)) s
+5 274 M
+(          t = waitingThreads.Remove \(\)) s
+5 263 M
+(          if t) s
+5 252 M
+(            t.status = READY) s
+5 241 M
+(            readyList.AddToEnd \(t\)) s
+5 230 M
+(          endIf) s
+5 219 M
+(          oldIntStat = SetInterruptsTo \(oldIntStat\)) s
+5 208 M
+(        endMethod) s
+5 186 M
+(      ----------  Condition . Broadcast  ----------) s
+5 164 M
+(      method Broadcast \(mutex: ptr to Mutex\)) s
+5 153 M
+(          var) s
+5 142 M
+(            oldIntStat: int) s
+5 131 M
+(            t: ptr to Thread) s
+5 120 M
+(          if ! mutex.IsHeldByCurrentThread \(\)) s
+5 109 M
+(            FatalError \("Attempt to broadcast a condition when lock is not held"\)) s
+5 98 M
+(          endIf) s
+5 87 M
+(          oldIntStat = SetInterruptsTo \(DISABLED\)) s
+5 76 M
+(          while true) s
+5 65 M
+(            t = waitingThreads.Remove \(\)) s
+5 54 M
+(            if t == null) s
+5 43 M
+(              break) s
+5 32 M
+(            endIf) s
+5 21 M
+(            t.status = READY) s
+5 10 M
+(            readyList.AddToEnd \(t\)) s
+_R
+S
+%%Page: (6) 6
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 6 def
+/fname (Synch.c) def
+/fdir () def
+/ftail (Synch.c) def
+% User defined strings:
+/fmodstr (Sun Oct 18 19:15:39 2009) def
+/pagenumstr (6) def
+/user_header_p true def
+/user_header_left_str (Synch.c) def
+/user_header_center_str (Ted Timmons CS333 Project 2 part 6) def
+/user_header_right_str (Pg 6 of 6) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(          endWhile) s
+5 681 M
+(          oldIntStat = SetInterruptsTo \(oldIntStat\)) s
+5 670 M
+(        endMethod) s
+5 648 M
+(  endBehavior) s
+5 626 M
+(endCode) s
+_R
+S
+%%Page: (1) 7
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 1 def
+/fname (Synch.h) def
+/fdir () def
+/ftail (Synch.h) def
+% User defined strings:
+/fmodstr (Sun Oct 18 15:53:50 2009) def
+/pagenumstr (1) def
+/user_header_p true def
+/user_header_left_str (Synch.h) def
+/user_header_center_str (Ted Timmons CS333 Project 2 part 6) def
+/user_header_right_str (Pg 1 of 1) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(header Synch) s
+5 670 M
+(  uses Thread) s
+5 648 M
+(  class Semaphore) s
+5 637 M
+(    superclass Object) s
+5 626 M
+(    fields) s
+5 615 M
+(      count: int) s
+5 604 M
+(      waitingThreads: List [Thread]) s
+5 593 M
+(    methods) s
+5 582 M
+(      Init \(initialCount: int\)) s
+5 571 M
+(      Down \(\)) s
+5 560 M
+(      Up \(\)) s
+5 549 M
+(  endClass) s
+5 527 M
+(  enum UNLOCKED, LOCKED   -- Mutex status) s
+5 516 M
+(  class Mutex) s
+5 505 M
+(    superclass Object) s
+5 494 M
+(    fields) s
+5 483 M
+(      state: int) s
+5 472 M
+(      heldBy: ptr to Thread) s
+5 461 M
+(      waitingThreads: List [Thread]) s
+5 450 M
+(      waitCount: int) s
+5 439 M
+(    methods) s
+5 428 M
+(      Init \(\)) s
+5 417 M
+(      Lock \(\)) s
+5 406 M
+(      Unlock \(\)) s
+5 395 M
+(      IsHeldByCurrentThread \(\) returns bool) s
+5 384 M
+(  endClass) s
+5 362 M
+(  class Condition) s
+5 351 M
+(    superclass Object) s
+5 340 M
+(    fields) s
+5 329 M
+(      waitingThreads: List [Thread]) s
+5 318 M
+(    methods) s
+5 307 M
+(      Init \(\)) s
+5 296 M
+(      Wait \(mutex: ptr to Mutex\)) s
+5 285 M
+(      Signal \(mutex: ptr to Mutex\)) s
+5 274 M
+(      Broadcast \(mutex: ptr to Mutex\)) s
+5 263 M
+(  endClass) s
+5 241 M
+(endHeader) s
+_R
+S
+%%Page: (1) 8
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 1 def
+/fname (step6-output.txt) def
+/fdir () def
+/ftail (step6-output.txt) def
+% User defined strings:
+/fmodstr (Sun Oct 18 19:20:21 2009) def
+/pagenumstr (1) def
+/user_header_p true def
+/user_header_left_str (step6-output.txt) def
+/user_header_center_str (Ted Timmons CS333 Project 2 part 6) def
+/user_header_right_str (Pg 1 of 2) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(Script started on Sun 18 Oct 2009 07:16:54 PM PDT) s
+5 681 M
+($ make && blitz -g os) s
+5 670 M
+(kpl Main -unsafe) s
+5 659 M
+(asm Main.s) s
+5 648 M
+(lddd System.o List.o Thread.o Switch.o Synch.o Main.o Runtime.o -o os) s
+5 637 M
+(Beginning execution...) s
+5 626 M
+(====================  KPL PROGRAM STARTING  ====================) s
+5 615 M
+(Example Thread-based Programs...) s
+5 604 M
+(Initializing Thread Scheduler...) s
+5 582 M
+(-- You should see 70 lines, each consecutively numbered. --) s
+5 560 M
+(LockTester-A = 1) s
+5 549 M
+(LockTester-A = 2) s
+5 538 M
+(LockTester-A = 3) s
+5 527 M
+(LockTester-A = 4) s
+5 516 M
+(LockTester-A = 5) s
+5 505 M
+(LockTester-A = 6) s
+5 494 M
+(LockTester-F = 7) s
+5 483 M
+(LockTester-F = 8) s
+5 472 M
+(LockTester-F = 9) s
+5 461 M
+(LockTester-F = 10) s
+5 450 M
+(LockTester-F = 11) s
+5 439 M
+(LockTester-A = 12) s
+5 428 M
+(LockTester-A = 13) s
+5 417 M
+(LockTester-A = 14) s
+5 406 M
+(LockTester-A = 15) s
+5 395 M
+(LockTester-C = 16) s
+5 384 M
+(LockTester-C = 17) s
+5 373 M
+(LockTester-C = 18) s
+5 362 M
+(LockTester-C = 19) s
+5 351 M
+(LockTester-D = 20) s
+5 340 M
+(LockTester-D = 21) s
+5 329 M
+(LockTester-E = 22) s
+5 318 M
+(LockTester-F = 23) s
+5 307 M
+(LockTester-F = 24) s
+5 296 M
+(LockTester-F = 25) s
+5 285 M
+(LockTester-F = 26) s
+5 274 M
+(LockTester-F = 27) s
+5 263 M
+(LockTester-G = 28) s
+5 252 M
+(LockTester-G = 29) s
+5 241 M
+(LockTester-G = 30) s
+5 230 M
+(LockTester-G = 31) s
+5 219 M
+(LockTester-G = 32) s
+5 208 M
+(LockTester-G = 33) s
+5 197 M
+(LockTester-G = 34) s
+5 186 M
+(LockTester-G = 35) s
+5 175 M
+(LockTester-E = 36) s
+5 164 M
+(LockTester-C = 37) s
+5 153 M
+(LockTester-C = 38) s
+5 142 M
+(LockTester-C = 39) s
+5 131 M
+(LockTester-C = 40) s
+5 120 M
+(LockTester-C = 41) s
+5 109 M
+(LockTester-C = 42) s
+5 98 M
+(LockTester-E = 43) s
+5 87 M
+(LockTester-B = 44) s
+5 76 M
+(LockTester-E = 45) s
+5 65 M
+(LockTester-G = 46) s
+5 54 M
+(LockTester-G = 47) s
+5 43 M
+(LockTester-E = 48) s
+5 32 M
+(LockTester-D = 49) s
+5 21 M
+(LockTester-D = 50) s
+5 10 M
+(LockTester-E = 51) s
+_R
+S
+%%Page: (2) 9
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 2 def
+/fname (step6-output.txt) def
+/fdir () def
+/ftail (step6-output.txt) def
+% User defined strings:
+/fmodstr (Sun Oct 18 19:20:21 2009) def
+/pagenumstr (2) def
+/user_header_p true def
+/user_header_left_str (step6-output.txt) def
+/user_header_center_str (Ted Timmons CS333 Project 2 part 6) def
+/user_header_right_str (Pg 2 of 2) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(LockTester-B = 52) s
+5 681 M
+(LockTester-E = 53) s
+5 670 M
+(LockTester-D = 54) s
+5 659 M
+(LockTester-D = 55) s
+5 648 M
+(LockTester-E = 56) s
+5 637 M
+(LockTester-B = 57) s
+5 626 M
+(LockTester-E = 58) s
+5 615 M
+(LockTester-D = 59) s
+5 604 M
+(LockTester-D = 60) s
+5 593 M
+(LockTester-E = 61) s
+5 582 M
+(LockTester-B = 62) s
+5 571 M
+(LockTester-D = 63) s
+5 560 M
+(LockTester-B = 64) s
+5 549 M
+(LockTester-D = 65) s
+5 538 M
+(LockTester-B = 66) s
+5 527 M
+(LockTester-B = 67) s
+5 516 M
+(LockTester-B = 68) s
+5 505 M
+(LockTester-B = 69) s
+5 494 M
+(LockTester-B = 70) s
+5 472 M
+(*****  A 'wait' instruction was executed and no more interrupts are scheduled... halting ) s
+539 472 M (+) s
+5 461 M
+(emulation!  *****) s
+5 439 M
+(Done!  The next instruction to execute will be:) s
+5 428 M
+(000EC8: 09000000       ret     ) s
+5 417 M
+(Number of Disk Reads    = 0) s
+5 406 M
+(Number of Disk Writes   = 0) s
+5 395 M
+(Instructions Executed   = 353623) s
+5 384 M
+(Time Spent Sleeping     = 0) s
+5 373 M
+(    Total Elapsed Time  = 353623) s
+5 362 M
+($ exit) s
+5 340 M
+(Script done on Sun 18 Oct 2009 07:17:07 PM PDT) s
+_R
+S
+%%Trailer
+%%Pages: 9
+%%DocumentNeededResources: font Courier-Bold Courier 
+%%EOF
