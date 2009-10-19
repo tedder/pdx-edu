@@ -1,0 +1,103 @@
+Script started on Mon 19 Oct 2009 01:07:37 PM PDT
+$ make && blitz -g os
+make: Nothing to be done for `all'.
+Beginning execution...
+====================  KPL PROGRAM STARTING  ====================
+Example Thread-based Programs...
+Initializing Thread Scheduler...
+Plato
+    Sartre
+        Kant
+            Nietzsche
+                Aristotle
+done with init
+.   .   .   .   .   
+done with PAS
+.   .   .   .   .   
+E   .   .   .   .   
+.   .   .   .   .   
+E   .   .   .   .   
+.   .   .   .   .   .   .   
+.   E   .   .   .   
+.   .   .   .   .   
+.   E   .   .   .   
+.   .   .   .   .   
+.   E   .   .   .   
+.   E   .   .   .   
+.   E   E   .   .   
+.   E   .   .   .   
+.   E   E   .   .   
+.   E   .   .   .   
+    .   .   
+E   .       .   .   
+E   E       .   .   
+E   .       .   .   
+E   E       .   .   
+E   .       .   .   
+E   .   E   .   .   
+E   .   .   .   .   
+E   .   E   .   .   
+E   .   .   .   .   
+E   .   E   .   .   
+E   .   .   .   .   E   .   .   .   .   
+E   .   .   E   .   
+E   .   .   .   .   
+E   .   .   E   .   
+E   .   .   .   .   
+E   .   .   E   .   
+E   .   .   E   .   
+E   .   .   E   E   
+E   .   .   E   .   
+E   .   .   E   E   
+E   .   .   E   .   E   .   .   E   .   
+.   .   .   E   .   
+E   .   .   E   .   
+.   .   .   E   .   
+E   .   .   E   .   
+E   E   .   E   .   
+E   .   .   E   .   
+E   E   .   E   .   
+E   .   .   E   .   
+
+E   .   .   .   .   
+E   .   .   E   .   
+E   .   .   .   .   
+E   .   .   E   .   
+E   .   .   .   .   
+E   .   
+E   .   .   E   E   
+E   .   .   E   .   
+E   .   .   E   E   
+E   .   .   E   .   
+.   .   .   E       
+E   .   .   E       
+.   .   .   E       
+E   .   .   E       
+.   .   .   E       
+.   .   E   E       
+.   .   .   E       
+.   .   E   E       
+.   .   .   E       
+.   .   .   .   E   E   
+.   .   .   E   .   
+.   .   .   E   E   
+.   .   .   E   .   
+.   .   .   E   E   
+E   E   
+.   .   .   .   E   
+.   .   .   E   E   
+.   .   .   .   E   
+.   .   .   .   .   
+
+*****  A 'wait' instruction was executed and no more interrupts are scheduled... halting emulation!  *****
+
+Done!  The next instruction to execute will be:
+000EC8: 09000000       ret     
+Number of Disk Reads    = 0
+Number of Disk Writes   = 0
+Instructions Executed   = 104038
+Time Spent Sleeping     = 0
+    Total Elapsed Time  = 104038
+$ exit
+
+Script done on Mon 19 Oct 2009 01:07:42 PM PDT

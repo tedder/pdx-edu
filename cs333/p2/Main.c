@@ -2,7 +2,7 @@ code Main
 
   -- OS Class: Project 2
   --
-  -- <PUT YOUR NAME HERE>
+  -- Ted Timmons
   --
   -- This package contains the following:
   --     SimpleThreadExample
