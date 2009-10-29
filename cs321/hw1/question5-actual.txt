@@ -1,0 +1,21 @@
+Script started on Wed 28 Oct 2009 08:38:09 PM PDT
+$ PS1='$ '
+$ javac LexerTest.java
+$ cat question5-actual-test
+"1 hello world!"
+"2 hello \\ world!"
+"3 hello \" world!"
+"4 hello \n world!"
+"5 hello \\\"\n world!"
+$ java LexerTest question5-actual-test
+31 31 31 31 31  (5 tokens)
+$ cat question5-actual-test-failure 
+hi there!"
+$ java LexerTest question5-actual-test-failure 
+9 9 33 ERROR: "question5-actual-test-failure", line 1
+Unterminated string
+
+ (3 tokens)
+$ exit
+
+Script done on Wed 28 Oct 2009 08:38:49 PM PDT

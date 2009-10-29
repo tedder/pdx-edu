@@ -122,6 +122,9 @@ public class MjcLexer extends SourceLexer implements MjcTokens {
                       return identifier();
                     } else if (Character.digit((char)c, 10)>=0) {
                       return number();
+                    } else if (isStringStart(c)) {
+                      //System.out.println("saw the stringStart ");
+                      return string();
                     } else {
                       illegalCharacter();
                       nextChar();
@@ -130,8 +133,7 @@ public class MjcLexer extends SourceLexer implements MjcTokens {
     }
   }
 
-  //- Whitespace and comments -----------------------------------------------
-
+  //- Whitespace, strings, and comments ------------------------------------
   private boolean isWhitespace(int c) {
     return (c==' ') || (c=='\t') || (c=='\f');
   }
@@ -174,6 +176,82 @@ public class MjcLexer extends SourceLexer implements MjcTokens {
         nextChar();
       }
     }
+  }
+
+  private boolean isStringStart(int c) {
+    // We are looking for the double-quote symbol: "
+    return (c=='"');
+  }
+
+  private int string() {
+    int start = col;
+
+
+    StringBuilder buildString = new StringBuilder();
+    buildString.append((char)c);
+
+    //System.out.println("current string: " + buildString.toString() + " (c is " + (char)c + ")");
+
+    // our current character is the "open string", so we need to strop it off.
+    nextChar();
+
+
+
+    boolean seenBackslash = false;
+    boolean doLoop = true;
+    while (doLoop == true) {
+      // yet another flag- just to see if we've already done
+      // the append during this loop.
+      boolean doAppend = true;
+
+      //System.out.println("current string: " + buildString.toString() + " .. start: " + start + " .. col: " + col);
+      if (c == '\\' && seenBackslash == false) {
+        seenBackslash = true;
+        nextChar();
+        continue; // Don't "keep" leading backslashes, only their
+                  // escaped value will be kept.
+      }
+
+      // Test for magic values we need to do something about. 
+      // No reason to test for the "\\" or "\"", they simply get appended.
+      if (seenBackslash == true && c == 'n') {
+        // replace with newline character, reset flag.
+        //System.out.println("hello newline.");
+        buildString.append('\n');
+        doAppend = false;
+        seenBackslash = false;
+      }
+      // It's either a backslash or some other character.
+      // In either case, keep it, reset the flag.
+      else if (seenBackslash == true) {
+        seenBackslash = false;
+      }
+      // Do we have an unescaped double quote?
+      // If so, it's time to end our string.
+      else if (seenBackslash == false && c == '"') {
+        // we're done, but we need to pull the end quote off the buffer.
+        doLoop = false;
+      }
+
+      if (doAppend == true) { buildString.append((char)c); }
+
+      // fomplicated way of getting the next character, to guard against
+      // running over the EOL/EOF.
+      if (c==EOF) {
+        report(new Failure(getPos(), "Unterminated string"));
+        return 0;
+      }
+      if (c==EOL) {
+        nextLine();
+      } else {
+        nextChar();
+      }
+
+    }
+
+    lexemeText = line.substring(start, col);
+    //System.out.println("lt: " + lexemeText + " .. start: " + start + " .. col: " + col);
+    return token=STRLIT;
   }
 
   //- Identifiers, keywords, boolean and null literals ----------------------

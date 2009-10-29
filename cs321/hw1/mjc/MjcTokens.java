@@ -32,6 +32,7 @@ interface MjcTokens {
     int PROTECTED = 28;
     int PUBLIC = 29;
     int ABSTRACT = 30;
+    int STRLIT = 31;
     // '!' (code=33)
     // '&' (code=38)
     // '(' (code=40)
