@@ -1,0 +1,55 @@
+$ !mak
+$ make && blitz -g os
+make: Nothing to be done for `all'.
+Beginning execution...
+====================  KPL PROGRAM STARTING  ====================
+Initializing Thread Scheduler...
+about to test game parlor
+here we are, testing the game parlor
+A Backgammon requests 4
+------------------------------Number of dice now avail = 8
+A Backgammon proceeds with 4
+------------------------------Number of dice now avail = 4
+B Backgammon requests 4
+------------------------------Number of dice now avail = 4
+B Backgammon proceeds with 4
+------------------------------Number of dice now avail = 0
+D Risk requests 5
+------------------------------Number of dice now avail = 0
+A Backgammon releases and adds back 4
+------------------------------Number of dice now avail = 4
+A Backgammon requests 4
+------------------------------Number of dice now avail = 4
+A Backgammon proceeds with 4
+------------------------------Number of dice now avail = 0
+C Risk requests 5
+------------------------------Number of dice now avail = 0
+E Monopoly requests 2
+------------------------------Number of dice now avail = 0
+
+FATAL ERROR in D Risk: "Attempt to lock a mutex by a thread already holding it" -- TERMINATING!
+
+====================  KPL PROGRAM TERMINATION  ====================
+
+****  A 'debug' instruction was encountered  *****
+Done!  The next instruction to execute will be:
+000E08: C0100000       sethi   0x0000,r1        ! 0x00000E18 = 3608 (noGoMessage)
+
+Entering machine-level debugger...
+======================================================
+=====                                            =====
+=====         The BLITZ Machine Emulator         =====
+=====                                            =====
+=====  Copyright 2001-2007, Harry H. Porter III  =====
+=====                                            =====
+======================================================
+
+Enter a command at the prompt.  Type 'quit' to exit or 'help' for
+info about commands.
+> quit
+Number of Disk Reads    = 0
+Number of Disk Writes   = 0
+Instructions Executed   = 266009
+Time Spent Sleeping     = 0
+    Total Elapsed Time  = 266009
+

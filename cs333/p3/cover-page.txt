@@ -1,0 +1,12 @@
+
+
+Ted Timmons
+tedt@pdx.edu
+2009-11-04
+CS333 Homework 3
+
+
+
+My solution to the game parlor is incomplete. If I remove the monitor and
+use a Yield(), it works. However, I can't get it working properly with the
+monitor.

@@ -1,0 +1,69 @@
+$ make && blitz -g os
+kpl Main -unsafe
+asm Main.s
+lddd System.o List.o Thread.o Switch.o Synch.o Main.o Runtime.o -o os
+Beginning execution...
+====================  KPL PROGRAM STARTING  ====================
+Initializing Thread Scheduler...
+done with init, time to test.
+new barber: barber 1
+barber: barber 1 is done with initloop, is now ready to cut hair
+new barber: barber 2
+new barber: barber 3
+new customer: customer 3
+new customer: customer 5
+ barber 1 cutting hair.
+new customer: customer 4
+new customer: customer 7
+barber: barber 3 is done with initloop, is now ready to cut hair
+ customer 3 getting a haircut.
+new customer: customer 6
+new customer: customer 9
+new customer: customer 10
+new customer: customer 12
+new customer: customer 14
+barber: barber 2 is done with initloop, is now ready to cut hair
+ customer 5 getting a haircut.
+ barber 3 cutting hair.
+ barber 1 is done cutting hair.
+new customer: customer 11
+new customer: customer 15
+new customer: customer 8
+new customer: customer 13
+shop is full, customer 12 is not waiting.
+ barber 2 cutting hair.
+ barber 3 is done cutting hair.
+ barber 1 cutting hair.
+ customer 4 getting a haircut.
+ customer 7 getting a haircut.
+ barber 2 is done cutting hair.
+shop is full, customer 15 is not waiting.
+ barber 1 is done cutting hair.
+shop is full, customer 8 is not waiting.
+shop is full, customer 13 is not waiting.
+ barber 3 cutting hair.
+ customer 6 getting a haircut.
+ barber 2 cutting hair.
+ customer 9 getting a haircut.
+ barber 1 cutting hair.
+ barber 3 is done cutting hair.
+ customer 10 getting a haircut.
+ barber 2 is done cutting hair.
+ customer 11 getting a haircut.
+ barber 2 cutting hair.
+ barber 1 is done cutting hair.
+ barber 3 cutting hair.
+ barber 2 is done cutting hair.
+ customer 14 getting a haircut.
+ barber 3 is done cutting hair.
+
+*****  A 'wait' instruction was executed and no more interrupts are scheduled... halting emulation!  *****
+
+Done!  The next instruction to execute will be:
+000EC8: 09000000       ret
+Number of Disk Reads    = 0
+Number of Disk Writes   = 0
+Instructions Executed   = 328887
+Time Spent Sleeping     = 0
+    Total Elapsed Time  = 328887
+

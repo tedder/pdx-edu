@@ -1,0 +1,2932 @@
+%!PS-Adobe-3.0
+%%BoundingBox: 18 36 594 756
+%%Title: Enscript Output
+%%Creator: GNU enscript 1.6.4
+%%CreationDate: Wed Nov  4 12:31:19 2009
+%%Orientation: Portrait
+%%Pages: (atend)
+%%DocumentMedia: Letter 612 792 0 () ()
+%%DocumentNeededResources: (atend)
+%%EndComments
+%%BeginProlog
+%%BeginResource: procset Enscript-Prolog 1.6 4
+%
+% Procedures.
+%
+
+/_S {	% save current state
+  /_s save def
+} def
+/_R {	% restore from saved state
+  _s restore
+} def
+
+/S {	% showpage protecting gstate
+  gsave
+  showpage
+  grestore
+} bind def
+
+/MF {	% fontname newfontname -> -	make a new encoded font
+  /newfontname exch def
+  /fontname exch def
+
+  /fontdict fontname findfont def
+  /newfont fontdict maxlength dict def
+
+  fontdict {
+    exch
+    dup /FID eq {
+      % skip FID pair
+      pop pop
+    } {
+      % copy to the new font dictionary
+      exch newfont 3 1 roll put
+    } ifelse
+  } forall
+
+  newfont /FontName newfontname put
+
+  % insert only valid encoding vectors
+  encoding_vector length 256 eq {
+    newfont /Encoding encoding_vector put
+  } if
+
+  newfontname newfont definefont pop
+} def
+
+/MF_PS { % fontname newfontname -> -	make a new font preserving its enc
+  /newfontname exch def
+  /fontname exch def
+
+  /fontdict fontname findfont def
+  /newfont fontdict maxlength dict def
+
+  fontdict {
+    exch
+    dup /FID eq {
+      % skip FID pair
+      pop pop
+    } {
+      % copy to the new font dictionary
+      exch newfont 3 1 roll put
+    } ifelse
+  } forall
+
+  newfont /FontName newfontname put
+
+  newfontname newfont definefont pop
+} def
+
+/SF { % fontname width height -> -	set a new font
+  /height exch def
+  /width exch def
+
+  findfont
+  [width 0 0 height 0 0] makefont setfont
+} def
+
+/SUF { % fontname width height -> -	set a new user font
+  /height exch def
+  /width exch def
+
+  /F-gs-user-font MF
+  /F-gs-user-font width height SF
+} def
+
+/SUF_PS { % fontname width height -> -	set a new user font preserving its enc
+  /height exch def
+  /width exch def
+
+  /F-gs-user-font MF_PS
+  /F-gs-user-font width height SF
+} def
+
+/M {moveto} bind def
+/s {show} bind def
+
+/Box {	% x y w h -> -			define box path
+  /d_h exch def /d_w exch def /d_y exch def /d_x exch def
+  d_x d_y  moveto
+  d_w 0 rlineto
+  0 d_h rlineto
+  d_w neg 0 rlineto
+  closepath
+} def
+
+/bgs {	% x y height blskip gray str -> -	show string with bg color
+  /str exch def
+  /gray exch def
+  /blskip exch def
+  /height exch def
+  /y exch def
+  /x exch def
+
+  gsave
+    x y blskip sub str stringwidth pop height Box
+    gray setgray
+    fill
+  grestore
+  x y M str s
+} def
+
+/bgcs { % x y height blskip red green blue str -> -  show string with bg color
+  /str exch def
+  /blue exch def
+  /green exch def
+  /red exch def
+  /blskip exch def
+  /height exch def
+  /y exch def
+  /x exch def
+
+  gsave
+    x y blskip sub str stringwidth pop height Box
+    red green blue setrgbcolor
+    fill
+  grestore
+  x y M str s
+} def
+
+% Highlight bars.
+/highlight_bars {	% nlines lineheight output_y_margin gray -> -
+  gsave
+    setgray
+    /ymarg exch def
+    /lineheight exch def
+    /nlines exch def
+
+    % This 2 is just a magic number to sync highlight lines to text.
+    0 d_header_y ymarg sub 2 sub translate
+
+    /cw d_output_w cols div def
+    /nrows d_output_h ymarg 2 mul sub lineheight div cvi def
+
+    % for each column
+    0 1 cols 1 sub {
+      cw mul /xp exch def
+
+      % for each rows
+      0 1 nrows 1 sub {
+        /rn exch def
+        rn lineheight mul neg /yp exch def
+        rn nlines idiv 2 mod 0 eq {
+	  % Draw highlight bar.  4 is just a magic indentation.
+	  xp 4 add yp cw 8 sub lineheight neg Box fill
+	} if
+      } for
+    } for
+
+  grestore
+} def
+
+% Line highlight bar.
+/line_highlight {	% x y width height gray -> -
+  gsave
+    /gray exch def
+    Box gray setgray fill
+  grestore
+} def
+
+% Column separator lines.
+/column_lines {
+  gsave
+    .1 setlinewidth
+    0 d_footer_h translate
+    /cw d_output_w cols div def
+    1 1 cols 1 sub {
+      cw mul 0 moveto
+      0 d_output_h rlineto stroke
+    } for
+  grestore
+} def
+
+% Column borders.
+/column_borders {
+  gsave
+    .1 setlinewidth
+    0 d_footer_h moveto
+    0 d_output_h rlineto
+    d_output_w 0 rlineto
+    0 d_output_h neg rlineto
+    closepath stroke
+  grestore
+} def
+
+% Do the actual underlay drawing
+/draw_underlay {
+  ul_style 0 eq {
+    ul_str true charpath stroke
+  } {
+    ul_str show
+  } ifelse
+} def
+
+% Underlay
+/underlay {	% - -> -
+  gsave
+    0 d_page_h translate
+    d_page_h neg d_page_w atan rotate
+
+    ul_gray setgray
+    ul_font setfont
+    /dw d_page_h dup mul d_page_w dup mul add sqrt def
+    ul_str stringwidth pop dw exch sub 2 div ul_h_ptsize -2 div moveto
+    draw_underlay
+  grestore
+} def
+
+/user_underlay {	% - -> -
+  gsave
+    ul_x ul_y translate
+    ul_angle rotate
+    ul_gray setgray
+    ul_font setfont
+    0 0 ul_h_ptsize 2 div sub moveto
+    draw_underlay
+  grestore
+} def
+
+% Page prefeed
+/page_prefeed {		% bool -> -
+  statusdict /prefeed known {
+    statusdict exch /prefeed exch put
+  } {
+    pop
+  } ifelse
+} def
+
+% Wrapped line markers
+/wrapped_line_mark {	% x y charwith charheight type -> -
+  /type exch def
+  /h exch def
+  /w exch def
+  /y exch def
+  /x exch def
+
+  type 2 eq {
+    % Black boxes (like TeX does)
+    gsave
+      0 setlinewidth
+      x w 4 div add y M
+      0 h rlineto w 2 div 0 rlineto 0 h neg rlineto
+      closepath fill
+    grestore
+  } {
+    type 3 eq {
+      % Small arrows
+      gsave
+        .2 setlinewidth
+        x w 2 div add y h 2 div add M
+        w 4 div 0 rlineto
+        x w 4 div add y lineto stroke
+
+        x w 4 div add w 8 div add y h 4 div add M
+        x w 4 div add y lineto
+	w 4 div h 8 div rlineto stroke
+      grestore
+    } {
+      % do nothing
+    } ifelse
+  } ifelse
+} def
+
+% EPSF import.
+
+/BeginEPSF {
+  /b4_Inc_state save def    		% Save state for cleanup
+  /dict_count countdictstack def	% Count objects on dict stack
+  /op_count count 1 sub def		% Count objects on operand stack
+  userdict begin
+  /showpage { } def
+  0 setgray 0 setlinecap
+  1 setlinewidth 0 setlinejoin
+  10 setmiterlimit [ ] 0 setdash newpath
+  /languagelevel where {
+    pop languagelevel
+    1 ne {
+      false setstrokeadjust false setoverprint
+    } if
+  } if
+} bind def
+
+/EndEPSF {
+  count op_count sub { pos } repeat	% Clean up stacks
+  countdictstack dict_count sub { end } repeat
+  b4_Inc_state restore
+} bind def
+
+% Check PostScript language level.
+/languagelevel where {
+  pop /gs_languagelevel languagelevel def
+} {
+  /gs_languagelevel 1 def
+} ifelse
+%%EndResource
+%%BeginResource: procset Enscript-Encoding-88591 1.6 4
+/encoding_vector [
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/space        	/exclam       	/quotedbl     	/numbersign   	
+/dollar       	/percent      	/ampersand    	/quoteright   	
+/parenleft    	/parenright   	/asterisk     	/plus         	
+/comma        	/hyphen       	/period       	/slash        	
+/zero         	/one          	/two          	/three        	
+/four         	/five         	/six          	/seven        	
+/eight        	/nine         	/colon        	/semicolon    	
+/less         	/equal        	/greater      	/question     	
+/at           	/A            	/B            	/C            	
+/D            	/E            	/F            	/G            	
+/H            	/I            	/J            	/K            	
+/L            	/M            	/N            	/O            	
+/P            	/Q            	/R            	/S            	
+/T            	/U            	/V            	/W            	
+/X            	/Y            	/Z            	/bracketleft  	
+/backslash    	/bracketright 	/asciicircum  	/underscore   	
+/quoteleft    	/a            	/b            	/c            	
+/d            	/e            	/f            	/g            	
+/h            	/i            	/j            	/k            	
+/l            	/m            	/n            	/o            	
+/p            	/q            	/r            	/s            	
+/t            	/u            	/v            	/w            	
+/x            	/y            	/z            	/braceleft    	
+/bar          	/braceright   	/tilde        	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/space        	/exclamdown   	/cent         	/sterling     	
+/currency     	/yen          	/brokenbar    	/section      	
+/dieresis     	/copyright    	/ordfeminine  	/guillemotleft	
+/logicalnot   	/hyphen       	/registered   	/macron       	
+/degree       	/plusminus    	/twosuperior  	/threesuperior	
+/acute        	/mu           	/paragraph    	/bullet       	
+/cedilla      	/onesuperior  	/ordmasculine 	/guillemotright	
+/onequarter   	/onehalf      	/threequarters	/questiondown 	
+/Agrave       	/Aacute       	/Acircumflex  	/Atilde       	
+/Adieresis    	/Aring        	/AE           	/Ccedilla     	
+/Egrave       	/Eacute       	/Ecircumflex  	/Edieresis    	
+/Igrave       	/Iacute       	/Icircumflex  	/Idieresis    	
+/Eth          	/Ntilde       	/Ograve       	/Oacute       	
+/Ocircumflex  	/Otilde       	/Odieresis    	/multiply     	
+/Oslash       	/Ugrave       	/Uacute       	/Ucircumflex  	
+/Udieresis    	/Yacute       	/Thorn        	/germandbls   	
+/agrave       	/aacute       	/acircumflex  	/atilde       	
+/adieresis    	/aring        	/ae           	/ccedilla     	
+/egrave       	/eacute       	/ecircumflex  	/edieresis    	
+/igrave       	/iacute       	/icircumflex  	/idieresis    	
+/eth          	/ntilde       	/ograve       	/oacute       	
+/ocircumflex  	/otilde       	/odieresis    	/divide       	
+/oslash       	/ugrave       	/uacute       	/ucircumflex  	
+/udieresis    	/yacute       	/thorn        	/ydieresis    	
+] def
+%%EndResource
+%%EndProlog
+%%BeginSetup
+%%IncludeResource: font Courier-Bold
+%%IncludeResource: font Courier
+/HFpt_w 10 def
+/HFpt_h 10 def
+/Courier-Bold /HF-gs-font MF
+/HF /HF-gs-font findfont [HFpt_w 0 0 HFpt_h 0 0] makefont def
+/Courier /F-gs-font MF
+/F-gs-font 10 10 SF
+/#copies 1 def
+% Pagedevice definitions:
+gs_languagelevel 1 gt {
+  <<
+    /PageSize [612 792] 
+  >> setpagedevice
+} if
+%%BeginResource: procset Enscript-Header-simple 1.6 4
+
+/do_header {	% print default simple header
+  gsave
+    d_header_x d_header_y HFpt_h 3 div add translate
+
+    HF setfont
+    user_header_p {
+      5 0 moveto user_header_left_str show
+
+      d_header_w user_header_center_str stringwidth pop sub 2 div
+      0 moveto user_header_center_str show
+
+      d_header_w user_header_right_str stringwidth pop sub 5 sub
+      0 moveto user_header_right_str show
+    } {
+      5 0 moveto fname show
+      45 0 rmoveto fmodstr show
+      45 0 rmoveto pagenumstr show
+    } ifelse
+
+  grestore
+} def
+%%EndResource
+/d_page_w 576 def
+/d_page_h 720 def
+/d_header_x 0 def
+/d_header_y 705 def
+/d_header_w 576 def
+/d_header_h 15 def
+/d_footer_x 0 def
+/d_footer_y 0 def
+/d_footer_w 576 def
+/d_footer_h 0 def
+/d_output_w 576 def
+/d_output_h 705 def
+/cols 1 def
+%%EndSetup
+%%Page: (1) 1
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 1 def
+/fname (cover-page.txt) def
+/fdir () def
+/ftail (cover-page.txt) def
+% User defined strings:
+/fmodstr (Wed Nov 04 12:28:13 2009) def
+/pagenumstr (1) def
+/user_header_p true def
+/user_header_left_str (cover-page.txt) def
+/user_header_center_str (Ted Timmons CS333 Assignment 3) def
+/user_header_right_str (Pg 1 of 1) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 670 M
+(Ted Timmons) s
+5 659 M
+(tedt@pdx.edu) s
+5 648 M
+(2009-11-04) s
+/Courier-Bold 10 10 SUF
+5 637 M
+(CS333) s
+/F-gs-font 10 10 SF
+35 637 M
+( Homework 3) s
+5 593 M
+(My solution ) s
+/Courier-Bold 10 10 SUF
+77 593 M
+(to) s
+/F-gs-font 10 10 SF
+89 593 M
+( the game parlor is incomplete. If ) s
+/Courier-Bold 10 10 SUF
+299 593 M
+(I) s
+/F-gs-font 10 10 SF
+305 593 M
+( remove the monitor and) s
+5 582 M
+(use a Yield\(\), it works. However, ) s
+/Courier-Bold 10 10 SUF
+209 582 M
+(I) s
+/F-gs-font 10 10 SF
+215 582 M
+( can't get it working properly with the) s
+5 571 M
+(monitor.) s
+_R
+S
+%%Page: (1) 2
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 1 def
+/fname (barber-test.txt) def
+/fdir () def
+/ftail (barber-test.txt) def
+% User defined strings:
+/fmodstr (Wed Nov 04 10:52:49 2009) def
+/pagenumstr (1) def
+/user_header_p true def
+/user_header_left_str (barber-test.txt) def
+/user_header_center_str (Ted Timmons CS333 Assignment 3) def
+/user_header_right_str (Pg 1 of 2) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+($ make && blitz -g os) s
+5 681 M
+(kpl Main -unsafe) s
+5 670 M
+(asm Main.s) s
+5 659 M
+(lddd System.o List.o Thread.o Switch.o Synch.o Main.o Runtime.o -o os) s
+5 648 M
+(Beginning execution...) s
+5 637 M
+(====================  ) s
+/Courier-Bold 10 10 SUF
+137 637 M
+(KPL) s
+/F-gs-font 10 10 SF
+155 637 M
+( ) s
+/Courier-Bold 10 10 SUF
+161 637 M
+(PROGRAM) s
+/F-gs-font 10 10 SF
+203 637 M
+( ) s
+/Courier-Bold 10 10 SUF
+209 637 M
+(STARTING) s
+/F-gs-font 10 10 SF
+257 637 M
+(  ====================) s
+5 626 M
+(Initializing Thread Scheduler...) s
+5 615 M
+(done with init, time ) s
+/Courier-Bold 10 10 SUF
+131 615 M
+(to) s
+/F-gs-font 10 10 SF
+143 615 M
+( test.) s
+/Courier-Bold 10 10 SUF
+5 604 M
+(new) s
+/F-gs-font 10 10 SF
+23 604 M
+( barber: barber 1) s
+5 593 M
+(barber: barber 1 is done with initloop, is now ready ) s
+/Courier-Bold 10 10 SUF
+323 593 M
+(to) s
+/F-gs-font 10 10 SF
+335 593 M
+( cut hair) s
+/Courier-Bold 10 10 SUF
+5 582 M
+(new) s
+/F-gs-font 10 10 SF
+23 582 M
+( barber: barber 2) s
+/Courier-Bold 10 10 SUF
+5 571 M
+(new) s
+/F-gs-font 10 10 SF
+23 571 M
+( barber: barber 3) s
+/Courier-Bold 10 10 SUF
+5 560 M
+(new) s
+/F-gs-font 10 10 SF
+23 560 M
+( customer: customer 3) s
+/Courier-Bold 10 10 SUF
+5 549 M
+(new) s
+/F-gs-font 10 10 SF
+23 549 M
+( customer: customer 5) s
+5 538 M
+( barber 1 cutting hair.) s
+/Courier-Bold 10 10 SUF
+5 527 M
+(new) s
+/F-gs-font 10 10 SF
+23 527 M
+( customer: customer 4) s
+/Courier-Bold 10 10 SUF
+5 516 M
+(new) s
+/F-gs-font 10 10 SF
+23 516 M
+( customer: customer 7) s
+5 505 M
+(barber: barber 3 is done with initloop, is now ready ) s
+/Courier-Bold 10 10 SUF
+323 505 M
+(to) s
+/F-gs-font 10 10 SF
+335 505 M
+( cut hair) s
+5 494 M
+( customer 3 getting a haircut.) s
+/Courier-Bold 10 10 SUF
+5 483 M
+(new) s
+/F-gs-font 10 10 SF
+23 483 M
+( customer: customer 6) s
+/Courier-Bold 10 10 SUF
+5 472 M
+(new) s
+/F-gs-font 10 10 SF
+23 472 M
+( customer: customer 9) s
+/Courier-Bold 10 10 SUF
+5 461 M
+(new) s
+/F-gs-font 10 10 SF
+23 461 M
+( customer: customer 10) s
+/Courier-Bold 10 10 SUF
+5 450 M
+(new) s
+/F-gs-font 10 10 SF
+23 450 M
+( customer: customer 12) s
+/Courier-Bold 10 10 SUF
+5 439 M
+(new) s
+/F-gs-font 10 10 SF
+23 439 M
+( customer: customer 14) s
+5 428 M
+(barber: barber 2 is done with initloop, is now ready ) s
+/Courier-Bold 10 10 SUF
+323 428 M
+(to) s
+/F-gs-font 10 10 SF
+335 428 M
+( cut hair) s
+5 417 M
+( customer 5 getting a haircut.) s
+5 406 M
+( barber 3 cutting hair.) s
+5 395 M
+( barber 1 is done cutting hair.) s
+/Courier-Bold 10 10 SUF
+5 384 M
+(new) s
+/F-gs-font 10 10 SF
+23 384 M
+( customer: customer 11) s
+/Courier-Bold 10 10 SUF
+5 373 M
+(new) s
+/F-gs-font 10 10 SF
+23 373 M
+( customer: customer 15) s
+/Courier-Bold 10 10 SUF
+5 362 M
+(new) s
+/F-gs-font 10 10 SF
+23 362 M
+( customer: customer 8) s
+/Courier-Bold 10 10 SUF
+5 351 M
+(new) s
+/F-gs-font 10 10 SF
+23 351 M
+( customer: customer 13) s
+5 340 M
+(shop is full, customer 12 is not waiting.) s
+5 329 M
+( barber 2 cutting hair.) s
+5 318 M
+( barber 3 is done cutting hair.) s
+5 307 M
+( barber 1 cutting hair.) s
+5 296 M
+( customer 4 getting a haircut.) s
+5 285 M
+( customer 7 getting a haircut.) s
+5 274 M
+( barber 2 is done cutting hair.) s
+5 263 M
+(shop is full, customer 15 is not waiting.) s
+5 252 M
+( barber 1 is done cutting hair.) s
+5 241 M
+(shop is full, customer 8 is not waiting.) s
+5 230 M
+(shop is full, customer 13 is not waiting.) s
+5 219 M
+( barber 3 cutting hair.) s
+5 208 M
+( customer 6 getting a haircut.) s
+5 197 M
+( barber 2 cutting hair.) s
+5 186 M
+( customer 9 getting a haircut.) s
+5 175 M
+( barber 1 cutting hair.) s
+5 164 M
+( barber 3 is done cutting hair.) s
+5 153 M
+( customer 10 getting a haircut.) s
+5 142 M
+( barber 2 is done cutting hair.) s
+5 131 M
+( customer 11 getting a haircut.) s
+5 120 M
+( barber 2 cutting hair.) s
+5 109 M
+( barber 1 is done cutting hair.) s
+5 98 M
+( barber 3 cutting hair.) s
+5 87 M
+( barber 2 is done cutting hair.) s
+5 76 M
+( customer 14 getting a haircut.) s
+5 65 M
+( barber 3 is done cutting hair.) s
+5 43 M
+(*****  ) s
+/Courier-Bold 10 10 SUF
+47 43 M
+(A) s
+/F-gs-font 10 10 SF
+53 43 M
+( 'wait' instruction was executed and no more interrupts are scheduled... halting ) s
+539 43 M (+) s
+5 32 M
+(emulation!  *****) s
+5 10 M
+(Done!  The next instruction ) s
+/Courier-Bold 10 10 SUF
+173 10 M
+(to) s
+/F-gs-font 10 10 SF
+185 10 M
+( execute will be:) s
+_R
+S
+%%Page: (2) 3
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 2 def
+/fname (barber-test.txt) def
+/fdir () def
+/ftail (barber-test.txt) def
+% User defined strings:
+/fmodstr (Wed Nov 04 10:52:49 2009) def
+/pagenumstr (2) def
+/user_header_p true def
+/user_header_left_str (barber-test.txt) def
+/user_header_center_str (Ted Timmons CS333 Assignment 3) def
+/user_header_right_str (Pg 2 of 2) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(000EC8: 09000000       ret) s
+5 681 M
+(Number ) s
+/Courier-Bold 10 10 SUF
+47 681 M
+(of) s
+/F-gs-font 10 10 SF
+59 681 M
+( Disk Reads    = 0) s
+5 670 M
+(Number ) s
+/Courier-Bold 10 10 SUF
+47 670 M
+(of) s
+/F-gs-font 10 10 SF
+59 670 M
+( Disk Writes   = 0) s
+5 659 M
+(Instructions Executed   = 328887) s
+5 648 M
+(Time Spent Sleeping     = 0) s
+5 637 M
+(    Total Elapsed Time  = 328887) s
+_R
+S
+%%Page: (1) 4
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 1 def
+/fname (game-parlor-test.txt) def
+/fdir () def
+/ftail (game-parlor-test.txt) def
+% User defined strings:
+/fmodstr (Wed Nov 04 12:27:04 2009) def
+/pagenumstr (1) def
+/user_header_p true def
+/user_header_left_str (game-parlor-test.txt) def
+/user_header_center_str (Ted Timmons CS333 Assignment 3) def
+/user_header_right_str (Pg 1 of 1) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+($ !mak) s
+5 681 M
+($ make && blitz -g os) s
+5 670 M
+(make: Nothing ) s
+/Courier-Bold 10 10 SUF
+89 670 M
+(to) s
+/F-gs-font 10 10 SF
+101 670 M
+( be done ) s
+/Courier-Bold 10 10 SUF
+155 670 M
+(for) s
+/F-gs-font 10 10 SF
+173 670 M
+( `all'.) s
+5 659 M
+(Beginning execution...) s
+5 648 M
+(====================  ) s
+/Courier-Bold 10 10 SUF
+137 648 M
+(KPL) s
+/F-gs-font 10 10 SF
+155 648 M
+( ) s
+/Courier-Bold 10 10 SUF
+161 648 M
+(PROGRAM) s
+/F-gs-font 10 10 SF
+203 648 M
+( ) s
+/Courier-Bold 10 10 SUF
+209 648 M
+(STARTING) s
+/F-gs-font 10 10 SF
+257 648 M
+(  ====================) s
+5 637 M
+(Initializing Thread Scheduler...) s
+5 626 M
+(about ) s
+/Courier-Bold 10 10 SUF
+41 626 M
+(to) s
+/F-gs-font 10 10 SF
+53 626 M
+( test game parlor) s
+5 615 M
+(here we are, testing the game parlor) s
+/Courier-Bold 10 10 SUF
+5 604 M
+(A) s
+/F-gs-font 10 10 SF
+11 604 M
+( Backgammon requests 4) s
+/Courier-Oblique 10 10 SUF
+5 593 M
+(------------------------------Number of dice now avail = 8) s
+/F-gs-font 10 10 SF
+/Courier-Bold 10 10 SUF
+5 582 M
+(A) s
+/F-gs-font 10 10 SF
+11 582 M
+( Backgammon proceeds with 4) s
+/Courier-Oblique 10 10 SUF
+5 571 M
+(------------------------------Number of dice now avail = 4) s
+/F-gs-font 10 10 SF
+/Courier-Bold 10 10 SUF
+5 560 M
+(B) s
+/F-gs-font 10 10 SF
+11 560 M
+( Backgammon requests 4) s
+/Courier-Oblique 10 10 SUF
+5 549 M
+(------------------------------Number of dice now avail = 4) s
+/F-gs-font 10 10 SF
+/Courier-Bold 10 10 SUF
+5 538 M
+(B) s
+/F-gs-font 10 10 SF
+11 538 M
+( Backgammon proceeds with 4) s
+/Courier-Oblique 10 10 SUF
+5 527 M
+(------------------------------Number of dice now avail = 0) s
+/F-gs-font 10 10 SF
+/Courier-Bold 10 10 SUF
+5 516 M
+(D) s
+/F-gs-font 10 10 SF
+11 516 M
+( Risk requests 5) s
+/Courier-Oblique 10 10 SUF
+5 505 M
+(------------------------------Number of dice now avail = 0) s
+/F-gs-font 10 10 SF
+/Courier-Bold 10 10 SUF
+5 494 M
+(A) s
+/F-gs-font 10 10 SF
+11 494 M
+( Backgammon releases and adds back 4) s
+/Courier-Oblique 10 10 SUF
+5 483 M
+(------------------------------Number of dice now avail = 4) s
+/F-gs-font 10 10 SF
+/Courier-Bold 10 10 SUF
+5 472 M
+(A) s
+/F-gs-font 10 10 SF
+11 472 M
+( Backgammon requests 4) s
+/Courier-Oblique 10 10 SUF
+5 461 M
+(------------------------------Number of dice now avail = 4) s
+/F-gs-font 10 10 SF
+/Courier-Bold 10 10 SUF
+5 450 M
+(A) s
+/F-gs-font 10 10 SF
+11 450 M
+( Backgammon proceeds with 4) s
+/Courier-Oblique 10 10 SUF
+5 439 M
+(------------------------------Number of dice now avail = 0) s
+/F-gs-font 10 10 SF
+/Courier-Bold 10 10 SUF
+5 428 M
+(C) s
+/F-gs-font 10 10 SF
+11 428 M
+( Risk requests 5) s
+/Courier-Oblique 10 10 SUF
+5 417 M
+(------------------------------Number of dice now avail = 0) s
+/F-gs-font 10 10 SF
+/Courier-Bold 10 10 SUF
+5 406 M
+(E) s
+/F-gs-font 10 10 SF
+11 406 M
+( Monopoly requests 2) s
+/Courier-Oblique 10 10 SUF
+5 395 M
+(------------------------------Number of dice now avail = 0) s
+/F-gs-font 10 10 SF
+/Courier-Bold 10 10 SUF
+5 373 M
+(FATAL) s
+/F-gs-font 10 10 SF
+35 373 M
+( ) s
+/Courier-Bold 10 10 SUF
+41 373 M
+(ERROR) s
+/F-gs-font 10 10 SF
+71 373 M
+( in ) s
+/Courier-Bold 10 10 SUF
+95 373 M
+(D) s
+/F-gs-font 10 10 SF
+101 373 M
+( Risk: ) s
+/Courier-Bold 10 10 SUF
+143 373 M
+("Attempt to lock a mutex by a thread already holding it") s
+/F-gs-font 10 10 SF
+479 373 M
+( ) s
+/Courier-Oblique 10 10 SUF
+485 373 M
+(-- ) s
+503 373 M (+) s
+5 362 M
+(TERMINATING!) s
+/F-gs-font 10 10 SF
+5 340 M
+(====================  ) s
+/Courier-Bold 10 10 SUF
+137 340 M
+(KPL) s
+/F-gs-font 10 10 SF
+155 340 M
+( ) s
+/Courier-Bold 10 10 SUF
+161 340 M
+(PROGRAM) s
+/F-gs-font 10 10 SF
+203 340 M
+( ) s
+/Courier-Bold 10 10 SUF
+209 340 M
+(TERMINATION) s
+/F-gs-font 10 10 SF
+275 340 M
+(  ====================) s
+5 318 M
+(****  ) s
+/Courier-Bold 10 10 SUF
+41 318 M
+(A) s
+/F-gs-font 10 10 SF
+47 318 M
+( ') s
+/Courier-Bold 10 10 SUF
+59 318 M
+(debug) s
+/F-gs-font 10 10 SF
+89 318 M
+(' instruction was encountered  *****) s
+5 307 M
+(Done!  The next instruction ) s
+/Courier-Bold 10 10 SUF
+173 307 M
+(to) s
+/F-gs-font 10 10 SF
+185 307 M
+( execute will be:) s
+5 296 M
+(000E08: ) s
+/Courier-Bold 10 10 SUF
+53 296 M
+(C0100000) s
+/F-gs-font 10 10 SF
+101 296 M
+(       sethi   0x0000,r1        ! 0x00000E18 = 3608 \(noGoMessage\)) s
+5 274 M
+(Entering machine-level debugger...) s
+5 263 M
+(======================================================) s
+5 252 M
+(=====                                            =====) s
+5 241 M
+(=====         The ) s
+/Courier-Bold 10 10 SUF
+113 241 M
+(BLITZ) s
+/F-gs-font 10 10 SF
+143 241 M
+( Machine Emulator         =====) s
+5 230 M
+(=====                                            =====) s
+5 219 M
+(=====  Copyright 2001-2007, Harry ) s
+/Courier-Bold 10 10 SUF
+209 219 M
+(H) s
+/F-gs-font 10 10 SF
+215 219 M
+(. Porter ) s
+/Courier-Bold 10 10 SUF
+269 219 M
+(III) s
+/F-gs-font 10 10 SF
+287 219 M
+(  =====) s
+5 208 M
+(=====                                            =====) s
+5 197 M
+(======================================================) s
+5 175 M
+(Enter a command at the prompt.  Type 'quit' ) s
+/Courier-Bold 10 10 SUF
+269 175 M
+(to) s
+/F-gs-font 10 10 SF
+281 175 M
+( exit or 'help' ) s
+/Courier-Bold 10 10 SUF
+377 175 M
+(for) s
+/F-gs-font 10 10 SF
+5 164 M
+(info about commands.) s
+5 153 M
+(> quit) s
+5 142 M
+(Number ) s
+/Courier-Bold 10 10 SUF
+47 142 M
+(of) s
+/F-gs-font 10 10 SF
+59 142 M
+( Disk Reads    = 0) s
+5 131 M
+(Number ) s
+/Courier-Bold 10 10 SUF
+47 131 M
+(of) s
+/F-gs-font 10 10 SF
+59 131 M
+( Disk Writes   = 0) s
+5 120 M
+(Instructions Executed   = 266009) s
+5 109 M
+(Time Spent Sleeping     = 0) s
+5 98 M
+(    Total Elapsed Time  = 266009) s
+_R
+S
+%%Page: (1) 5
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 1 def
+/fname (Main.h) def
+/fdir () def
+/ftail (Main.h) def
+% User defined strings:
+/fmodstr (Wed Nov 04 12:30:46 2009) def
+/pagenumstr (1) def
+/user_header_p true def
+/user_header_left_str (Main.h) def
+/user_header_center_str (Ted Timmons CS333 Assignment 3) def
+/user_header_right_str (Pg 1 of 1) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+/Courier-Bold 10 10 SUF
+5 692 M
+(header) s
+/F-gs-font 10 10 SF
+41 692 M
+( ) s
+/Courier-Bold 10 10 SUF
+47 692 M
+(Main) s
+/F-gs-font 10 10 SF
+5 670 M
+(  ) s
+/Courier-Bold 10 10 SUF
+17 670 M
+(uses) s
+/F-gs-font 10 10 SF
+41 670 M
+( System, Thread, Synch) s
+5 648 M
+(  functions) s
+5 637 M
+(    main \(\)) s
+5 626 M
+(    testBarber\(\)) s
+5 615 M
+(    get_haircut\(\)) s
+5 604 M
+(    cut_hair\(\)) s
+5 593 M
+(    barber\(waitTime: ) s
+/Courier-Bold 10 10 SUF
+131 593 M
+(int) s
+/F-gs-font 10 10 SF
+149 593 M
+(\)) s
+5 582 M
+(    customer\(waitTime: ) s
+/Courier-Bold 10 10 SUF
+143 582 M
+(int) s
+/F-gs-font 10 10 SF
+161 582 M
+(\)) s
+5 571 M
+(    loopWait\(waitTime: ) s
+/Courier-Bold 10 10 SUF
+143 571 M
+(int) s
+/F-gs-font 10 10 SF
+161 571 M
+(\)) s
+5 549 M
+(  ) s
+/Courier-Bold 10 10 SUF
+17 549 M
+(class) s
+/F-gs-font 10 10 SF
+47 549 M
+( ) s
+/Courier-Bold 10 10 SUF
+53 549 M
+(GameParlor) s
+/F-gs-font 10 10 SF
+5 538 M
+(    ) s
+/Courier-Bold 10 10 SUF
+29 538 M
+(superclass) s
+/F-gs-font 10 10 SF
+89 538 M
+( Object) s
+5 527 M
+(    ) s
+/Courier-Bold 10 10 SUF
+29 527 M
+(fields) s
+/F-gs-font 10 10 SF
+5 516 M
+(      numberDiceAvail: ) s
+/Courier-Bold 10 10 SUF
+143 516 M
+(int) s
+/F-gs-font 10 10 SF
+5 505 M
+(      lobbyCondition:  Condition) s
+5 494 M
+(      gmutex:          Mutex) s
+5 483 M
+(      diceCountMutex:  Mutex) s
+5 472 M
+(    ) s
+/Courier-Bold 10 10 SUF
+29 472 M
+(methods) s
+/F-gs-font 10 10 SF
+5 461 M
+(      Init \(\)) s
+5 450 M
+(      Request \(numNeeded: ) s
+/Courier-Bold 10 10 SUF
+161 450 M
+(int) s
+/F-gs-font 10 10 SF
+179 450 M
+(\)) s
+5 439 M
+(      Return \(numReturned: ) s
+/Courier-Bold 10 10 SUF
+167 439 M
+(int) s
+/F-gs-font 10 10 SF
+185 439 M
+(\)) s
+5 428 M
+(      Print \(str: String, count: ) s
+/Courier-Bold 10 10 SUF
+203 428 M
+(int) s
+/F-gs-font 10 10 SF
+221 428 M
+(\)) s
+5 417 M
+(  ) s
+/Courier-Bold 10 10 SUF
+17 417 M
+(endClass) s
+/F-gs-font 10 10 SF
+/Courier-Bold 10 10 SUF
+5 373 M
+(endHeader) s
+/F-gs-font 10 10 SF
+_R
+S
+%%Page: (1) 6
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 1 def
+/fname (Main.c) def
+/fdir () def
+/ftail (Main.c) def
+% User defined strings:
+/fmodstr (Wed Nov 04 12:31:09 2009) def
+/pagenumstr (1) def
+/user_header_p true def
+/user_header_left_str (Main.c) def
+/user_header_center_str (Ted Timmons CS333 Assignment 3) def
+/user_header_right_str (Pg 1 of 5) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+/Courier-Bold 10 10 SUF
+5 692 M
+(code) s
+/F-gs-font 10 10 SF
+29 692 M
+( ) s
+/Courier-Bold 10 10 SUF
+35 692 M
+(Main) s
+/F-gs-font 10 10 SF
+5 670 M
+(  ) s
+/Courier-Oblique 10 10 SUF
+17 670 M
+(-- OS Class: Project 3) s
+/F-gs-font 10 10 SF
+5 659 M
+(  ) s
+/Courier-Oblique 10 10 SUF
+17 659 M
+(--) s
+/F-gs-font 10 10 SF
+5 648 M
+(  ) s
+/Courier-Oblique 10 10 SUF
+17 648 M
+(-- Ted Timmons, tedt@pdx.edu, 2009-11-04) s
+/F-gs-font 10 10 SF
+5 637 M
+(  ) s
+/Courier-Oblique 10 10 SUF
+17 637 M
+(--) s
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+5 615 M
+(-----------------------------  Main  ---------------------------------) s
+/F-gs-font 10 10 SF
+5 593 M
+(  ) s
+/Courier-Bold 10 10 SUF
+17 593 M
+(function) s
+/F-gs-font 10 10 SF
+65 593 M
+( ) s
+/Courier-Bold 10 10 SUF
+71 593 M
+(main) s
+/F-gs-font 10 10 SF
+95 593 M
+( \(\)) s
+5 582 M
+(      InitializeScheduler\(\)) s
+5 571 M
+(      ) s
+/Courier-Oblique 10 10 SUF
+41 571 M
+(--testBarber\(\)) s
+/F-gs-font 10 10 SF
+5 549 M
+(print\() s
+/Courier-Bold 10 10 SUF
+41 549 M
+("about to test game parlor\\n") s
+/F-gs-font 10 10 SF
+215 549 M
+(\)) s
+5 538 M
+(      testGameParlor\(\)) s
+5 527 M
+(print\() s
+/Courier-Bold 10 10 SUF
+41 527 M
+("done testing game parlor\\n") s
+/F-gs-font 10 10 SF
+209 527 M
+(\)) s
+5 516 M
+(    ) s
+/Courier-Bold 10 10 SUF
+29 516 M
+(endFunction) s
+/F-gs-font 10 10 SF
+/Courier-Bold 10 10 SUF
+5 483 M
+(var) s
+/F-gs-font 10 10 SF
+23 483 M
+( gp: GameParlor) s
+/Courier-Bold 10 10 SUF
+5 461 M
+(function) s
+/F-gs-font 10 10 SF
+53 461 M
+( ) s
+/Courier-Bold 10 10 SUF
+59 461 M
+(testGameParlor) s
+/F-gs-font 10 10 SF
+143 461 M
+( \(\)) s
+5 450 M
+(  ) s
+/Courier-Bold 10 10 SUF
+17 450 M
+(var) s
+/F-gs-font 10 10 SF
+5 439 M
+(    team: ) s
+/Courier-Bold 10 10 SUF
+65 439 M
+(array) s
+/F-gs-font 10 10 SF
+95 439 M
+([8] ) s
+/Courier-Bold 10 10 SUF
+119 439 M
+(of) s
+/F-gs-font 10 10 SF
+131 439 M
+( Thread = ) s
+/Courier-Bold 10 10 SUF
+191 439 M
+(new) s
+/F-gs-font 10 10 SF
+209 439 M
+( ) s
+/Courier-Bold 10 10 SUF
+215 439 M
+(array) s
+/F-gs-font 10 10 SF
+245 439 M
+( ) s
+/Courier-Bold 10 10 SUF
+251 439 M
+(of) s
+/F-gs-font 10 10 SF
+263 439 M
+( Thread {8 ) s
+/Courier-Bold 10 10 SUF
+329 439 M
+(of) s
+/F-gs-font 10 10 SF
+341 439 M
+( ) s
+/Courier-Bold 10 10 SUF
+347 439 M
+(new) s
+/F-gs-font 10 10 SF
+365 439 M
+( Thread}) s
+5 417 M
+(  print\() s
+/Courier-Bold 10 10 SUF
+53 417 M
+("here we are, testing the game parlor\\n") s
+/F-gs-font 10 10 SF
+293 417 M
+(\)) s
+5 406 M
+(  gp = ) s
+/Courier-Bold 10 10 SUF
+47 406 M
+(new) s
+/F-gs-font 10 10 SF
+65 406 M
+( GameParlor) s
+5 395 M
+(  gp.Init \(\)) s
+5 373 M
+(  team[0].Init \() s
+/Courier-Bold 10 10 SUF
+101 373 M
+("A Backgammon") s
+/F-gs-font 10 10 SF
+185 373 M
+(\)) s
+5 362 M
+(  team[0].Fork \(play, 4\)) s
+5 351 M
+(  team[1].Init \() s
+/Courier-Bold 10 10 SUF
+101 351 M
+("B Backgammon") s
+/F-gs-font 10 10 SF
+185 351 M
+(\)) s
+5 340 M
+(  team[1].Fork \(play, 4\)) s
+5 329 M
+(  team[2].Init \() s
+/Courier-Bold 10 10 SUF
+101 329 M
+("C Risk") s
+/F-gs-font 10 10 SF
+149 329 M
+(\)) s
+5 318 M
+(  team[2].Fork \(play, 5\)) s
+5 307 M
+(  team[3].Init \() s
+/Courier-Bold 10 10 SUF
+101 307 M
+("D Risk") s
+/F-gs-font 10 10 SF
+149 307 M
+(\)) s
+5 296 M
+(  team[3].Fork \(play, 5\)) s
+5 285 M
+(  team[4].Init \() s
+/Courier-Bold 10 10 SUF
+101 285 M
+("E Monopoly") s
+/F-gs-font 10 10 SF
+173 285 M
+(\)) s
+5 274 M
+(  team[4].Fork \(play, 2\)) s
+5 263 M
+(  team[5].Init \() s
+/Courier-Bold 10 10 SUF
+101 263 M
+("F Monopoly") s
+/F-gs-font 10 10 SF
+173 263 M
+(\)) s
+5 252 M
+(  team[5].Fork \(play, 2\)) s
+5 241 M
+(  team[6].Init \() s
+/Courier-Bold 10 10 SUF
+101 241 M
+("G Pictionary") s
+/F-gs-font 10 10 SF
+185 241 M
+(\)) s
+5 230 M
+(  team[6].Fork \(play, 1\)) s
+5 219 M
+(  team[7].Init \() s
+/Courier-Bold 10 10 SUF
+101 219 M
+("H Pictionary") s
+/F-gs-font 10 10 SF
+185 219 M
+(\)) s
+5 208 M
+(  team[7].Fork \(play, 1\)) s
+5 186 M
+(  ThreadFinish\(\)   ) s
+/Courier-Oblique 10 10 SUF
+119 186 M
+(-- Patiently wait for our threads to finish) s
+/F-gs-font 10 10 SF
+/Courier-Bold 10 10 SUF
+5 175 M
+(endFunction) s
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+5 153 M
+(-- "playing" thread. This is a group that is playing a given game) s
+/F-gs-font 10 10 SF
+/Courier-Bold 10 10 SUF
+5 142 M
+(function) s
+/F-gs-font 10 10 SF
+53 142 M
+( ) s
+/Courier-Bold 10 10 SUF
+59 142 M
+(play) s
+/F-gs-font 10 10 SF
+83 142 M
+( \(diceNeeded: ) s
+/Courier-Bold 10 10 SUF
+167 142 M
+(int) s
+/F-gs-font 10 10 SF
+185 142 M
+(\)) s
+5 131 M
+(  ) s
+/Courier-Bold 10 10 SUF
+17 131 M
+(var) s
+/F-gs-font 10 10 SF
+5 120 M
+(    i: ) s
+/Courier-Bold 10 10 SUF
+47 120 M
+(int) s
+/F-gs-font 10 10 SF
+5 98 M
+(  ) s
+/Courier-Bold 10 10 SUF
+17 98 M
+(for) s
+/F-gs-font 10 10 SF
+35 98 M
+( i = 1 ) s
+/Courier-Bold 10 10 SUF
+77 98 M
+(to) s
+/F-gs-font 10 10 SF
+89 98 M
+( 5) s
+/Courier-Oblique 10 10 SUF
+5 87 M
+(--print\("in loop: "\)) s
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+5 76 M
+(--printInt\(i\)) s
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+5 65 M
+(--print\("\\n"\)) s
+/F-gs-font 10 10 SF
+5 54 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+29 54 M
+(-- get our dice) s
+/F-gs-font 10 10 SF
+5 43 M
+(    gp.Request\(diceNeeded\)) s
+5 21 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+29 21 M
+(-- play our game) s
+/F-gs-font 10 10 SF
+5 10 M
+(    currentThread.Yield\(\)) s
+_R
+S
+%%Page: (2) 7
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 2 def
+/fname (Main.c) def
+/fdir () def
+/ftail (Main.c) def
+% User defined strings:
+/fmodstr (Wed Nov 04 12:31:09 2009) def
+/pagenumstr (2) def
+/user_header_p true def
+/user_header_left_str (Main.c) def
+/user_header_center_str (Ted Timmons CS333 Assignment 3) def
+/user_header_right_str (Pg 2 of 5) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 681 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+29 681 M
+(-- give them back) s
+/F-gs-font 10 10 SF
+5 670 M
+(    gp.Return\(diceNeeded\)) s
+5 659 M
+(  ) s
+/Courier-Bold 10 10 SUF
+17 659 M
+(endFor) s
+/F-gs-font 10 10 SF
+/Courier-Bold 10 10 SUF
+5 648 M
+(endFunction) s
+/F-gs-font 10 10 SF
+/Courier-Bold 10 10 SUF
+5 593 M
+(var) s
+/F-gs-font 10 10 SF
+5 582 M
+(  ) s
+/Courier-Bold 10 10 SUF
+17 582 M
+(CHAIRS) s
+/F-gs-font 10 10 SF
+53 582 M
+(: ) s
+/Courier-Bold 10 10 SUF
+65 582 M
+(int) s
+/F-gs-font 10 10 SF
+83 582 M
+( = 5                      ) s
+/Courier-Oblique 10 10 SUF
+239 582 M
+(-- # chairs for waiting customers) s
+/F-gs-font 10 10 SF
+5 571 M
+(  ) s
+/Courier-Oblique 10 10 SUF
+17 571 M
+(-- semaphore: typedef int semaphore    -- use your imagination) s
+/F-gs-font 10 10 SF
+5 549 M
+(  customers: Semaphore = ) s
+/Courier-Bold 10 10 SUF
+155 549 M
+(new) s
+/F-gs-font 10 10 SF
+173 549 M
+( Semaphore ) s
+5 538 M
+(  barbers:   Semaphore = ) s
+/Courier-Bold 10 10 SUF
+155 538 M
+(new) s
+/F-gs-font 10 10 SF
+173 538 M
+( Semaphore) s
+5 527 M
+(  mutex:     Semaphore = ) s
+/Courier-Bold 10 10 SUF
+155 527 M
+(new) s
+/F-gs-font 10 10 SF
+173 527 M
+( Semaphore) s
+5 516 M
+(  waiting:   ) s
+/Courier-Bold 10 10 SUF
+83 516 M
+(int) s
+/F-gs-font 10 10 SF
+101 516 M
+( = 0) s
+5 494 M
+(  thread: ) s
+/Courier-Bold 10 10 SUF
+65 494 M
+(array) s
+/F-gs-font 10 10 SF
+95 494 M
+([16] ) s
+/Courier-Bold 10 10 SUF
+125 494 M
+(of) s
+/F-gs-font 10 10 SF
+137 494 M
+( Thread = ) s
+/Courier-Bold 10 10 SUF
+197 494 M
+(new) s
+/F-gs-font 10 10 SF
+215 494 M
+( ) s
+/Courier-Bold 10 10 SUF
+221 494 M
+(array) s
+/F-gs-font 10 10 SF
+251 494 M
+( ) s
+/Courier-Bold 10 10 SUF
+257 494 M
+(of) s
+/F-gs-font 10 10 SF
+269 494 M
+( Thread {16 ) s
+/Courier-Bold 10 10 SUF
+341 494 M
+(of) s
+/F-gs-font 10 10 SF
+353 494 M
+( ) s
+/Courier-Bold 10 10 SUF
+359 494 M
+(new) s
+/F-gs-font 10 10 SF
+377 494 M
+( Thread}) s
+/Courier-Bold 10 10 SUF
+5 472 M
+(function) s
+/F-gs-font 10 10 SF
+53 472 M
+( ) s
+/Courier-Bold 10 10 SUF
+59 472 M
+(testBarber) s
+/F-gs-font 10 10 SF
+119 472 M
+(\(\)) s
+5 461 M
+(    ) s
+/Courier-Bold 10 10 SUF
+29 461 M
+(var) s
+/F-gs-font 10 10 SF
+47 461 M
+( i: ) s
+/Courier-Bold 10 10 SUF
+71 461 M
+(int) s
+/F-gs-font 10 10 SF
+5 439 M
+(    customers.Init\(0\)) s
+5 428 M
+(    barbers.Init\(0\)) s
+5 417 M
+(    mutex.Init\(1\)) s
+5 395 M
+(    print\() s
+/Courier-Bold 10 10 SUF
+65 395 M
+("done with init, time to test.\\n") s
+/F-gs-font 10 10 SF
+263 395 M
+(\)) s
+5 384 M
+(    thread[0].Init\() s
+/Courier-Bold 10 10 SUF
+119 384 M
+("barber 1") s
+/F-gs-font 10 10 SF
+179 384 M
+(\)) s
+5 373 M
+(    thread[1].Init\() s
+/Courier-Bold 10 10 SUF
+119 373 M
+("barber 2") s
+/F-gs-font 10 10 SF
+179 373 M
+(\)) s
+5 362 M
+(    thread[2].Init\() s
+/Courier-Bold 10 10 SUF
+119 362 M
+("barber 3") s
+/F-gs-font 10 10 SF
+179 362 M
+(\)) s
+5 351 M
+(    thread[3].Init\() s
+/Courier-Bold 10 10 SUF
+119 351 M
+("customer 3") s
+/F-gs-font 10 10 SF
+191 351 M
+(\)) s
+5 340 M
+(    thread[4].Init\() s
+/Courier-Bold 10 10 SUF
+119 340 M
+("customer 4") s
+/F-gs-font 10 10 SF
+191 340 M
+(\)) s
+5 329 M
+(    thread[5].Init\() s
+/Courier-Bold 10 10 SUF
+119 329 M
+("customer 5") s
+/F-gs-font 10 10 SF
+191 329 M
+(\)) s
+5 318 M
+(    thread[6].Init\() s
+/Courier-Bold 10 10 SUF
+119 318 M
+("customer 6") s
+/F-gs-font 10 10 SF
+191 318 M
+(\)) s
+5 307 M
+(    thread[7].Init\() s
+/Courier-Bold 10 10 SUF
+119 307 M
+("customer 7") s
+/F-gs-font 10 10 SF
+191 307 M
+(\)) s
+5 296 M
+(    thread[8].Init\() s
+/Courier-Bold 10 10 SUF
+119 296 M
+("customer 8") s
+/F-gs-font 10 10 SF
+191 296 M
+(\)) s
+5 285 M
+(    thread[9].Init\() s
+/Courier-Bold 10 10 SUF
+119 285 M
+("customer 9") s
+/F-gs-font 10 10 SF
+191 285 M
+(\)) s
+5 274 M
+(    thread[10].Init\() s
+/Courier-Bold 10 10 SUF
+125 274 M
+("customer 10") s
+/F-gs-font 10 10 SF
+203 274 M
+(\)) s
+5 263 M
+(    thread[11].Init\() s
+/Courier-Bold 10 10 SUF
+125 263 M
+("customer 11") s
+/F-gs-font 10 10 SF
+203 263 M
+(\)) s
+5 252 M
+(    thread[12].Init\() s
+/Courier-Bold 10 10 SUF
+125 252 M
+("customer 12") s
+/F-gs-font 10 10 SF
+203 252 M
+(\)) s
+5 241 M
+(    thread[13].Init\() s
+/Courier-Bold 10 10 SUF
+125 241 M
+("customer 13") s
+/F-gs-font 10 10 SF
+203 241 M
+(\)) s
+5 230 M
+(    thread[14].Init\() s
+/Courier-Bold 10 10 SUF
+125 230 M
+("customer 14") s
+/F-gs-font 10 10 SF
+203 230 M
+(\)) s
+5 219 M
+(    thread[15].Init\() s
+/Courier-Bold 10 10 SUF
+125 219 M
+("customer 15") s
+/F-gs-font 10 10 SF
+203 219 M
+(\)) s
+5 197 M
+(    thread[0].Fork\(barber, 50\)) s
+5 186 M
+(    thread[1].Fork\(barber, 500\)) s
+5 175 M
+(    thread[2].Fork\(barber, 1000\)) s
+5 153 M
+(    ) s
+/Courier-Bold 10 10 SUF
+29 153 M
+(for) s
+/F-gs-font 10 10 SF
+47 153 M
+( i = 3 ) s
+/Courier-Bold 10 10 SUF
+89 153 M
+(to) s
+/F-gs-font 10 10 SF
+101 153 M
+( 15) s
+5 142 M
+(      thread[i].Fork\(customer, i*50\)) s
+5 131 M
+(    ) s
+/Courier-Bold 10 10 SUF
+29 131 M
+(endFor) s
+/F-gs-font 10 10 SF
+5 120 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+29 120 M
+(--customer\(\)) s
+/F-gs-font 10 10 SF
+5 109 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+29 109 M
+(--customer\(\)) s
+/F-gs-font 10 10 SF
+5 98 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+29 98 M
+(--barber\(\)) s
+/F-gs-font 10 10 SF
+5 76 M
+(    ThreadFinish\(\)   ) s
+/Courier-Oblique 10 10 SUF
+131 76 M
+(-- Patiently wait for our threads to finish) s
+/F-gs-font 10 10 SF
+5 65 M
+(    print\() s
+/Courier-Bold 10 10 SUF
+65 65 M
+("done with testing.\\n") s
+/F-gs-font 10 10 SF
+197 65 M
+(\)) s
+/Courier-Bold 10 10 SUF
+5 54 M
+(endFunction) s
+/F-gs-font 10 10 SF
+5 32 M
+(function get_haircut\(\)) s
+5 21 M
+(  print\() s
+/Courier-Bold 10 10 SUF
+53 21 M
+(" ") s
+/F-gs-font 10 10 SF
+71 21 M
+(\)) s
+5 10 M
+(  print\(currentThread.name\)) s
+_R
+S
+%%Page: (3) 8
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 3 def
+/fname (Main.c) def
+/fdir () def
+/ftail (Main.c) def
+% User defined strings:
+/fmodstr (Wed Nov 04 12:31:09 2009) def
+/pagenumstr (3) def
+/user_header_p true def
+/user_header_left_str (Main.c) def
+/user_header_center_str (Ted Timmons CS333 Assignment 3) def
+/user_header_right_str (Pg 3 of 5) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(  print\() s
+/Courier-Bold 10 10 SUF
+53 692 M
+(" getting a haircut.\\n") s
+/F-gs-font 10 10 SF
+191 692 M
+(\)) s
+/Courier-Bold 10 10 SUF
+5 681 M
+(endFunction) s
+/F-gs-font 10 10 SF
+5 659 M
+(function cut_hair\(\)) s
+5 648 M
+(  print\() s
+/Courier-Bold 10 10 SUF
+53 648 M
+(" ") s
+/F-gs-font 10 10 SF
+71 648 M
+(\)) s
+5 637 M
+(  print\(currentThread.name\)) s
+5 626 M
+(  print\() s
+/Courier-Bold 10 10 SUF
+53 626 M
+(" cutting hair.\\n") s
+/F-gs-font 10 10 SF
+161 626 M
+(\)) s
+5 604 M
+(  ) s
+/Courier-Oblique 10 10 SUF
+17 604 M
+(-- wait to cause a haircut to take a little bit of time.) s
+/F-gs-font 10 10 SF
+5 593 M
+(  loopWait\(800\)) s
+5 582 M
+(  print\() s
+/Courier-Bold 10 10 SUF
+53 582 M
+(" ") s
+/F-gs-font 10 10 SF
+71 582 M
+(\)) s
+5 571 M
+(  print\(currentThread.name\)) s
+5 560 M
+(  print\() s
+/Courier-Bold 10 10 SUF
+53 560 M
+(" is done cutting hair.\\n") s
+/F-gs-font 10 10 SF
+209 560 M
+(\)) s
+/Courier-Bold 10 10 SUF
+5 549 M
+(endFunction) s
+/F-gs-font 10 10 SF
+5 527 M
+( ) s
+/Courier-Bold 10 10 SUF
+5 516 M
+(function) s
+/F-gs-font 10 10 SF
+53 516 M
+( ) s
+/Courier-Bold 10 10 SUF
+59 516 M
+(barber) s
+/F-gs-font 10 10 SF
+95 516 M
+(\(waitTime: ) s
+/Courier-Bold 10 10 SUF
+161 516 M
+(int) s
+/F-gs-font 10 10 SF
+179 516 M
+(\)) s
+5 505 M
+(    print\() s
+/Courier-Bold 10 10 SUF
+65 505 M
+("new barber: ") s
+/F-gs-font 10 10 SF
+149 505 M
+(\)) s
+5 494 M
+(    print\(currentThread.name\)) s
+5 483 M
+(    print\() s
+/Courier-Bold 10 10 SUF
+65 483 M
+("\\n") s
+/F-gs-font 10 10 SF
+89 483 M
+(\)) s
+5 461 M
+(    loopWait\(waitTime\)) s
+5 439 M
+(    print\() s
+/Courier-Bold 10 10 SUF
+65 439 M
+("barber: ") s
+/F-gs-font 10 10 SF
+125 439 M
+(\)) s
+5 428 M
+(    print\(currentThread.name\)) s
+5 417 M
+(    print\() s
+/Courier-Bold 10 10 SUF
+65 417 M
+(" is done with initloop, is now ready to cut hair\\n") s
+/F-gs-font 10 10 SF
+377 417 M
+(\)) s
+5 395 M
+(    ) s
+/Courier-Bold 10 10 SUF
+29 395 M
+(while) s
+/F-gs-font 10 10 SF
+59 395 M
+( \() s
+/Courier-Bold 10 10 SUF
+71 395 M
+(true) s
+/F-gs-font 10 10 SF
+95 395 M
+(\)) s
+5 384 M
+(        customers.Down\(\)      ) s
+/Courier-Oblique 10 10 SUF
+185 384 M
+(-- go to sleep if # of customers is 0) s
+/F-gs-font 10 10 SF
+5 373 M
+(        mutex.Down\(\)          ) s
+/Courier-Oblique 10 10 SUF
+185 373 M
+(-- acquire access to "waiting') s
+/F-gs-font 10 10 SF
+5 362 M
+(        waiting = waiting - 1 ) s
+/Courier-Oblique 10 10 SUF
+185 362 M
+(-- decrement count of waiting customers) s
+/F-gs-font 10 10 SF
+5 351 M
+(        barbers.Up\(\)          ) s
+/Courier-Oblique 10 10 SUF
+185 351 M
+(-- one barber is now ready to cut hair) s
+/F-gs-font 10 10 SF
+5 340 M
+(        mutex.Up\(\)            ) s
+/Courier-Oblique 10 10 SUF
+185 340 M
+(-- release 'waiting') s
+/F-gs-font 10 10 SF
+5 329 M
+(        cut_hair\(\)            ) s
+/Courier-Oblique 10 10 SUF
+185 329 M
+(-- cut hair \(outside critical region\)) s
+/F-gs-font 10 10 SF
+5 318 M
+(    ) s
+/Courier-Bold 10 10 SUF
+29 318 M
+(endWhile) s
+/F-gs-font 10 10 SF
+/Courier-Bold 10 10 SUF
+5 307 M
+(endFunction) s
+/F-gs-font 10 10 SF
+5 285 M
+( ) s
+/Courier-Bold 10 10 SUF
+5 263 M
+(function) s
+/F-gs-font 10 10 SF
+53 263 M
+( ) s
+/Courier-Bold 10 10 SUF
+59 263 M
+(customer) s
+/F-gs-font 10 10 SF
+107 263 M
+(\(waitTime: ) s
+/Courier-Bold 10 10 SUF
+173 263 M
+(int) s
+/F-gs-font 10 10 SF
+191 263 M
+(\)) s
+5 252 M
+(    loopWait\(waitTime\)) s
+5 230 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+29 230 M
+(-- it makes more sense for customers to print once they are ready,) s
+/F-gs-font 10 10 SF
+5 219 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+29 219 M
+(-- not when they are created. That helps the print statements to be) s
+/F-gs-font 10 10 SF
+5 208 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+29 208 M
+(-- in a logical order.) s
+/F-gs-font 10 10 SF
+5 197 M
+(    print\() s
+/Courier-Bold 10 10 SUF
+65 197 M
+("new customer: ") s
+/F-gs-font 10 10 SF
+161 197 M
+(\)) s
+5 186 M
+(    print\(currentThread.name\)) s
+5 175 M
+(    print\() s
+/Courier-Bold 10 10 SUF
+65 175 M
+("\\n") s
+/F-gs-font 10 10 SF
+89 175 M
+(\)) s
+5 153 M
+(    mutex.Down\(\)              ) s
+/Courier-Oblique 10 10 SUF
+185 153 M
+(-- enter critical region) s
+/F-gs-font 10 10 SF
+5 142 M
+(    ) s
+/Courier-Bold 10 10 SUF
+29 142 M
+(if) s
+/F-gs-font 10 10 SF
+41 142 M
+( \(waiting < ) s
+/Courier-Bold 10 10 SUF
+113 142 M
+(CHAIRS) s
+/F-gs-font 10 10 SF
+149 142 M
+(\)      ) s
+/Courier-Oblique 10 10 SUF
+191 142 M
+(-- if there are no free chairs, leave) s
+/F-gs-font 10 10 SF
+5 131 M
+(        waiting = waiting + 1 ) s
+/Courier-Oblique 10 10 SUF
+185 131 M
+(-- increment count of waiting customers) s
+/F-gs-font 10 10 SF
+5 120 M
+(        customers.Up\(\)        ) s
+/Courier-Oblique 10 10 SUF
+185 120 M
+(-- wake up barber if necessary) s
+/F-gs-font 10 10 SF
+5 109 M
+(        mutex.Up\(\)            ) s
+/Courier-Oblique 10 10 SUF
+185 109 M
+(-- release access to 'waiting') s
+/F-gs-font 10 10 SF
+5 98 M
+(        barbers.Down\(\)        ) s
+/Courier-Oblique 10 10 SUF
+185 98 M
+(-- go to sleep if # of free barbers is 0) s
+/F-gs-font 10 10 SF
+5 87 M
+(        get_haircut\(\)         ) s
+/Courier-Oblique 10 10 SUF
+185 87 M
+(-- be seated and be served) s
+/F-gs-font 10 10 SF
+5 76 M
+(    ) s
+/Courier-Bold 10 10 SUF
+29 76 M
+(else) s
+/F-gs-font 10 10 SF
+5 65 M
+(        mutex.Up\(\)            ) s
+/Courier-Oblique 10 10 SUF
+185 65 M
+(-- shop is full, do not wait) s
+/F-gs-font 10 10 SF
+5 43 M
+(        print\() s
+/Courier-Bold 10 10 SUF
+89 43 M
+("shop is full, ") s
+/F-gs-font 10 10 SF
+185 43 M
+(\)) s
+5 32 M
+(        print\(currentThread.name\)) s
+5 21 M
+(        print\() s
+/Courier-Bold 10 10 SUF
+89 21 M
+(" is not waiting.\\n") s
+/F-gs-font 10 10 SF
+209 21 M
+(\)) s
+5 10 M
+(    ) s
+/Courier-Bold 10 10 SUF
+29 10 M
+(endIf) s
+/F-gs-font 10 10 SF
+_R
+S
+%%Page: (4) 9
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 4 def
+/fname (Main.c) def
+/fdir () def
+/ftail (Main.c) def
+% User defined strings:
+/fmodstr (Wed Nov 04 12:31:09 2009) def
+/pagenumstr (4) def
+/user_header_p true def
+/user_header_left_str (Main.c) def
+/user_header_center_str (Ted Timmons CS333 Assignment 3) def
+/user_header_right_str (Pg 4 of 5) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+/Courier-Bold 10 10 SUF
+5 692 M
+(endFunction) s
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+5 670 M
+(-- helper function to wait by waitTime loops) s
+/F-gs-font 10 10 SF
+/Courier-Bold 10 10 SUF
+5 659 M
+(function) s
+/F-gs-font 10 10 SF
+53 659 M
+( ) s
+/Courier-Bold 10 10 SUF
+59 659 M
+(loopWait) s
+/F-gs-font 10 10 SF
+107 659 M
+(\(waitTime: ) s
+/Courier-Bold 10 10 SUF
+173 659 M
+(int) s
+/F-gs-font 10 10 SF
+191 659 M
+(\)) s
+5 648 M
+(  ) s
+/Courier-Bold 10 10 SUF
+17 648 M
+(var) s
+/F-gs-font 10 10 SF
+35 648 M
+( i: ) s
+/Courier-Bold 10 10 SUF
+59 648 M
+(int) s
+/F-gs-font 10 10 SF
+5 637 M
+(  ) s
+/Courier-Bold 10 10 SUF
+17 637 M
+(for) s
+/F-gs-font 10 10 SF
+35 637 M
+( i = 1 ) s
+/Courier-Bold 10 10 SUF
+77 637 M
+(to) s
+/F-gs-font 10 10 SF
+89 637 M
+( waitTime) s
+5 626 M
+(  ) s
+/Courier-Bold 10 10 SUF
+17 626 M
+(endFor) s
+/F-gs-font 10 10 SF
+/Courier-Bold 10 10 SUF
+5 615 M
+(endFunction) s
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+5 593 M
+(--  class GameParlor) s
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+5 582 M
+(--    superclass Object) s
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+5 571 M
+(--    fields) s
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+5 560 M
+(--      numberDiceAvail: int) s
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+5 549 M
+(--      lobbyCondition:  Condition) s
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+5 538 M
+(--      gmutex:          Mutex) s
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+5 527 M
+(--      diceCountMutex:  Mutex) s
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+5 516 M
+(--      ) s
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+5 505 M
+(--    methods) s
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+5 494 M
+(--      Init \(\)) s
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+5 483 M
+(--      Request \(numNeeded: int\)) s
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+5 472 M
+(--      Return \(numReturned: int\)) s
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+5 461 M
+(--      Print \(str: String, count: int\)) s
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+5 450 M
+(--  endClass) s
+/F-gs-font 10 10 SF
+5 417 M
+(  ) s
+/Courier-Bold 10 10 SUF
+17 417 M
+(behavior) s
+/F-gs-font 10 10 SF
+65 417 M
+( ) s
+/Courier-Bold 10 10 SUF
+71 417 M
+(GameParlor) s
+/F-gs-font 10 10 SF
+5 395 M
+(      ) s
+/Courier-Bold 10 10 SUF
+41 395 M
+(method) s
+/F-gs-font 10 10 SF
+77 395 M
+( ) s
+/Courier-Bold 10 10 SUF
+83 395 M
+(Init) s
+/F-gs-font 10 10 SF
+107 395 M
+( \(\)) s
+5 384 M
+(        numberDiceAvail = 8) s
+5 362 M
+(        gmutex = ) s
+/Courier-Bold 10 10 SUF
+107 362 M
+(new) s
+/F-gs-font 10 10 SF
+125 362 M
+( Mutex) s
+5 351 M
+(        gmutex.Init\(\)) s
+5 329 M
+(        lobbyCondition = ) s
+/Courier-Bold 10 10 SUF
+155 329 M
+(new) s
+/F-gs-font 10 10 SF
+173 329 M
+( Condition) s
+5 318 M
+(        lobbyCondition.Init\(\)) s
+5 296 M
+(        diceCountMutex = ) s
+/Courier-Bold 10 10 SUF
+155 296 M
+(new) s
+/F-gs-font 10 10 SF
+173 296 M
+( Mutex) s
+5 285 M
+(        diceCountMutex.Init\(\)) s
+5 274 M
+(      ) s
+/Courier-Bold 10 10 SUF
+41 274 M
+(endMethod) s
+/F-gs-font 10 10 SF
+5 252 M
+(      ) s
+/Courier-Bold 10 10 SUF
+41 252 M
+(method) s
+/F-gs-font 10 10 SF
+77 252 M
+( ) s
+/Courier-Bold 10 10 SUF
+83 252 M
+(Request) s
+/F-gs-font 10 10 SF
+125 252 M
+( \(numNeeded: ) s
+/Courier-Bold 10 10 SUF
+203 252 M
+(int) s
+/F-gs-font 10 10 SF
+221 252 M
+(\)) s
+5 241 M
+(          ) s
+/Courier-Bold 10 10 SUF
+65 241 M
+(self) s
+/F-gs-font 10 10 SF
+89 241 M
+(.Print \() s
+/Courier-Bold 10 10 SUF
+137 241 M
+("requests") s
+/F-gs-font 10 10 SF
+197 241 M
+(, numNeeded\)) s
+5 230 M
+(          diceCountMutex.Lock\(\)) s
+5 208 M
+(          ) s
+/Courier-Oblique 10 10 SUF
+65 208 M
+(-- make sure we have enough dice to play our game.) s
+/F-gs-font 10 10 SF
+5 197 M
+(          ) s
+/Courier-Oblique 10 10 SUF
+65 197 M
+(-- if not, use the monitor to wait.) s
+/F-gs-font 10 10 SF
+5 186 M
+(          ) s
+/Courier-Bold 10 10 SUF
+65 186 M
+(while) s
+/F-gs-font 10 10 SF
+95 186 M
+( numNeeded > numberDiceAvail) s
+5 175 M
+(            ) s
+/Courier-Oblique 10 10 SUF
+77 175 M
+(-- unlock while we are waiting so we don't tie up the dice count) s
+/F-gs-font 10 10 SF
+5 164 M
+(            ) s
+/Courier-Oblique 10 10 SUF
+77 164 M
+(-- \(remember another request could be for a smaller number of dice\)) s
+/F-gs-font 10 10 SF
+5 153 M
+(            diceCountMutex.Unlock\(\)) s
+5 131 M
+(            gmutex.Lock\(\)) s
+5 120 M
+(            lobbyCondition.Wait\(&gmutex\)) s
+5 98 M
+(            ) s
+/Courier-Oblique 10 10 SUF
+77 98 M
+(-- this isn't right, it's simply a placeholder until) s
+/F-gs-font 10 10 SF
+5 87 M
+(            ) s
+/Courier-Oblique 10 10 SUF
+77 87 M
+(-- the lobbyCondition is working.) s
+/F-gs-font 10 10 SF
+5 76 M
+(            ) s
+/Courier-Oblique 10 10 SUF
+77 76 M
+(--currentThread.Yield\(\)) s
+/F-gs-font 10 10 SF
+5 54 M
+(            ) s
+/Courier-Oblique 10 10 SUF
+77 54 M
+(-- relock dice count so we can check it) s
+/F-gs-font 10 10 SF
+5 43 M
+(            diceCountMutex.Lock\(\)) s
+5 32 M
+(          ) s
+/Courier-Bold 10 10 SUF
+65 32 M
+(endWhile) s
+/F-gs-font 10 10 SF
+5 10 M
+(          numberDiceAvail = numberDiceAvail - numNeeded) s
+_R
+S
+%%Page: (5) 10
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 5 def
+/fname (Main.c) def
+/fdir () def
+/ftail (Main.c) def
+% User defined strings:
+/fmodstr (Wed Nov 04 12:31:09 2009) def
+/pagenumstr (5) def
+/user_header_p true def
+/user_header_left_str (Main.c) def
+/user_header_center_str (Ted Timmons CS333 Assignment 3) def
+/user_header_right_str (Pg 5 of 5) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(          diceCountMutex.Unlock\(\)) s
+5 681 M
+(          ) s
+/Courier-Bold 10 10 SUF
+65 681 M
+(self) s
+/F-gs-font 10 10 SF
+89 681 M
+(.Print \() s
+/Courier-Bold 10 10 SUF
+137 681 M
+("proceeds with") s
+/F-gs-font 10 10 SF
+227 681 M
+(, numNeeded\)) s
+5 670 M
+(        ) s
+/Courier-Bold 10 10 SUF
+53 670 M
+(endMethod) s
+/F-gs-font 10 10 SF
+5 648 M
+(      ) s
+/Courier-Bold 10 10 SUF
+41 648 M
+(method) s
+/F-gs-font 10 10 SF
+77 648 M
+( ) s
+/Courier-Bold 10 10 SUF
+83 648 M
+(Return) s
+/F-gs-font 10 10 SF
+119 648 M
+( \(numReturned: ) s
+/Courier-Bold 10 10 SUF
+209 648 M
+(int) s
+/F-gs-font 10 10 SF
+227 648 M
+(\)) s
+5 637 M
+(          diceCountMutex.Lock\(\)) s
+5 626 M
+(          numberDiceAvail = numberDiceAvail + numReturned) s
+5 615 M
+(          ) s
+/Courier-Bold 10 10 SUF
+65 615 M
+(self) s
+/F-gs-font 10 10 SF
+89 615 M
+(.Print \() s
+/Courier-Bold 10 10 SUF
+137 615 M
+("releases and adds back") s
+/F-gs-font 10 10 SF
+281 615 M
+(, numReturned\)) s
+5 604 M
+(          diceCountMutex.Unlock\(\)) s
+5 582 M
+(          ) s
+/Courier-Oblique 10 10 SUF
+65 582 M
+(-- wake up all the waiting teams so at least one can run) s
+/F-gs-font 10 10 SF
+5 571 M
+(          ) s
+/Courier-Oblique 10 10 SUF
+65 571 M
+(-- \(since they are requesting different numbers of dice, it's) s
+/F-gs-font 10 10 SF
+5 560 M
+(          ) s
+/Courier-Oblique 10 10 SUF
+65 560 M
+(-- incorrect to simply wake up the oldest one\)) s
+/F-gs-font 10 10 SF
+5 549 M
+(          gmutex.Lock\(\)) s
+5 538 M
+(          lobbyCondition.Broadcast\(&gmutex\)) s
+5 527 M
+(          gmutex.Unlock\(\)) s
+5 516 M
+(        ) s
+/Courier-Bold 10 10 SUF
+53 516 M
+(endMethod) s
+/F-gs-font 10 10 SF
+5 505 M
+( ) s
+5 483 M
+(      ) s
+/Courier-Oblique 10 10 SUF
+41 483 M
+(-- This method prints the current thread's name and the arguments.) s
+/F-gs-font 10 10 SF
+5 472 M
+(      ) s
+/Courier-Oblique 10 10 SUF
+41 472 M
+(-- It also prints the current number of dice available.) s
+/F-gs-font 10 10 SF
+5 461 M
+(      ) s
+/Courier-Bold 10 10 SUF
+41 461 M
+(method) s
+/F-gs-font 10 10 SF
+77 461 M
+( ) s
+/Courier-Bold 10 10 SUF
+83 461 M
+(Print) s
+/F-gs-font 10 10 SF
+113 461 M
+( \(str: String, count: ) s
+/Courier-Bold 10 10 SUF
+245 461 M
+(int) s
+/F-gs-font 10 10 SF
+263 461 M
+(\)) s
+5 450 M
+(          ) s
+/Courier-Bold 10 10 SUF
+65 450 M
+(var) s
+/F-gs-font 10 10 SF
+83 450 M
+( oldStatus: ) s
+/Courier-Bold 10 10 SUF
+155 450 M
+(int) s
+/F-gs-font 10 10 SF
+5 428 M
+(          ) s
+/Courier-Oblique 10 10 SUF
+65 428 M
+(-- Print this thread's name.  Note that we temporarily disable) s
+/F-gs-font 10 10 SF
+5 417 M
+(          ) s
+/Courier-Oblique 10 10 SUF
+65 417 M
+(-- interrupts so that all printing will happen together.  Without) s
+/F-gs-font 10 10 SF
+5 406 M
+(          ) s
+/Courier-Oblique 10 10 SUF
+65 406 M
+(-- this, the other threads might print in the middle, causing a mess.) s
+/F-gs-font 10 10 SF
+5 395 M
+(          oldStatus = SetInterruptsTo \() s
+/Courier-Bold 10 10 SUF
+239 395 M
+(DISABLED) s
+/F-gs-font 10 10 SF
+287 395 M
+(\)) s
+5 362 M
+(          print \(currentThread.name\)) s
+5 351 M
+(          print \() s
+/Courier-Bold 10 10 SUF
+107 351 M
+(" ") s
+/F-gs-font 10 10 SF
+125 351 M
+(\)) s
+5 340 M
+(          print \(str\)) s
+5 329 M
+(          print \() s
+/Courier-Bold 10 10 SUF
+107 329 M
+(" ") s
+/F-gs-font 10 10 SF
+125 329 M
+(\)) s
+5 318 M
+(          printInt \(count\)) s
+5 307 M
+(          nl \(\)) s
+5 296 M
+(          print \() s
+/Courier-Bold 10 10 SUF
+107 296 M
+("------------------------------Number of dice now avail = ") s
+/F-gs-font 10 10 SF
+461 296 M
+(\)) s
+5 285 M
+(          printInt \(numberDiceAvail\)) s
+5 274 M
+(          nl \(\)) s
+5 252 M
+(          ) s
+/Courier-Oblique 10 10 SUF
+65 252 M
+(-- restore interrupt status. We're done printing now.) s
+/F-gs-font 10 10 SF
+5 241 M
+(          oldStatus = SetInterruptsTo \(oldStatus\)) s
+5 219 M
+(        ) s
+/Courier-Bold 10 10 SUF
+53 219 M
+(endMethod) s
+/F-gs-font 10 10 SF
+5 197 M
+(  ) s
+/Courier-Bold 10 10 SUF
+17 197 M
+(endBehavior) s
+/F-gs-font 10 10 SF
+/Courier-Bold 10 10 SUF
+5 175 M
+(endCode) s
+/F-gs-font 10 10 SF
+_R
+S
+%%Trailer
+%%Pages: 10
+%%DocumentNeededResources: font Courier-Oblique Courier-Bold Courier 
+%%EOF
