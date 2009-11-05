@@ -1,0 +1,8 @@
+$ jflex --nobak -d color htmlparser.jflex && javac color/Highlighter.java color/HTMLLexer.java && java color.Highlighter tests/question3-sample > tests/question3-sample.html
+Reading "htmlparser.jflex"
+Constructing NFA : 525 states in NFA
+Converting NFA to DFA :
+............................................................................................................................................................................................
+192 states before minimization, 99 states in minimized DFA
+Writing code to "color/HTMLLexer.java"
+

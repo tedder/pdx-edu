@@ -1,0 +1,54 @@
+$ PS1='$ '
+$ jflex --nobak parser.jflex && javac Lexer.java
+Reading "parser.jflex"
+Constructing NFA : 615 states in NFA
+Converting NFA to DFA :
+.........................................................................................................................................................................................................................................................................................................................................................
+349 states before minimization, 284 states in minimized DFA
+Writing code to "Lexer.java"
+$ cat tests/question3-sample
+String s = "hello world!"; // this is a sample comment
+int i = 666;
+int y = 2147483648;
+
+while (i > 0 || i <= 0) {
+  if (s == true) { return false; }
+}
+
+/* this is a sample comment too */
+$ java Lexer tests/question3-sample
+rejecting number larger than MAXINT: 2147483648 --
+
+$ cat tests/question4-test
+foo >= bar
+foo <= bar
+foo += bar
+foo -= bar
+$ java Lexer tests/question4-test
+$ cat tests/question5-actual-test
+"1 hello world!"
+"2 hello \\ world!"
+"3 hello \" world!"
+"4 hello \n world!"
+"5 hello \\\"\n world!"
+$ java Lexer tests/question5-actual-test
+$ cat tests/question5-actual-test-basic
+"hi"
+foo = bar;
+zzb
+$ java Lexer tests/question5-actual-test-basic
+$ cat tests/question5-actual-test-failure
+hi there!"
+$ java Lexer tests/question5-actual-test-failure
+
+$ echo "this didn't fail as it went into STRING mode and didn't come back out. Not sure if this is a feature or a bug. (should it be caught here or not until syntax/semantic analysis?)"
+this didn't fail as it went into STRING mode and didn't come back out. Not sure if this is a feature or a bug. (should it be caught here or not until syntax/semantic analysis?)
+$ cat tests/question5-test
+public foo
+abstract foo
+protected foo
+private foo
+$ java Lexer tests/question5-test
+
+
+(end of tests)

@@ -1,0 +1,1463 @@
+%!PS-Adobe-3.0
+%%BoundingBox: 18 36 594 756
+%%Title: Enscript Output
+%%Creator: GNU enscript 1.6.4
+%%CreationDate: Wed Nov  4 20:27:32 2009
+%%Orientation: Portrait
+%%Pages: (atend)
+%%DocumentMedia: Letter 612 792 0 () ()
+%%DocumentNeededResources: (atend)
+%%EndComments
+%%BeginProlog
+%%BeginResource: procset Enscript-Prolog 1.6 4
+%
+% Procedures.
+%
+
+/_S {	% save current state
+  /_s save def
+} def
+/_R {	% restore from saved state
+  _s restore
+} def
+
+/S {	% showpage protecting gstate
+  gsave
+  showpage
+  grestore
+} bind def
+
+/MF {	% fontname newfontname -> -	make a new encoded font
+  /newfontname exch def
+  /fontname exch def
+
+  /fontdict fontname findfont def
+  /newfont fontdict maxlength dict def
+
+  fontdict {
+    exch
+    dup /FID eq {
+      % skip FID pair
+      pop pop
+    } {
+      % copy to the new font dictionary
+      exch newfont 3 1 roll put
+    } ifelse
+  } forall
+
+  newfont /FontName newfontname put
+
+  % insert only valid encoding vectors
+  encoding_vector length 256 eq {
+    newfont /Encoding encoding_vector put
+  } if
+
+  newfontname newfont definefont pop
+} def
+
+/MF_PS { % fontname newfontname -> -	make a new font preserving its enc
+  /newfontname exch def
+  /fontname exch def
+
+  /fontdict fontname findfont def
+  /newfont fontdict maxlength dict def
+
+  fontdict {
+    exch
+    dup /FID eq {
+      % skip FID pair
+      pop pop
+    } {
+      % copy to the new font dictionary
+      exch newfont 3 1 roll put
+    } ifelse
+  } forall
+
+  newfont /FontName newfontname put
+
+  newfontname newfont definefont pop
+} def
+
+/SF { % fontname width height -> -	set a new font
+  /height exch def
+  /width exch def
+
+  findfont
+  [width 0 0 height 0 0] makefont setfont
+} def
+
+/SUF { % fontname width height -> -	set a new user font
+  /height exch def
+  /width exch def
+
+  /F-gs-user-font MF
+  /F-gs-user-font width height SF
+} def
+
+/SUF_PS { % fontname width height -> -	set a new user font preserving its enc
+  /height exch def
+  /width exch def
+
+  /F-gs-user-font MF_PS
+  /F-gs-user-font width height SF
+} def
+
+/M {moveto} bind def
+/s {show} bind def
+
+/Box {	% x y w h -> -			define box path
+  /d_h exch def /d_w exch def /d_y exch def /d_x exch def
+  d_x d_y  moveto
+  d_w 0 rlineto
+  0 d_h rlineto
+  d_w neg 0 rlineto
+  closepath
+} def
+
+/bgs {	% x y height blskip gray str -> -	show string with bg color
+  /str exch def
+  /gray exch def
+  /blskip exch def
+  /height exch def
+  /y exch def
+  /x exch def
+
+  gsave
+    x y blskip sub str stringwidth pop height Box
+    gray setgray
+    fill
+  grestore
+  x y M str s
+} def
+
+/bgcs { % x y height blskip red green blue str -> -  show string with bg color
+  /str exch def
+  /blue exch def
+  /green exch def
+  /red exch def
+  /blskip exch def
+  /height exch def
+  /y exch def
+  /x exch def
+
+  gsave
+    x y blskip sub str stringwidth pop height Box
+    red green blue setrgbcolor
+    fill
+  grestore
+  x y M str s
+} def
+
+% Highlight bars.
+/highlight_bars {	% nlines lineheight output_y_margin gray -> -
+  gsave
+    setgray
+    /ymarg exch def
+    /lineheight exch def
+    /nlines exch def
+
+    % This 2 is just a magic number to sync highlight lines to text.
+    0 d_header_y ymarg sub 2 sub translate
+
+    /cw d_output_w cols div def
+    /nrows d_output_h ymarg 2 mul sub lineheight div cvi def
+
+    % for each column
+    0 1 cols 1 sub {
+      cw mul /xp exch def
+
+      % for each rows
+      0 1 nrows 1 sub {
+        /rn exch def
+        rn lineheight mul neg /yp exch def
+        rn nlines idiv 2 mod 0 eq {
+	  % Draw highlight bar.  4 is just a magic indentation.
+	  xp 4 add yp cw 8 sub lineheight neg Box fill
+	} if
+      } for
+    } for
+
+  grestore
+} def
+
+% Line highlight bar.
+/line_highlight {	% x y width height gray -> -
+  gsave
+    /gray exch def
+    Box gray setgray fill
+  grestore
+} def
+
+% Column separator lines.
+/column_lines {
+  gsave
+    .1 setlinewidth
+    0 d_footer_h translate
+    /cw d_output_w cols div def
+    1 1 cols 1 sub {
+      cw mul 0 moveto
+      0 d_output_h rlineto stroke
+    } for
+  grestore
+} def
+
+% Column borders.
+/column_borders {
+  gsave
+    .1 setlinewidth
+    0 d_footer_h moveto
+    0 d_output_h rlineto
+    d_output_w 0 rlineto
+    0 d_output_h neg rlineto
+    closepath stroke
+  grestore
+} def
+
+% Do the actual underlay drawing
+/draw_underlay {
+  ul_style 0 eq {
+    ul_str true charpath stroke
+  } {
+    ul_str show
+  } ifelse
+} def
+
+% Underlay
+/underlay {	% - -> -
+  gsave
+    0 d_page_h translate
+    d_page_h neg d_page_w atan rotate
+
+    ul_gray setgray
+    ul_font setfont
+    /dw d_page_h dup mul d_page_w dup mul add sqrt def
+    ul_str stringwidth pop dw exch sub 2 div ul_h_ptsize -2 div moveto
+    draw_underlay
+  grestore
+} def
+
+/user_underlay {	% - -> -
+  gsave
+    ul_x ul_y translate
+    ul_angle rotate
+    ul_gray setgray
+    ul_font setfont
+    0 0 ul_h_ptsize 2 div sub moveto
+    draw_underlay
+  grestore
+} def
+
+% Page prefeed
+/page_prefeed {		% bool -> -
+  statusdict /prefeed known {
+    statusdict exch /prefeed exch put
+  } {
+    pop
+  } ifelse
+} def
+
+% Wrapped line markers
+/wrapped_line_mark {	% x y charwith charheight type -> -
+  /type exch def
+  /h exch def
+  /w exch def
+  /y exch def
+  /x exch def
+
+  type 2 eq {
+    % Black boxes (like TeX does)
+    gsave
+      0 setlinewidth
+      x w 4 div add y M
+      0 h rlineto w 2 div 0 rlineto 0 h neg rlineto
+      closepath fill
+    grestore
+  } {
+    type 3 eq {
+      % Small arrows
+      gsave
+        .2 setlinewidth
+        x w 2 div add y h 2 div add M
+        w 4 div 0 rlineto
+        x w 4 div add y lineto stroke
+
+        x w 4 div add w 8 div add y h 4 div add M
+        x w 4 div add y lineto
+	w 4 div h 8 div rlineto stroke
+      grestore
+    } {
+      % do nothing
+    } ifelse
+  } ifelse
+} def
+
+% EPSF import.
+
+/BeginEPSF {
+  /b4_Inc_state save def    		% Save state for cleanup
+  /dict_count countdictstack def	% Count objects on dict stack
+  /op_count count 1 sub def		% Count objects on operand stack
+  userdict begin
+  /showpage { } def
+  0 setgray 0 setlinecap
+  1 setlinewidth 0 setlinejoin
+  10 setmiterlimit [ ] 0 setdash newpath
+  /languagelevel where {
+    pop languagelevel
+    1 ne {
+      false setstrokeadjust false setoverprint
+    } if
+  } if
+} bind def
+
+/EndEPSF {
+  count op_count sub { pos } repeat	% Clean up stacks
+  countdictstack dict_count sub { end } repeat
+  b4_Inc_state restore
+} bind def
+
+% Check PostScript language level.
+/languagelevel where {
+  pop /gs_languagelevel languagelevel def
+} {
+  /gs_languagelevel 1 def
+} ifelse
+%%EndResource
+%%BeginResource: procset Enscript-Encoding-88591 1.6 4
+/encoding_vector [
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/space        	/exclam       	/quotedbl     	/numbersign   	
+/dollar       	/percent      	/ampersand    	/quoteright   	
+/parenleft    	/parenright   	/asterisk     	/plus         	
+/comma        	/hyphen       	/period       	/slash        	
+/zero         	/one          	/two          	/three        	
+/four         	/five         	/six          	/seven        	
+/eight        	/nine         	/colon        	/semicolon    	
+/less         	/equal        	/greater      	/question     	
+/at           	/A            	/B            	/C            	
+/D            	/E            	/F            	/G            	
+/H            	/I            	/J            	/K            	
+/L            	/M            	/N            	/O            	
+/P            	/Q            	/R            	/S            	
+/T            	/U            	/V            	/W            	
+/X            	/Y            	/Z            	/bracketleft  	
+/backslash    	/bracketright 	/asciicircum  	/underscore   	
+/quoteleft    	/a            	/b            	/c            	
+/d            	/e            	/f            	/g            	
+/h            	/i            	/j            	/k            	
+/l            	/m            	/n            	/o            	
+/p            	/q            	/r            	/s            	
+/t            	/u            	/v            	/w            	
+/x            	/y            	/z            	/braceleft    	
+/bar          	/braceright   	/tilde        	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/space        	/exclamdown   	/cent         	/sterling     	
+/currency     	/yen          	/brokenbar    	/section      	
+/dieresis     	/copyright    	/ordfeminine  	/guillemotleft	
+/logicalnot   	/hyphen       	/registered   	/macron       	
+/degree       	/plusminus    	/twosuperior  	/threesuperior	
+/acute        	/mu           	/paragraph    	/bullet       	
+/cedilla      	/onesuperior  	/ordmasculine 	/guillemotright	
+/onequarter   	/onehalf      	/threequarters	/questiondown 	
+/Agrave       	/Aacute       	/Acircumflex  	/Atilde       	
+/Adieresis    	/Aring        	/AE           	/Ccedilla     	
+/Egrave       	/Eacute       	/Ecircumflex  	/Edieresis    	
+/Igrave       	/Iacute       	/Icircumflex  	/Idieresis    	
+/Eth          	/Ntilde       	/Ograve       	/Oacute       	
+/Ocircumflex  	/Otilde       	/Odieresis    	/multiply     	
+/Oslash       	/Ugrave       	/Uacute       	/Ucircumflex  	
+/Udieresis    	/Yacute       	/Thorn        	/germandbls   	
+/agrave       	/aacute       	/acircumflex  	/atilde       	
+/adieresis    	/aring        	/ae           	/ccedilla     	
+/egrave       	/eacute       	/ecircumflex  	/edieresis    	
+/igrave       	/iacute       	/icircumflex  	/idieresis    	
+/eth          	/ntilde       	/ograve       	/oacute       	
+/ocircumflex  	/otilde       	/odieresis    	/divide       	
+/oslash       	/ugrave       	/uacute       	/ucircumflex  	
+/udieresis    	/yacute       	/thorn        	/ydieresis    	
+] def
+%%EndResource
+%%EndProlog
+%%BeginSetup
+%%IncludeResource: font Courier-Bold
+%%IncludeResource: font Courier
+/HFpt_w 10 def
+/HFpt_h 10 def
+/Courier-Bold /HF-gs-font MF
+/HF /HF-gs-font findfont [HFpt_w 0 0 HFpt_h 0 0] makefont def
+/Courier /F-gs-font MF
+/F-gs-font 10 10 SF
+/#copies 1 def
+% Pagedevice definitions:
+gs_languagelevel 1 gt {
+  <<
+    /PageSize [612 792] 
+  >> setpagedevice
+} if
+%%BeginResource: procset Enscript-Header-simple 1.6 4
+
+/do_header {	% print default simple header
+  gsave
+    d_header_x d_header_y HFpt_h 3 div add translate
+
+    HF setfont
+    user_header_p {
+      5 0 moveto user_header_left_str show
+
+      d_header_w user_header_center_str stringwidth pop sub 2 div
+      0 moveto user_header_center_str show
+
+      d_header_w user_header_right_str stringwidth pop sub 5 sub
+      0 moveto user_header_right_str show
+    } {
+      5 0 moveto fname show
+      45 0 rmoveto fmodstr show
+      45 0 rmoveto pagenumstr show
+    } ifelse
+
+  grestore
+} def
+%%EndResource
+/d_page_w 576 def
+/d_page_h 720 def
+/d_header_x 0 def
+/d_header_y 705 def
+/d_header_w 576 def
+/d_header_h 15 def
+/d_footer_x 0 def
+/d_footer_y 0 def
+/d_footer_w 576 def
+/d_footer_h 0 def
+/d_output_w 576 def
+/d_output_h 705 def
+/cols 1 def
+%%EndSetup
+%%Page: (1) 1
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 1 def
+/fname (cover-page.txt) def
+/fdir () def
+/ftail (cover-page.txt) def
+% User defined strings:
+/fmodstr (Wed Nov 04 20:23:31 2009) def
+/pagenumstr (1) def
+/user_header_p true def
+/user_header_left_str (cover-page.txt) def
+/user_header_center_str (Ted Timmons CS321 Assignment 2) def
+/user_header_right_str (Pg 1 of 1) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(Ted Timmons) s
+5 681 M
+(CS321 assignment 2) s
+5 648 M
+(Parts 1 and 2 of the assignment are combined in parser.jflex; part 3 is in htmlparser.jflex ) s
+557 648 M (+) s
+5 637 M
+(and color/Highlighter.java. Sources for "borrowed" code segments are given.) s
+5 615 M
+(Test files are shown in the typescript, as well as compilation results. jflex-generated code ) s
+563 615 M (+) s
+5 604 M
+(is not included per email instructions that it wasn't required.) s
+_R
+S
+%%Page: (1) 2
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 1 def
+/fname (part1-2-typescript.txt) def
+/fdir () def
+/ftail (part1-2-typescript.txt) def
+% User defined strings:
+/fmodstr (Wed Nov 04 20:16:33 2009) def
+/pagenumstr (1) def
+/user_header_p true def
+/user_header_left_str (part1-2-typescript.txt) def
+/user_header_center_str (Ted Timmons CS321 Assignment 2) def
+/user_header_right_str (Pg 1 of 1) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+($ PS1='$ ') s
+5 681 M
+($ jflex --nobak parser.jflex && javac Lexer.java) s
+5 670 M
+(Reading "parser.jflex") s
+5 659 M
+(Constructing NFA : 615 states in NFA) s
+5 648 M
+(Converting NFA to DFA :) s
+5 637 M
+(..............................................................................................) s
+569 637 M (+) s
+5 626 M
+(..............................................................................................) s
+569 626 M (+) s
+5 615 M
+(..............................................................................................) s
+569 615 M (+) s
+5 604 M
+(...............................................................) s
+5 593 M
+(349 states before minimization, 284 states in minimized DFA) s
+5 582 M
+(Writing code to "Lexer.java") s
+5 571 M
+($ cat tests/question3-sample) s
+5 560 M
+(String s = "hello world!"; // this is a sample comment) s
+5 549 M
+(int i = 666;) s
+5 538 M
+(int y = 2147483648;) s
+5 516 M
+(while \(i > 0 || i <= 0\) {) s
+5 505 M
+(  if \(s == true\) { return false; }) s
+5 494 M
+(}) s
+5 472 M
+(/* this is a sample comment too */) s
+5 461 M
+($ java Lexer tests/question3-sample) s
+5 450 M
+(rejecting number larger than MAXINT: 2147483648 --) s
+5 428 M
+($ cat tests/question4-test) s
+5 417 M
+(foo >= bar) s
+5 406 M
+(foo <= bar) s
+5 395 M
+(foo += bar) s
+5 384 M
+(foo -= bar) s
+5 373 M
+($ java Lexer tests/question4-test) s
+5 362 M
+($ cat tests/question5-actual-test) s
+5 351 M
+("1 hello world!") s
+5 340 M
+("2 hello \\\\ world!") s
+5 329 M
+("3 hello \\" world!") s
+5 318 M
+("4 hello \\n world!") s
+5 307 M
+("5 hello \\\\\\"\\n world!") s
+5 296 M
+($ java Lexer tests/question5-actual-test) s
+5 285 M
+($ cat tests/question5-actual-test-basic) s
+5 274 M
+("hi") s
+5 263 M
+(foo = bar;) s
+5 252 M
+(zzb) s
+5 241 M
+($ java Lexer tests/question5-actual-test-basic) s
+5 230 M
+($ cat tests/question5-actual-test-failure) s
+5 219 M
+(hi there!") s
+5 208 M
+($ java Lexer tests/question5-actual-test-failure) s
+5 186 M
+($ echo "this didn't fail as it went into STRING mode and didn't come back out. Not sure if ) s
+551 186 M (+) s
+5 175 M
+(this is a feature or a bug. \(should it be caught here or not until syntax/semantic analysis?\)") s
+5 164 M
+(this didn't fail as it went into STRING mode and didn't come back out. Not sure if this is a ) s
+563 164 M (+) s
+5 153 M
+(feature or a bug. \(should it be caught here or not until syntax/semantic analysis?\)) s
+5 142 M
+($ cat tests/question5-test) s
+5 131 M
+(public foo) s
+5 120 M
+(abstract foo) s
+5 109 M
+(protected foo) s
+5 98 M
+(private foo) s
+5 87 M
+($ java Lexer tests/question5-test) s
+5 54 M
+(\(end of tests\)) s
+_R
+S
+%%Page: (1) 3
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 1 def
+/fname (parser.jflex) def
+/fdir () def
+/ftail (parser.jflex) def
+% User defined strings:
+/fmodstr (Wed Nov 04 20:06:18 2009) def
+/pagenumstr (1) def
+/user_header_p true def
+/user_header_left_str (parser.jflex) def
+/user_header_center_str (Ted Timmons CS321 Assignment 2) def
+/user_header_right_str (Pg 1 of 4) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(// Based on the "simple example" in the JFlex manual:) s
+5 681 M
+(// http://jflex.de/manual.html) s
+5 659 M
+(/* JFlex example: part of Java language lexer specification */) s
+5 648 M
+(//import java_cup.runtime.*;) s
+5 637 M
+(//import compiler.*;) s
+5 615 M
+(/**) s
+5 604 M
+( * This class is a simple example lexer.) s
+5 593 M
+( */) s
+5 560 M
+(%%) s
+5 538 M
+(%class Lexer) s
+5 527 M
+(%public) s
+5 516 M
+(//not implementing compiler.* either. %extends SourceLexer) s
+5 505 M
+(//Not implementing the Mjc* stuff. %implements MjcTokens) s
+5 494 M
+(%unicode) s
+5 483 M
+(%line) s
+5 472 M
+(%column) s
+5 461 M
+(%standalone) s
+5 439 M
+(%{) s
+5 417 M
+(    StringBuffer string = new StringBuffer\(\);) s
+5 395 M
+(    int ENDINPUT = 0;) s
+5 384 M
+(    int BOOLEAN = 1;) s
+5 373 M
+(    int CAND = 2;) s
+5 362 M
+(    int CLASS = 3;) s
+5 351 M
+(    int COR = 4;) s
+5 340 M
+(    int ELSE = 5;) s
+5 329 M
+(    int EQEQ = 6;) s
+5 318 M
+(    int EXTENDS = 7;) s
+5 307 M
+(    int FALSE = 8;) s
+5 296 M
+(    int IDENT = 9;) s
+5 285 M
+(    int IF = 10;) s
+5 274 M
+(    int INT = 11;) s
+5 263 M
+(    int INTLIT = 12;) s
+5 252 M
+(    int NEQ = 13;) s
+5 241 M
+(    int NEW = 14;) s
+5 230 M
+(    int NULL = 15;) s
+5 219 M
+(    int RETURN = 16;) s
+5 208 M
+(    int STATIC = 17;) s
+5 197 M
+(    int SUPER = 18;) s
+5 186 M
+(    int THIS = 19;) s
+5 175 M
+(    int TRUE = 20;) s
+5 164 M
+(    int VOID = 21;) s
+5 153 M
+(    int WHILE = 22;) s
+5 142 M
+(    int GTEQ = 23;) s
+5 131 M
+(    int LTEQ = 24;) s
+5 120 M
+(    int PLUSEQ = 25;) s
+5 109 M
+(    int MINUSEQ = 26;) s
+5 98 M
+(    int PRIVATE = 27;) s
+5 87 M
+(    int PROTECTED = 28;) s
+5 76 M
+(    int PUBLIC = 29;) s
+5 65 M
+(    int ABSTRACT = 30;) s
+5 54 M
+(    int STRLIT = 31;) s
+5 43 M
+(    // '!' \(code=33\)) s
+5 32 M
+(    // '&' \(code=38\)) s
+5 21 M
+(    // '\(' \(code=40\)) s
+5 10 M
+(    // '\)' \(code=41\)) s
+_R
+S
+%%Page: (2) 4
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 2 def
+/fname (parser.jflex) def
+/fdir () def
+/ftail (parser.jflex) def
+% User defined strings:
+/fmodstr (Wed Nov 04 20:06:18 2009) def
+/pagenumstr (2) def
+/user_header_p true def
+/user_header_left_str (parser.jflex) def
+/user_header_center_str (Ted Timmons CS321 Assignment 2) def
+/user_header_right_str (Pg 2 of 4) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(    // '*' \(code=42\)) s
+5 681 M
+(    // '+' \(code=43\)) s
+5 670 M
+(    // ',' \(code=44\)) s
+5 659 M
+(    // '-' \(code=45\)) s
+5 648 M
+(    // '.' \(code=46\)) s
+5 637 M
+(    // '/' \(code=47\)) s
+5 626 M
+(    // ';' \(code=59\)) s
+5 615 M
+(    // '<' \(code=60\)) s
+5 604 M
+(    // '=' \(code=61\)) s
+5 593 M
+(    // '>' \(code=62\)) s
+5 582 M
+(    // '^' \(code=94\)) s
+5 571 M
+(    // '{' \(code=123\)) s
+5 560 M
+(    // '|' \(code=124\)) s
+5 549 M
+(    // '}' \(code=125\)) s
+5 527 M
+(%}) s
+5 505 M
+(lineterminator = \\r|\\n|\\r\\n) s
+5 494 M
+(inputcharacter = [^\\r\\n]) s
+5 483 M
+(whitespace     = {lineterminator} | [ \\t\\f]) s
+5 461 M
+(comment = {traditionalcomment} | {endoflinecomment}) s
+5 439 M
+(traditionalcomment   = "/*" [^*] ~"*/" | "/*" "*"+ "/") s
+5 428 M
+(endoflinecomment     = "//" {inputcharacter}* {lineterminator}) s
+5 417 M
+(// unused: commentcontent       = \( [^*] | \\*+ [^/*] \)*) s
+5 395 M
+(// Some of these macros are from/inspired by the following:) s
+5 384 M
+(// http://users.csc.calpoly.edu/~gfisher/classes/330/examples/jflex/pascal.jflex) s
+5 373 M
+(// changed [A-Za-z] to :jletter: to conform with Unicode.) s
+5 351 M
+(letter          = [:letter:]) s
+5 340 M
+(digits          = \([0-9]\)*) s
+5 329 M
+(alphanumeric    = [:jletterdigit:]) s
+5 318 M
+(other_id_char   = [_]) s
+5 307 M
+(identifier      = {letter}\({alphanumeric}|{other_id_char}\)*) s
+5 296 M
+(integer         = ) s
+113 296 M (+) s
+5 285 M
+(214748364[0-7]|21474836[0-3][0-9]|2147483[0-5][0-9][0-9]|214748[0-2][0-9][0-9][0-9]|21474[0-7]) s
+569 285 M (+) s
+5 274 M
+([0-9][0-9][0-9][0-9]|2147[0-3][0-9][0-9][0-9][0-9][0-9]|214[0-6][0-9][0-9][0-9][0-9][0-9][0-9]) s
+569 274 M (+) s
+5 263 M
+(|21[0-3][0-9][0-9][0-9][0-9][0-9][0-9][0-9]|20[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]|1[0-9][) s
+569 263 M (+) s
+5 252 M
+(0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]|[0-9][0-) s
+569 252 M (+) s
+5 241 M
+(9][0-9][0-9][0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9]) s
+569 241 M (+) s
+5 230 M
+([0-9]|[0-9][0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9]|[0-9][0-9][0-9]|[0-9][0-9]|[0-9]) s
+5 208 M
+(%state STRING) s
+5 175 M
+(%%) s
+5 164 M
+(  "\("     { return '\('; }) s
+5 153 M
+(  "\)"     { return '\)'; }) s
+5 142 M
+(  "{"     { return '{'; }) s
+5 131 M
+(  "}"     { return '}'; }) s
+5 120 M
+(  ";"     { return ';'; }) s
+5 109 M
+(  ","     { return ','; }) s
+5 98 M
+(  "."     { return '.'; }) s
+5 76 M
+(  "="     { return '='; }) s
+5 65 M
+(  "=="    { return EQEQ; }) s
+5 43 M
+(  ">"     { return '>'; }) s
+5 32 M
+(  ">="    { return GTEQ; }) s
+5 21 M
+(  "<"     { return '<'; }) s
+5 10 M
+(  "<="    { return LTEQ; }) s
+_R
+S
+%%Page: (3) 5
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 3 def
+/fname (parser.jflex) def
+/fdir () def
+/ftail (parser.jflex) def
+% User defined strings:
+/fmodstr (Wed Nov 04 20:06:18 2009) def
+/pagenumstr (3) def
+/user_header_p true def
+/user_header_left_str (parser.jflex) def
+/user_header_center_str (Ted Timmons CS321 Assignment 2) def
+/user_header_right_str (Pg 3 of 4) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(  "!"     { return '!'; }) s
+5 681 M
+(  "!="    { return NEQ; }) s
+5 670 M
+(  "&"     { return '&'; }) s
+5 659 M
+(  "&&"    { return CAND; }) s
+5 648 M
+(  "|"     { return '|'; }) s
+5 637 M
+(  "||"    { return COR; }) s
+5 626 M
+(  "^"     { return '^'; }) s
+5 615 M
+(  "+"     { return '+'; }) s
+5 604 M
+(  "+="    { return PLUSEQ; }) s
+5 593 M
+(  "-"     { return '-'; }) s
+5 582 M
+(  "-="    { return MINUSEQ; }) s
+5 571 M
+(  "*"     { return '*'; }) s
+5 560 M
+(  "/"     { return '/'; }) s
+5 538 M
+(  // reserved identifiers) s
+5 527 M
+(  "boolean"     { return BOOLEAN; }) s
+5 516 M
+(  "class"       { return CLASS; }) s
+5 505 M
+(  "else"        { return ELSE; }) s
+5 494 M
+(  "extends"     { return EXTENDS; }) s
+5 483 M
+(  "if"          { return IF; }) s
+5 472 M
+(  "int"         { return INT; }) s
+5 461 M
+(  "new"         { return NEW; }) s
+5 450 M
+(  "return"      { return RETURN; }) s
+5 439 M
+(  "static"      { return STATIC; }) s
+5 428 M
+(  "super"       { return SUPER; }) s
+5 417 M
+(  "this"        { return THIS; }) s
+5 406 M
+(  "void"        { return VOID; }) s
+5 395 M
+(  "while"       { return WHILE; }) s
+5 384 M
+(  "null"        { return NULL; }) s
+5 373 M
+(  "true"        { return TRUE; }) s
+5 362 M
+(  "false"       { return FALSE; }) s
+5 351 M
+(  "private"     { return PRIVATE; }) s
+5 340 M
+(  "protected"   { return PROTECTED; }) s
+5 329 M
+(  "public"      { return PUBLIC; }) s
+5 318 M
+(  "abstract"    { return ABSTRACT; }) s
+5 296 M
+(// string matching taken from:) s
+5 285 M
+(//   http://linuxgazette.net/issue41/lopes/lopes.html) s
+5 274 M
+(//   http://jflex.de/manual.html) s
+5 252 M
+(<YYINITIAL> {) s
+5 241 M
+(  \\"           { string.setLength\(0\); yybegin\(STRING\); }) s
+5 219 M
+(  {comment}    { /* throw away comments */ }) s
+5 208 M
+(  {identifier} { return IDENT; }) s
+5 175 M
+(  // jflex regex solution; accepts anything that fits.) s
+5 164 M
+(  {integer}    { return INTLIT; }) s
+5 153 M
+(  // if the digit wasn't matched in {integer}, it's too big. Fail.) s
+5 142 M
+(  {digits}     { System.out.println\("rejecting number larger than MAXINT: " + yytext\(\) + " ) s
+551 142 M (+) s
+5 131 M
+(--\\n"\); }) s
+5 120 M
+(  {whitespace} { /* ignore whitespace */ }) s
+5 109 M
+(}) s
+5 87 M
+(<STRING> {) s
+5 76 M
+(         \\"          { yybegin\(YYINITIAL\); return STRLIT; }) s
+5 65 M
+(        [^\\n\\"\\\\]+   { string.append\( yytext\(\) \); }) s
+5 54 M
+(        \\\\n          { string.append\('\\n'\); }) s
+5 43 M
+(        \\\\\\"         { string.append\('\\"'\); }) s
+5 32 M
+(        \\\\           { string.append\('\\\\'\); }) s
+5 21 M
+(} ) s
+_R
+S
+%%Page: (4) 6
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 4 def
+/fname (parser.jflex) def
+/fdir () def
+/ftail (parser.jflex) def
+% User defined strings:
+/fmodstr (Wed Nov 04 20:06:18 2009) def
+/pagenumstr (4) def
+/user_header_p true def
+/user_header_left_str (parser.jflex) def
+/user_header_center_str (Ted Timmons CS321 Assignment 2) def
+/user_header_right_str (Pg 4 of 4) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 670 M
+(  // match whatever is left and complain about it.) s
+5 659 M
+(  .            { System.out.println\("Illegal char, '" + yytext\(\) +) s
+5 648 M
+(                   "' line: " + yyline + ", column: " + yychar\); }) s
+_R
+S
+%%Page: (1) 7
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 1 def
+/fname (part3-typescript.txt) def
+/fdir () def
+/ftail (part3-typescript.txt) def
+% User defined strings:
+/fmodstr (Wed Nov 04 20:25:01 2009) def
+/pagenumstr (1) def
+/user_header_p true def
+/user_header_left_str (part3-typescript.txt) def
+/user_header_center_str (Ted Timmons CS321 Assignment 2) def
+/user_header_right_str (Pg 1 of 1) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+($ jflex --nobak -d color htmlparser.jflex && javac color/Highlighter.java ) s
+449 692 M (+) s
+5 681 M
+(color/HTMLLexer.java && java color.Highlighter tests/question3-sample > ) s
+437 681 M (+) s
+5 670 M
+(tests/question3-sample.html) s
+5 659 M
+(Reading "htmlparser.jflex") s
+5 648 M
+(Constructing NFA : 525 states in NFA) s
+5 637 M
+(Converting NFA to DFA :) s
+5 626 M
+(..............................................................................................) s
+569 626 M (+) s
+5 615 M
+(..............................................................................................) s
+5 604 M
+(192 states before minimization, 99 states in minimized DFA) s
+5 593 M
+(Writing code to "color/HTMLLexer.java") s
+_R
+S
+%%Page: (1) 8
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 1 def
+/fname (tests/question3-sample) def
+/fdir (tests/) def
+/ftail (question3-sample) def
+% User defined strings:
+/fmodstr (Wed Nov 04 19:52:18 2009) def
+/pagenumstr (1) def
+/user_header_p true def
+/user_header_left_str (question3-sample) def
+/user_header_center_str (Ted Timmons CS321 Assignment 2) def
+/user_header_right_str (Pg 1 of 1) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(String s = "hello world!"; // this is a sample comment) s
+5 681 M
+(int i = 666;) s
+5 670 M
+(int y = 2147483648;) s
+5 648 M
+(while \(i > 0 || i <= 0\) {) s
+5 637 M
+(  if \(s == true\) { return false; }) s
+5 626 M
+(}) s
+5 604 M
+(/* this is a sample comment too */) s
+_R
+S
+%%Page: (1) 9
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 1 def
+/fname (tests/question3-sample.html) def
+/fdir (tests/) def
+/ftail (question3-sample.html) def
+% User defined strings:
+/fmodstr (Wed Nov 04 20:24:42 2009) def
+/pagenumstr (1) def
+/user_header_p true def
+/user_header_left_str (question3-sample.html) def
+/user_header_center_str (Ted Timmons CS321 Assignment 2) def
+/user_header_right_str (Pg 1 of 1) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(<html><head><title>My Syntax Colored Web Page</title><style type="text/css">body     ) s
+515 692 M (+) s
+5 681 M
+({white-space:pre;font-family:"Lucida Console","Courier New",Monotype} .keyword {color:blue} ) s
+557 681 M (+) s
+5 670 M
+(.comment {color: cyan} .literal {color:green} .invalid {color:red} </style></head><body>) s
+5 659 M
+(String s = "hello world!"; <span class="comment">// this is a sample comment) s
+5 648 M
+(</span><span class="keyword">int</span> i = <span class="literal">666</span>;) s
+5 637 M
+(<span class="keyword">int</span> y = <span class="invalid">2147483648</span>;) s
+5 615 M
+(<span class="keyword">while</span> \(i &gt; <span class="literal">0</span> || i &lt;= <span ) s
+551 615 M (+) s
+5 604 M
+(class="literal">0</span>\) {) s
+5 593 M
+(  <span class="keyword">if</span> \(s == <span class="keyword">true</span>\) { <span ) s
+503 593 M (+) s
+5 582 M
+(class="keyword">return</span> <span class="keyword">false</span>; }) s
+5 571 M
+(}) s
+5 549 M
+(<span class="comment">/* this is a sample comment too */</span>) s
+5 538 M
+(</body></html>) s
+_R
+S
+%%Page: (1) 10
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 1 def
+/fname (htmlparser.jflex) def
+/fdir () def
+/ftail (htmlparser.jflex) def
+% User defined strings:
+/fmodstr (Wed Nov 04 20:02:41 2009) def
+/pagenumstr (1) def
+/user_header_p true def
+/user_header_left_str (htmlparser.jflex) def
+/user_header_center_str (Ted Timmons CS321 Assignment 2) def
+/user_header_right_str (Pg 1 of 2) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(// Based on the "simple example" in the JFlex manual:) s
+5 681 M
+(// http://jflex.de/manual.html) s
+5 659 M
+(package color;) s
+5 648 M
+(%%) s
+5 626 M
+(%class HTMLLexer) s
+5 615 M
+(%public) s
+5 604 M
+(%unicode) s
+5 593 M
+(%line) s
+5 582 M
+(%column) s
+5 571 M
+(%standalone) s
+5 549 M
+(%{) s
+5 538 M
+(    StringBuffer string = new StringBuffer\(\);) s
+5 516 M
+(    // helper functions \(faux macros, really\)) s
+5 505 M
+(    void print\(char c\) {) s
+5 494 M
+(      System.out.print\(c\);) s
+5 483 M
+(    }) s
+5 472 M
+(    void print\(char c, String label\) {) s
+5 461 M
+(      System.out.print\("<span class=\\"" + label + "\\">" + c + "</span>"\);) s
+5 450 M
+(    }) s
+5 439 M
+(    void print\(String s\) {) s
+5 428 M
+(      System.out.print\(s\);) s
+5 417 M
+(    }) s
+5 406 M
+(    void print\(String s, String label\) {) s
+5 395 M
+(      System.out.print\("<span class=\\"" + label + "\\">" + s + "</span>"\);) s
+5 384 M
+(    }) s
+5 373 M
+(    //System.out.println\("<html><head><title>My Syntax Colored Web Page</title><style ) s
+521 373 M (+) s
+5 362 M
+(type=\\"text/css\\">body     {white-space:pre;font-family:\\"Lucida Console\\",\\"Courier ) s
+515 362 M (+) s
+5 351 M
+(New\\",Monotype} .keyword {color:blue} .comment {color:cyan} .literal {color:green} .invalid ) s
+557 351 M (+) s
+5 340 M
+({color:red} </style></head><body>"\);) s
+5 329 M
+(    //System.out.println\("</body></html>"\);) s
+5 307 M
+(%}) s
+5 285 M
+(lineterminator = \\r|\\n|\\r\\n) s
+5 274 M
+(inputcharacter = [^\\r\\n]) s
+5 252 M
+(comment = {traditionalcomment} | {endoflinecomment}) s
+5 230 M
+(traditionalcomment   = "/*" [^*] ~"*/" | "/*" "*"+ "/") s
+5 219 M
+(endoflinecomment     = "//" {inputcharacter}* {lineterminator}) s
+5 208 M
+(// unused: commentcontent       = \( [^*] | \\*+ [^/*] \)*) s
+5 186 M
+(// Some of these macros are from/inspired by the following:) s
+5 175 M
+(// http://users.csc.calpoly.edu/~gfisher/classes/330/examples/jflex/pascal.jflex) s
+5 164 M
+(// changed [A-Za-z] to :jletter: to conform with Unicode.) s
+5 142 M
+(digits          = \([0-9]\)*) s
+5 131 M
+(integer         = ) s
+113 131 M (+) s
+5 120 M
+(214748364[0-7]|21474836[0-3][0-9]|2147483[0-5][0-9][0-9]|214748[0-2][0-9][0-9][0-9]|21474[0-7]) s
+569 120 M (+) s
+5 109 M
+([0-9][0-9][0-9][0-9]|2147[0-3][0-9][0-9][0-9][0-9][0-9]|214[0-6][0-9][0-9][0-9][0-9][0-9][0-9]) s
+569 109 M (+) s
+5 98 M
+(|21[0-3][0-9][0-9][0-9][0-9][0-9][0-9][0-9]|20[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]|1[0-9][) s
+569 98 M (+) s
+5 87 M
+(0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]|[0-9][0-) s
+569 87 M (+) s
+5 76 M
+(9][0-9][0-9][0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9]) s
+569 76 M (+) s
+5 65 M
+([0-9]|[0-9][0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9]|[0-9][0-9][0-9]|[0-9][0-9]|[0-9]) s
+5 43 M
+(%state STRING) s
+5 10 M
+(%%) s
+_R
+S
+%%Page: (2) 11
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 2 def
+/fname (htmlparser.jflex) def
+/fdir () def
+/ftail (htmlparser.jflex) def
+% User defined strings:
+/fmodstr (Wed Nov 04 20:02:41 2009) def
+/pagenumstr (2) def
+/user_header_p true def
+/user_header_left_str (htmlparser.jflex) def
+/user_header_center_str (Ted Timmons CS321 Assignment 2) def
+/user_header_right_str (Pg 2 of 2) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 692 M
+(  ">"     { print\("&gt;"\); }) s
+5 681 M
+(  "<"     { print\("&lt;"\); }) s
+5 670 M
+(  "&"     { print\("&amp;"\); }) s
+5 648 M
+(  // reserved identifiers) s
+5 637 M
+(  "boolean"     { print\(yytext\(\), "keyword"\); }) s
+5 626 M
+(  "class"       { print\(yytext\(\), "keyword"\); }) s
+5 615 M
+(  "else"        { print\(yytext\(\), "keyword"\); }) s
+5 604 M
+(  "extends"     { print\(yytext\(\), "keyword"\); }) s
+5 593 M
+(  "if"          { print\(yytext\(\), "keyword"\); }) s
+5 582 M
+(  "int"         { print\(yytext\(\), "keyword"\); }) s
+5 571 M
+(  "new"         { print\(yytext\(\), "keyword"\); }) s
+5 560 M
+(  "return"      { print\(yytext\(\), "keyword"\); }) s
+5 549 M
+(  "static"      { print\(yytext\(\), "keyword"\); }) s
+5 538 M
+(  "super"       { print\(yytext\(\), "keyword"\); }) s
+5 527 M
+(  "this"        { print\(yytext\(\), "keyword"\); }) s
+5 516 M
+(  "void"        { print\(yytext\(\), "keyword"\); }) s
+5 505 M
+(  "while"       { print\(yytext\(\), "keyword"\); }) s
+5 494 M
+(  "null"        { print\(yytext\(\), "keyword"\); }) s
+5 483 M
+(  "true"        { print\(yytext\(\), "keyword"\); }) s
+5 472 M
+(  "false"       { print\(yytext\(\), "keyword"\); }) s
+5 461 M
+(  "private"     { print\(yytext\(\), "keyword"\); }) s
+5 450 M
+(  "protected"   { print\(yytext\(\), "keyword"\); }) s
+5 439 M
+(  "public"      { print\(yytext\(\), "keyword"\); }) s
+5 428 M
+(  "abstract"    { print\(yytext\(\), "keyword"\); }) s
+5 406 M
+(  {comment}     { print\(yytext\(\), "comment"\); }) s
+5 395 M
+(  {integer}     { print\(yytext\(\), "literal"\); }) s
+5 384 M
+(  {digits}      { print\(yytext\(\), "invalid"\); }) s
+5 362 M
+(  // match whatever is left) s
+5 351 M
+(  .            { print\(yytext\(\)\); }) s
+_R
+S
+%%Page: (1) 12
+%%BeginPageSetup
+_S
+18 36 translate
+/pagenum 1 def
+/fname (color/Highlighter.java) def
+/fdir (color/) def
+/ftail (Highlighter.java) def
+% User defined strings:
+/fmodstr (Wed Nov 04 20:01:44 2009) def
+/pagenumstr (1) def
+/user_header_p true def
+/user_header_left_str (Highlighter.java) def
+/user_header_center_str (Ted Timmons CS321 Assignment 2) def
+/user_header_right_str (Pg 1 of 1) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 681 M
+(package color;) s
+5 670 M
+(import color.HTMLLexer;) s
+5 637 M
+(//public class Highlighter extends HTMLLexer {) s
+5 626 M
+(public class Highlighter {) s
+5 604 M
+(  // code gratiutously stolen from the jflex output.) s
+5 582 M
+(  public static void main\(String argv[]\) {) s
+5 571 M
+(    if \(argv.length == 0\) {) s
+5 560 M
+(      System.out.println\("Usage : java HTMLLexer <inputfile>"\);) s
+5 549 M
+(    }) s
+5 538 M
+(    else {) s
+5 516 M
+(      // not inserting newlines because they aren't required) s
+5 505 M
+(      //  and it makes our typescripts shorter.) s
+5 494 M
+(      System.out.println\("<html><head><title>My Syntax Colored Web Page</title><style ) s
+521 494 M (+) s
+5 483 M
+(type=\\"text/css\\">body     {white-space:pre;font-family:\\"Lucida Console\\",\\"Courier ) s
+515 483 M (+) s
+5 472 M
+(New\\",Monotype} .keyword {color:blue} .comment {color: cyan} .literal {color:green} .invalid ) s
+563 472 M (+) s
+5 461 M
+({color:red} </style></head><body>"\);) s
+5 439 M
+(      try {) s
+5 428 M
+(        HTMLLexer scanner = new HTMLLexer\( new java.io.FileReader\(argv[0]\) \);) s
+5 406 M
+(        scanner.yylex\(\);) s
+5 395 M
+(      }) s
+5 384 M
+(      catch \(java.io.FileNotFoundException e\) {) s
+5 373 M
+(        System.out.println\("File not found : \\""+argv[0]+"\\""\);) s
+5 362 M
+(      }) s
+5 351 M
+(      catch \(java.io.IOException e\) {) s
+5 340 M
+(        System.out.println\("IO error scanning file \\""+argv[0]+"\\""\);) s
+5 329 M
+(        System.out.println\(e\);) s
+5 318 M
+(      }) s
+5 307 M
+(      catch \(Exception e\) {) s
+5 296 M
+(        System.out.println\("Unexpected exception:"\);) s
+5 285 M
+(        e.printStackTrace\(\);) s
+5 274 M
+(      }) s
+5 252 M
+(      // finish our HTML.) s
+5 241 M
+(      System.out.println\("</body></html>"\);) s
+5 230 M
+(    }) s
+5 219 M
+(  }) s
+5 186 M
+(}) s
+_R
+S
+%%Trailer
+%%Pages: 12
+%%DocumentNeededResources: font Courier-Bold Courier 
+%%EOF

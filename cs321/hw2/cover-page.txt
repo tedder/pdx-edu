@@ -1,0 +1,7 @@
+Ted Timmons
+CS321 assignment 2
+
+
+Parts 1 and 2 of the assignment are combined in parser.jflex; part 3 is in htmlparser.jflex and color/Highlighter.java. Sources for "borrowed" code segments are given.
+
+Test files are shown in the typescript, as well as compilation results. jflex-generated code is not included per email instructions that it wasn't required.

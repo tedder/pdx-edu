@@ -93,7 +93,7 @@ endoflinecomment     = "//" {inputcharacter}* {lineterminator}
 // changed [A-Za-z] to :jletter: to conform with Unicode.
 
 letter          = [:letter:]
-digit           = [:digit:]
+digits          = ([0-9])*
 alphanumeric    = [:jletterdigit:]
 other_id_char   = [_]
 identifier      = {letter}({alphanumeric}|{other_id_char})*
@@ -165,14 +165,10 @@ integer         = 214748364[0-7]|21474836[0-3][0-9]|2147483[0-5][0-9][0-9]|21474
   {identifier} { return IDENT; }
 
 
-  // match *any* length of integer. In here to make the code *work*.
-  {digit}    { return INTLIT; }
-  // jflex regex solution- doesn't work, it just breaks it into two tokens
-  //{integer}    { System.out.println("accepting number: " + yytext() + "\n"); return INTLIT; }
+  // jflex regex solution; accepts anything that fits.
+  {integer}    { return INTLIT; }
   // if the digit wasn't matched in {integer}, it's too big. Fail.
-  //{digit}      { System.out.println("Illegal number, '" + yytext() + "' line: " + yyline + ", column: " + yychar); }
-  // one alternative to a long regex:
-  //{integer}    { BigInteger i = new BigInteger(yytext()); if (i.compareTo(BigInteger(2147483647)) != 1) { return INTLIT; } else { System.out.print("integer is too big: " + yytext() + "\n"); } }
+  {digits}     { System.out.println("rejecting number larger than MAXINT: " + yytext() + " --\n"); }
   {whitespace} { /* ignore whitespace */ }
 }
 

@@ -1,0 +1,9 @@
+String s = "hello world!"; // this is a sample comment
+int i = 666;
+int y = 2147483648;
+
+while (i > 0 || i <= 0) {
+  if (s == true) { return false; }
+}
+
+/* this is a sample comment too */

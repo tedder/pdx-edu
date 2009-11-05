@@ -1,6 +1,7 @@
 // Based on the "simple example" in the JFlex manual:
 // http://jflex.de/manual.html
 
+package color;
 %%
 
 %class HTMLLexer
@@ -33,7 +34,6 @@
 
 lineterminator = \r|\n|\r\n
 inputcharacter = [^\r\n]
-whitespace     = {lineterminator} | [ \t\f]
 
 comment = {traditionalcomment} | {endoflinecomment}
 
@@ -45,11 +45,7 @@ endoflinecomment     = "//" {inputcharacter}* {lineterminator}
 // http://users.csc.calpoly.edu/~gfisher/classes/330/examples/jflex/pascal.jflex
 // changed [A-Za-z] to :jletter: to conform with Unicode.
 
-letter          = [:letter:]
-digit           = [:digit:]
-alphanumeric    = [:jletterdigit:]
-other_id_char   = [_]
-identifier      = {letter}({alphanumeric}|{other_id_char})*
+digits          = ([0-9])*
 integer         = 214748364[0-7]|21474836[0-3][0-9]|2147483[0-5][0-9][0-9]|214748[0-2][0-9][0-9][0-9]|21474[0-7][0-9][0-9][0-9][0-9]|2147[0-3][0-9][0-9][0-9][0-9][0-9]|214[0-6][0-9][0-9][0-9][0-9][0-9][0-9]|21[0-3][0-9][0-9][0-9][0-9][0-9][0-9][0-9]|20[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]|1[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9]|[0-9][0-9][0-9]|[0-9][0-9]|[0-9]
 
 %state STRING
@@ -84,6 +80,7 @@ integer         = 214748364[0-7]|21474836[0-3][0-9]|2147483[0-5][0-9][0-9]|21474
 
   {comment}     { print(yytext(), "comment"); }
   {integer}     { print(yytext(), "literal"); }
+  {digits}      { print(yytext(), "invalid"); }
 
   // match whatever is left
   .            { print(yytext()); }
