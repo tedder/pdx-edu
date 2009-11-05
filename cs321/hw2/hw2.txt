@@ -1,0 +1,150 @@
+CS321 Languages and Compiler Design I,  Fall 2009,  Homework 2
+--------------------------------------------------------------
+
+Due date:
+  2pm (start of class) on Thursday, Nov 5 if you submit on paper
+  OR noon on the same day if you submit by email (in which case
+     be sure to send your submission in one of the formats listed
+     on the class web page).
+
+Introduction:
+-------------
+This exercise is designed to give you some hands-on experience using a
+lexical analyzer generator tool such as lex, flex, jflex, etc.  The
+examples that we have talked about in class have shown general ideas
+that are applicable to many of the tools in this family, but you will
+likely need to adjust and adapt those ideas, at least in some small
+ways, to suit the specific tool that you use in this exercise.  By
+default, I am going to assume that you are using jflex (available from
+www.jflex.de) for this exercise, but you are free to use a different
+tool for a different programming language if you prefer, so long as it
+is broadly similar in style (lex-like syntax, use of regular
+expressions, etc.)  If you would like to use a specific tool other than
+jflex and are not sure if it will be suitable, please ask me (and
+include pointers to reference documentation for the tool you'd like to
+use in case it's not one that I'm familiar with).  Regardless of which
+tool you choose, expect to spend some non-trivial amount of time
+reading the documentation for that tool.  The examples from class
+should have prepared you for this task, but expect to find some
+differences (and, perhaps, also some strong hints/code fragments that
+you can use in your solution).  Reading and using the documentation in
+this way is very much a part of this assignment, and it is exactly the
+kind of thing you would have to do if you were using the tool for a
+practical project outside this class!
+
+In all of the following questions, be sure to include careful
+descriptions of what you have done, and of why you have done it that
+way, as well as summaries of testing that you have carried out to
+confirm that your code is working correctly.  Turning in only code,
+even if includes comments or highlighting, will not earn full marks!
+
+
+Question 0:
+-----------
+Choose a lex-like tool that is suitable for the language that you wish
+to use for the rest of this assignment, install it, read the
+documentation, and check that you can build and run at least one of the
+examples that comes with your chosen tool.  The following text will be
+written with the assumption that you are using jflex and Java, but you
+may substitute a different toolset if you prefer, as described
+previously.  There's no sensible way for me to grade you on this part
+of the assignment, but you skip it at your peril!
+
+
+Question 1: [30 points]
+-----------
+Using your chosen lexer generator tool, construct a lexer for Mini Java
+that replicates the functionality of the handwritten MjcLexer from the
+first homework as closely as possible.  If the behavior of the lexer
+that you build differs in any respects from that of MjcLexer, then you
+should document those differences as part of your answer and you should
+explain why it was not possible or practical to recreate exactly the
+same functionality with the tool.  (This might happen, for example, if
+you are using a language that, unlike MjcLexer, doesn't support a
+Unicode character set, in which case you might need to reinterpret
+terms like "digit" and "letter" in a slightly different way.)  Your
+lexer should recognize all six categories of input elements that were
+listed in the description for Homework 1 as well as the additional
+tokens introduced in Questions 3, 4, and 5 of that assignment.  You may
+also find it useful to reuse the test files from Question 2 of the
+first assignment to help you test the lexer that you produce here.
+
+
+Question 2: [10 points]
+-----------
+Extend your lexer to implement the extension described in HW1, Question
+6(a), which is to emit an error diagnostic for any integer literal
+whose value exceeds the maximum signed integer (2147483647).  This
+should be done by replacing the regular expression that you use to
+match integer literals with one that matches only integers in the range
+0 to 2147483647.
+
+
+Question 3: [30 points]
+-----------
+In this question, you're going to produce a new version of your lexer
+that can be used for generating syntax colored versions of mini Java
+source files.  We'll implement syntax coloring by generating HTML,
+which is a plain text format that can be edited in many word processors
+or viewed in a web browser.  More specifically, the modified lexer is
+expected to take a plain text file containing a mini Java program (or,
+at least, mini Java tokens) and produce output text of the following
+form:
+
+<html>
+<head>
+<title>My Syntax Colored Web Page</title>
+<style type="text/css">
+  body     {white-space:pre;
+            font-family:"Lucida Console","Courier New",Monotype}
+  .keyword {color:blue}
+  .comment {color:cyan}
+  .literal {color:green}
+  .invalid {color:red}
+</style>
+</head>
+<body>
+OUTPUT GOES HERE
+</body>
+</html>
+
+All of this text will be exactly the same in every generated output
+except for the part that is written as "OUTPUT GOES HERE"; that's the
+point at which you should instead insert the text of the input file
+subject to the following modifications:
+
+- keywords should be printed out with an initial <span class="keyword">
+  tag and followed by a </span> tag.  For example, the "for" keyword
+  would be output as <span class="keyword">for</span>.
+
+- comments, both single and multiple line forms should be wrapped in a
+  similar pair of span tags that uses the "comment" tag.
+
+- integer literals that are within the correct numeric range
+  should be tagged using a span with class "literal", while those that
+  are out of range should be tagged as "invalid".
+
+- less than (<), greater than (>), and ampersand symbols (&) should be
+  replaced with "&lt;", "&gt;", and "&amp;", respectively (without the
+  double quotes) in the output.
+
+All other parts of the input file (including identifiers, whitespace,
+punctuation, etc.) should be copied to the output without change.
+(Those of you using jflex might find the %standalone directive useful
+here.)
+
+Note that you will find a simple example to illustrate what the syntax
+colored output might look like on the class web page.  No special
+knowledge of HTML or CSS beyond what is shown here is required or
+assumed in this question.
+
+Note also that it is acceptable to write your syntax coloring lexer as
+a program that reads text from standard input and writes its output to
+standard output; in other words, you do not need to write code that
+does "file handling" unless you (a) want to, and (b) already know how
+to do that!
+
+
+ABOVE ALL ELSE: Be sure to ask for help if you get stuck!!!
+
+------------------------------------------------------------------
