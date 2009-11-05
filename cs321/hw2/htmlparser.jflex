@@ -1,80 +1,33 @@
 // Based on the "simple example" in the JFlex manual:
 // http://jflex.de/manual.html
 
-/* JFlex example: part of Java language lexer specification */
-//import java_cup.runtime.*;
-//import compiler.*;
-
-/**
- * This class is a simple example lexer.
- */
-
-
 %%
 
-%class Lexer
+%class HTMLLexer
 %public
-//not implementing compiler.* either. %extends SourceLexer
-//Not implementing the Mjc* stuff. %implements MjcTokens
 %unicode
 %line
 %column
 %standalone
 
 %{
-
     StringBuffer string = new StringBuffer();
 
-    int ENDINPUT = 0;
-    int BOOLEAN = 1;
-    int CAND = 2;
-    int CLASS = 3;
-    int COR = 4;
-    int ELSE = 5;
-    int EQEQ = 6;
-    int EXTENDS = 7;
-    int FALSE = 8;
-    int IDENT = 9;
-    int IF = 10;
-    int INT = 11;
-    int INTLIT = 12;
-    int NEQ = 13;
-    int NEW = 14;
-    int NULL = 15;
-    int RETURN = 16;
-    int STATIC = 17;
-    int SUPER = 18;
-    int THIS = 19;
-    int TRUE = 20;
-    int VOID = 21;
-    int WHILE = 22;
-    int GTEQ = 23;
-    int LTEQ = 24;
-    int PLUSEQ = 25;
-    int MINUSEQ = 26;
-    int PRIVATE = 27;
-    int PROTECTED = 28;
-    int PUBLIC = 29;
-    int ABSTRACT = 30;
-    int STRLIT = 31;
-    // '!' (code=33)
-    // '&' (code=38)
-    // '(' (code=40)
-    // ')' (code=41)
-    // '*' (code=42)
-    // '+' (code=43)
-    // ',' (code=44)
-    // '-' (code=45)
-    // '.' (code=46)
-    // '/' (code=47)
-    // ';' (code=59)
-    // '<' (code=60)
-    // '=' (code=61)
-    // '>' (code=62)
-    // '^' (code=94)
-    // '{' (code=123)
-    // '|' (code=124)
-    // '}' (code=125)
+    // helper functions (faux macros, really)
+    void print(char c) {
+      System.out.print(c);
+    }
+    void print(char c, String label) {
+      System.out.print("<span class=\"" + label + "\">" + c + "</span>");
+    }
+    void print(String s) {
+      System.out.print(s);
+    }
+    void print(String s, String label) {
+      System.out.print("<span class=\"" + label + "\">" + s + "</span>");
+    }
+    //System.out.println("<html><head><title>My Syntax Colored Web Page</title><style type=\"text/css\">body     {white-space:pre;font-family:\"Lucida Console\",\"Courier New\",Monotype} .keyword {color:blue} .comment {color:cyan} .literal {color:green} .invalid {color:red} </style></head><body>");
+    //System.out.println("</body></html>");
 
 %}
 
@@ -103,91 +56,36 @@ integer         = 214748364[0-7]|21474836[0-3][0-9]|2147483[0-5][0-9][0-9]|21474
 
 
 %%
-  "("     { return '('; }
-  ")"     { return ')'; }
-  "{"     { return '{'; }
-  "}"     { return '}'; }
-  ";"     { return ';'; }
-  ","     { return ','; }
-  "."     { return '.'; }
-
-  "="     { return '='; }
-  "=="    { return EQEQ; }
-
-  ">"     { return '>'; }
-  ">="    { return GTEQ; }
-  "<"     { return '<'; }
-  "<="    { return LTEQ; }
-  "!"     { return '!'; }
-  "!="    { return NEQ; }
-  "&"     { return '&'; }
-  "&&"    { return CAND; }
-  "|"     { return '|'; }
-  "||"    { return COR; }
-  "^"     { return '^'; }
-  "+"     { return '+'; }
-  "+="    { return PLUSEQ; }
-  "-"     { return '-'; }
-  "-="    { return MINUSEQ; }
-  "*"     { return '*'; }
-  "/"     { return '/'; }
+  ">"     { print("&gt;"); }
+  "<"     { print("&lt;"); }
+  "&"     { print("&amp;"); }
 
   // reserved identifiers
-  "boolean"     { return BOOLEAN; }
-  "class"       { return CLASS; }
-  "else"        { return ELSE; }
-  "extends"     { return EXTENDS; }
-  "if"          { return IF; }
-  "int"         { return INT; }
-  "new"         { return NEW; }
-  "return"      { return RETURN; }
-  "static"      { return STATIC; }
-  "super"       { return SUPER; }
-  "this"        { return THIS; }
-  "void"        { return VOID; }
-  "while"       { return WHILE; }
-  "null"        { return NULL; }
-  "true"        { return TRUE; }
-  "false"       { return FALSE; }
-  "private"     { return PRIVATE; }
-  "protected"   { return PROTECTED; }
-  "public"      { return PUBLIC; }
-  "abstract"    { return ABSTRACT; }
+  "boolean"     { print(yytext(), "keyword"); }
+  "class"       { print(yytext(), "keyword"); }
+  "else"        { print(yytext(), "keyword"); }
+  "extends"     { print(yytext(), "keyword"); }
+  "if"          { print(yytext(), "keyword"); }
+  "int"         { print(yytext(), "keyword"); }
+  "new"         { print(yytext(), "keyword"); }
+  "return"      { print(yytext(), "keyword"); }
+  "static"      { print(yytext(), "keyword"); }
+  "super"       { print(yytext(), "keyword"); }
+  "this"        { print(yytext(), "keyword"); }
+  "void"        { print(yytext(), "keyword"); }
+  "while"       { print(yytext(), "keyword"); }
+  "null"        { print(yytext(), "keyword"); }
+  "true"        { print(yytext(), "keyword"); }
+  "false"       { print(yytext(), "keyword"); }
+  "private"     { print(yytext(), "keyword"); }
+  "protected"   { print(yytext(), "keyword"); }
+  "public"      { print(yytext(), "keyword"); }
+  "abstract"    { print(yytext(), "keyword"); }
 
-// string matching taken from:
-//   http://linuxgazette.net/issue41/lopes/lopes.html
-//   http://jflex.de/manual.html
+  {comment}     { print(yytext(), "comment"); }
+  {integer}     { print(yytext(), "literal"); }
 
-<YYINITIAL> {
-  \"           { string.setLength(0); yybegin(STRING); }
-
-  {comment}    { /* throw away comments */ }
-  {identifier} { return IDENT; }
-
-
-  // match *any* length of integer. In here to make the code *work*.
-  {digit}    { return INTLIT; }
-  // jflex regex solution- doesn't work, it just breaks it into two tokens
-  //{integer}    { System.out.println("accepting number: " + yytext() + "\n"); return INTLIT; }
-  // if the digit wasn't matched in {integer}, it's too big. Fail.
-  //{digit}      { System.out.println("Illegal number, '" + yytext() + "' line: " + yyline + ", column: " + yychar); }
-  // one alternative to a long regex:
-  //{integer}    { BigInteger i = new BigInteger(yytext()); if (i.compareTo(BigInteger(2147483647)) != 1) { return INTLIT; } else { System.out.print("integer is too big: " + yytext() + "\n"); } }
-  {whitespace} { /* ignore whitespace */ }
-}
-
-<STRING> {
-         \"          { yybegin(YYINITIAL); return STRLIT; }
-        [^\n\"\\]+   { string.append( yytext() ); }
-        \\n          { string.append('\n'); }
-        \\\"         { string.append('\"'); }
-        \\           { string.append('\\'); }
-} 
-
-
-
-  // match whatever is left and complain about it.
-  .            { System.out.println("Illegal char, '" + yytext() +
-                   "' line: " + yyline + ", column: " + yychar); }
+  // match whatever is left
+  .            { print(yytext()); }
 
 
