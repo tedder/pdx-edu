@@ -818,7 +818,6 @@ code Kernel
 
           th.status = UNUSED
           freeList.AddToEnd(th)
-          -- TODO: signal the thread is on the list
 
           -- done with the mutex.
           threadFree.Signal(&threadCheck)
@@ -910,7 +909,33 @@ code Kernel
         -- This method is called once at kernel startup time to initialize
         -- the one and only "processManager" object.  
         --
-        -- NOT IMPLEMENTED
+        var i: int = 0
+
+        -- init freeList
+        freeList = new List[ProcessControlBlock]
+        -- no Init() method, actually.
+        --  freeList.Init()
+
+        -- init the processTable array
+        processTable = new array of ProcessControlBlock { MAX_NUMBER_OF_PROCESSES of new ProcessControlBlock }
+
+        -- init all ProcessControlBlocks in processTable array
+        -- place PCBs on freeList
+        for i = 0 to MAX_NUMBER_OF_PROCESSES - 1
+          processTable[i].Init()
+          freeList.AddToEnd(&processTable[i])
+        endFor
+
+        -- init processManagerLock
+        processManagerLock = new Mutex
+        processManagerLock.Init()
+
+        -- init aProcessBecameFree, aProcessDied vars
+        aProcessBecameFree = new Condition
+        aProcessBecameFree.Init()
+        aProcessDied = new Condition
+        aProcessDied.Init()
+
         endMethod
 
       ----------  ProcessManager . Print  ----------
@@ -965,8 +990,30 @@ code Kernel
         -- This method returns a new ProcessControlBlock; it will wait
         -- until one is available.
         --
-          -- NOT IMPLEMENTED
-          return null
+          var currProcess: ptr to ProcessControlBlock
+          --print ("\nHello from GANP\n")
+
+          -- Safely pull the next item off the freeList.
+          processManagerLock.Lock()
+          if (freeList.IsEmpty())
+            while (! currProcess)
+              if (processManagerLock.IsHeldByCurrentThread())
+                currProcess = freeList.Remove()
+              endIf
+
+              -- we don't have/didn't get a currProcess, so we need to
+              -- patiently Wait.
+              if (! currProcess)
+                aProcessDied.Wait(&processManagerLock)
+              endIf
+            endWhile
+          else
+            currProcess = freeList.Remove()
+          endIf
+
+          -- release our lock. We're done!
+          processManagerLock.Unlock()
+          return currProcess
         endMethod
 
       ----------  ProcessManager . FreeProcess  ----------
@@ -976,7 +1023,18 @@ code Kernel
         -- This method is passed a ptr to a Process;  It moves it
         -- to the FREE list.
         --
-          -- NOT IMPLEMENTED
+        processManagerLock.Lock()
+
+        -- mark process as ready
+        p.status = FREE
+        -- add to the free list
+        freeList.AddToEnd(p)
+
+        -- finish signaling
+        aProcessDied.Signal(&processManagerLock)
+        processManagerLock.Unlock()
+
+
         endMethod
 
 
