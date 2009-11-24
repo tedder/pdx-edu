@@ -1,0 +1,38 @@
+$ jacc mini/Mini.jacc && jflex mini/Mini.jflex && javac mini/*java              WARNING: conflicts: 1 shift/reduce, 0 reduce/reduce
+
+Reading "mini/Mini.jflex"
+Constructing NFA : 167 states in NFA
+Converting NFA to DFA :
+.....................................................................
+71 states before minimization, 59 states in minimized DFA
+Old file "mini/MiniLexer.java" saved as "mini/MiniLexer.java~"
+Writing code to "mini/MiniLexer.java"
+$ cat variable.mini
+
+
+int f;
+int g = 1;
+h = 2;
+f = 4;
+$ java mini.DotTest variable.mini > graph.dotty
+$ cat iferror.mini
+if (i > 0) { print i; } else { }
+$ java mini.DotTest iferror.mini > graph.dotty
+ERROR: syntax error
+
+ERROR: Exception: java.lang.NullPointerException
+
+$ cat sample.mini 
+
+i = 0;
+j = 0;
+while (i < 10) {
+  i = i + 1;
+  j = j + i;
+}
+print i;
+
+print 1 + 2 * 3 + 4;
+
+$ java mini.DotTest sample.mini > graph.dotty
+$ 
