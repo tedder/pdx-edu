@@ -8,7 +8,7 @@ import java.io.*;
 
 %semantic Object
 
-%token  WHILE IF ELSE PRINT VTYPE
+%token  WHILE IF ELSE PRINT
 %token	'(' ')' '{' '}' ';'
 
 %right	'='
@@ -23,11 +23,14 @@ import java.io.*;
 %left	'*' '/'
 %right	'!' '~' UMINUS UPLUS
 
+%token  <TInt>   TINT
+%token  <TBool>  TBOOL
 %token  <Id>     IDENT
 %token  <IntLit> INTLIT
 %type   <Stmts>  stmts
 %type	<Stmt>   stmt
 %type   <Expr>   expr test
+%type   <VType>   vtype
 
 %%
 prog	: stmts				{ program = $1; }
@@ -42,7 +45,7 @@ stmt	: /* empty */ ';'		{ $$ = new Empty(); }
 	| IF test stmt			{ $$ = new If($2, $3, new Empty()); }
 	| PRINT expr ';'		{ $$ = new Print($2); }
 	// | VTYPE '[' ']' IDENT		{ $$ = new VarArray($1, $4); }
-	| VTYPE IDENT ';'		{ $$ = new Variable($1, $2); }
+	//| VTYPE IDENT ';'		{ $$ = new Variable($1, $2); }
 	| '{' stmts '}'			{ $$ = new Block($2); }
 	;
 test	: '(' expr ')'			{ $$ = $2; }
@@ -71,6 +74,10 @@ expr	: '-' expr       %prec UMINUS	{ $$ = new UMinus($2); }
 	| IDENT				{ $$ = $1; }
 	| INTLIT			{ $$ = $1; }
 	;
+vtype	: TBOOL				{ $$ = new TBoolean(); }
+	| TINT				{ $$ = new TInt(); }
+	;
+
 
 %%
 
