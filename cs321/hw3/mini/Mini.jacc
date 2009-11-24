@@ -25,6 +25,8 @@ import java.io.*;
 
 %token  <TInt>   TINT
 %token  <TBool>  TBOOL
+%token  <TDoub>  TDOUB
+%token  <TArray> TARRAY
 %token  <Id>     IDENT
 %token  <IntLit> INTLIT
 %type   <Stmts>  stmts
@@ -76,6 +78,8 @@ expr	: '-' expr       %prec UMINUS	{ $$ = new UMinus($2); }
 	;
 vtype	: TBOOL				{ $$ = new TBoolean(); }
 	| TINT				{ $$ = new TInt(); }
+	| TDOUB				{ $$ = new TDouble(); }
+        | TARRAY			{ $$ = new TArray(); }
 	;
 
 

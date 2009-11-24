@@ -1,4 +1,4 @@
-// Output created by jacc on Mon Nov 23 19:31:13 PST 2009
+// Output created by jacc on Mon Nov 23 20:20:10 PST 2009
 
 package mini;
 
@@ -866,18 +866,18 @@ class MiniParser extends Phase implements MiniTokens {
 
     private int yys3() {
         switch (yytok) {
-            case '{':
             case ';':
             case '-':
-            case INTLIT:
             case '+':
+            case INTLIT:
             case PRINT:
-            case IF:
             case '!':
-            case ENDINPUT:
+            case IF:
             case '~':
-            case '}':
             case WHILE:
+            case '}':
+            case '{':
+            case ENDINPUT:
             case IDENT:
                 return yyr3();
         }
@@ -918,21 +918,21 @@ class MiniParser extends Phase implements MiniTokens {
         switch (yytok) {
             case '=':
                 return 33;
-            case '^':
             case '>':
-            case LAND:
             case ';':
+            case LAND:
             case '/':
             case '-':
-            case GTE:
-            case '<':
             case '+':
             case '*':
+            case '<':
+            case GTE:
             case ')':
-            case NEQ:
             case '&':
+            case NEQ:
             case LTE:
             case '|':
+            case '^':
             case LOR:
             case EQL:
                 return yyr32();
@@ -942,21 +942,21 @@ class MiniParser extends Phase implements MiniTokens {
 
     private int yys7() {
         switch (yytok) {
-            case '^':
             case '>':
-            case LAND:
             case ';':
+            case LAND:
             case '/':
             case '-':
-            case GTE:
-            case '<':
             case '+':
             case '*':
+            case '<':
+            case GTE:
             case ')':
-            case NEQ:
             case '&':
+            case NEQ:
             case LTE:
             case '|':
+            case '^':
             case LOR:
             case EQL:
                 return yyr33();
@@ -1038,17 +1038,17 @@ class MiniParser extends Phase implements MiniTokens {
 
     private int yys13() {
         switch (yytok) {
-            case '{':
             case ';':
             case '-':
-            case INTLIT:
             case '+':
+            case INTLIT:
             case PRINT:
-            case IF:
             case '!':
+            case IF:
             case '~':
-            case '}':
             case WHILE:
+            case '}':
+            case '{':
             case IDENT:
             case ENDINPUT:
             case ELSE:
@@ -1303,17 +1303,17 @@ class MiniParser extends Phase implements MiniTokens {
 
     private int yys27() {
         switch (yytok) {
-            case '{':
             case ';':
             case '-':
-            case INTLIT:
             case '+':
+            case INTLIT:
             case PRINT:
-            case IF:
             case '!':
+            case IF:
             case '~':
-            case '}':
             case WHILE:
+            case '}':
+            case '{':
             case IDENT:
             case ENDINPUT:
             case ELSE:
@@ -1396,18 +1396,18 @@ class MiniParser extends Phase implements MiniTokens {
 
     private int yys32() {
         switch (yytok) {
-            case '{':
             case ';':
             case '-':
-            case INTLIT:
             case '+':
+            case INTLIT:
             case PRINT:
-            case IF:
             case '!':
-            case ENDINPUT:
+            case IF:
             case '~':
-            case '}':
             case WHILE:
+            case '}':
+            case '{':
+            case ENDINPUT:
             case IDENT:
                 return yyr2();
         }
@@ -1546,21 +1546,21 @@ class MiniParser extends Phase implements MiniTokens {
 
     private int yys38() {
         switch (yytok) {
-            case '^':
             case '>':
-            case LAND:
             case ';':
+            case LAND:
             case '/':
             case '-':
-            case GTE:
-            case '<':
             case '+':
             case '*':
+            case '<':
+            case GTE:
             case ')':
-            case NEQ:
             case '&':
+            case NEQ:
             case LTE:
             case '|':
+            case '^':
             case LOR:
             case EQL:
                 return yyr14();
@@ -1570,21 +1570,21 @@ class MiniParser extends Phase implements MiniTokens {
 
     private int yys39() {
         switch (yytok) {
-            case '^':
             case '>':
-            case LAND:
             case ';':
+            case LAND:
             case '/':
             case '-':
-            case GTE:
-            case '<':
             case '+':
             case '*':
+            case '<':
+            case GTE:
             case ')':
-            case NEQ:
             case '&':
+            case NEQ:
             case LTE:
             case '|':
+            case '^':
             case LOR:
             case EQL:
                 return yyr13();
@@ -1594,21 +1594,21 @@ class MiniParser extends Phase implements MiniTokens {
 
     private int yys40() {
         switch (yytok) {
-            case '^':
             case '>':
-            case LAND:
             case ';':
+            case LAND:
             case '/':
             case '-':
-            case GTE:
-            case '<':
             case '+':
             case '*':
+            case '<':
+            case GTE:
             case ')':
-            case NEQ:
             case '&':
+            case NEQ:
             case LTE:
             case '|':
+            case '^':
             case LOR:
             case EQL:
                 return yyr12();
@@ -1648,21 +1648,21 @@ class MiniParser extends Phase implements MiniTokens {
 
     private int yys42() {
         switch (yytok) {
-            case '^':
             case '>':
-            case LAND:
             case ';':
+            case LAND:
             case '/':
             case '-':
-            case GTE:
-            case '<':
             case '+':
             case '*':
+            case '<':
+            case GTE:
             case ')':
-            case NEQ:
             case '&':
+            case NEQ:
             case LTE:
             case '|':
+            case '^':
             case LOR:
             case EQL:
                 return yyr15();
@@ -1688,13 +1688,13 @@ class MiniParser extends Phase implements MiniTokens {
                 return 28;
             case '>':
                 return 29;
-            case '^':
-            case LAND:
             case ';':
+            case LAND:
             case ')':
-            case NEQ:
             case '&':
+            case NEQ:
             case '|':
+            case '^':
             case LOR:
             case EQL:
                 return yyr25();
@@ -1712,17 +1712,17 @@ class MiniParser extends Phase implements MiniTokens {
                 return 25;
             case '/':
                 return 26;
-            case '^':
             case '>':
-            case LAND:
             case '<':
             case ';':
+            case LAND:
             case GTE:
             case ')':
-            case NEQ:
             case '&':
+            case NEQ:
             case LTE:
             case '|':
+            case '^':
             case LOR:
             case EQL:
                 return yyr23();
@@ -1758,8 +1758,8 @@ class MiniParser extends Phase implements MiniTokens {
                 return 30;
             case '|':
                 return 31;
-            case LAND:
             case ';':
+            case LAND:
             case ')':
             case LOR:
                 return yyr29();
@@ -1815,17 +1815,17 @@ class MiniParser extends Phase implements MiniTokens {
                 return 25;
             case '/':
                 return 26;
-            case '^':
             case '>':
-            case LAND:
             case '<':
             case ';':
+            case LAND:
             case GTE:
             case ')':
-            case NEQ:
             case '&':
+            case NEQ:
             case LTE:
             case '|':
+            case '^':
             case LOR:
             case EQL:
                 return yyr22();
@@ -1851,13 +1851,13 @@ class MiniParser extends Phase implements MiniTokens {
                 return 28;
             case '>':
                 return 29;
-            case '^':
-            case LAND:
             case ';':
+            case LAND:
             case ')':
-            case NEQ:
             case '&':
+            case NEQ:
             case '|':
+            case '^':
             case LOR:
             case EQL:
                 return yyr24();
@@ -1887,12 +1887,12 @@ class MiniParser extends Phase implements MiniTokens {
                 return 28;
             case '>':
                 return 29;
-            case '^':
-            case LAND:
             case ';':
+            case LAND:
             case ')':
             case '&':
             case '|':
+            case '^':
             case LOR:
                 return yyr26();
         }
@@ -1901,21 +1901,21 @@ class MiniParser extends Phase implements MiniTokens {
 
     private int yys50() {
         switch (yytok) {
-            case '^':
             case '>':
-            case LAND:
             case ';':
+            case LAND:
             case '/':
             case '-':
-            case GTE:
-            case '<':
             case '+':
             case '*':
+            case '<':
+            case GTE:
             case ')':
-            case NEQ:
             case '&':
+            case NEQ:
             case LTE:
             case '|':
+            case '^':
             case LOR:
             case EQL:
                 return yyr18();
@@ -1929,19 +1929,19 @@ class MiniParser extends Phase implements MiniTokens {
                 return 23;
             case '/':
                 return 26;
-            case '^':
             case '>':
-            case LAND:
-            case '<':
             case ';':
+            case LAND:
             case '-':
-            case GTE:
             case '+':
+            case '<':
+            case GTE:
             case ')':
-            case NEQ:
             case '&':
+            case NEQ:
             case LTE:
             case '|':
+            case '^':
             case LOR:
             case EQL:
                 return yyr16();
@@ -1955,19 +1955,19 @@ class MiniParser extends Phase implements MiniTokens {
                 return 23;
             case '/':
                 return 26;
-            case '^':
             case '>':
-            case LAND:
-            case '<':
             case ';':
+            case LAND:
             case '-':
-            case GTE:
             case '+':
+            case '<':
+            case GTE:
             case ')':
-            case NEQ:
             case '&':
+            case NEQ:
             case LTE:
             case '|':
+            case '^':
             case LOR:
             case EQL:
                 return yyr17();
@@ -1977,21 +1977,21 @@ class MiniParser extends Phase implements MiniTokens {
 
     private int yys53() {
         switch (yytok) {
-            case '^':
             case '>':
-            case LAND:
             case ';':
+            case LAND:
             case '/':
             case '-':
-            case GTE:
-            case '<':
             case '+':
             case '*':
+            case '<':
+            case GTE:
             case ')':
-            case NEQ:
             case '&':
+            case NEQ:
             case LTE:
             case '|':
+            case '^':
             case LOR:
             case EQL:
                 return yyr19();
@@ -2009,17 +2009,17 @@ class MiniParser extends Phase implements MiniTokens {
                 return 25;
             case '/':
                 return 26;
-            case '^':
             case '>':
-            case LAND:
             case '<':
             case ';':
+            case LAND:
             case GTE:
             case ')':
-            case NEQ:
             case '&':
+            case NEQ:
             case LTE:
             case '|':
+            case '^':
             case LOR:
             case EQL:
                 return yyr20();
@@ -2037,17 +2037,17 @@ class MiniParser extends Phase implements MiniTokens {
                 return 25;
             case '/':
                 return 26;
-            case '^':
             case '>':
-            case LAND:
             case '<':
             case ';':
+            case LAND:
             case GTE:
             case ')':
-            case NEQ:
             case '&':
+            case NEQ:
             case LTE:
             case '|':
+            case '^':
             case LOR:
             case EQL:
                 return yyr21();
@@ -2079,11 +2079,11 @@ class MiniParser extends Phase implements MiniTokens {
                 return 28;
             case '>':
                 return 29;
-            case '^':
-            case LAND:
             case ';':
+            case LAND:
             case ')':
             case '|':
+            case '^':
             case LOR:
                 return yyr28();
         }
@@ -2116,8 +2116,8 @@ class MiniParser extends Phase implements MiniTokens {
                 return 29;
             case '^':
                 return 30;
-            case LAND:
             case ';':
+            case LAND:
             case ')':
             case '|':
             case LOR:
@@ -2169,18 +2169,18 @@ class MiniParser extends Phase implements MiniTokens {
         switch (yytok) {
             case ELSE:
                 return 64;
-            case '{':
             case ';':
             case '-':
-            case INTLIT:
             case '+':
+            case INTLIT:
             case PRINT:
-            case IF:
             case '!':
-            case ENDINPUT:
+            case IF:
             case '~':
-            case '}':
             case WHILE:
+            case '}':
+            case '{':
+            case ENDINPUT:
             case IDENT:
                 return yyr8();
         }
@@ -2227,17 +2227,17 @@ class MiniParser extends Phase implements MiniTokens {
 
     private int yys61() {
         switch (yytok) {
-            case '{':
             case ';':
             case '-':
-            case INTLIT:
             case '+':
+            case INTLIT:
             case PRINT:
-            case IF:
             case '!':
+            case IF:
             case '~':
-            case '}':
             case WHILE:
+            case '}':
+            case '{':
             case IDENT:
             case ENDINPUT:
             case ELSE:
@@ -2248,17 +2248,17 @@ class MiniParser extends Phase implements MiniTokens {
 
     private int yys62() {
         switch (yytok) {
-            case '{':
             case ';':
             case '-':
-            case INTLIT:
             case '+':
+            case INTLIT:
             case PRINT:
-            case IF:
             case '!':
+            case IF:
             case '~':
-            case '}':
             case WHILE:
+            case '}':
+            case '{':
             case IDENT:
             case ENDINPUT:
             case ELSE:
@@ -2269,17 +2269,17 @@ class MiniParser extends Phase implements MiniTokens {
 
     private int yys63() {
         switch (yytok) {
-            case '{':
             case ';':
             case '-':
-            case INTLIT:
             case '+':
+            case INTLIT:
             case PRINT:
-            case IF:
             case '!':
+            case IF:
             case '~':
-            case '}':
             case WHILE:
+            case '}':
+            case '{':
             case IDENT:
             case ENDINPUT:
             case ELSE:
@@ -2318,16 +2318,16 @@ class MiniParser extends Phase implements MiniTokens {
 
     private int yys65() {
         switch (yytok) {
-            case '{':
             case ';':
             case '-':
-            case INTLIT:
             case '+':
+            case INTLIT:
             case PRINT:
-            case IF:
             case '!':
+            case IF:
             case '~':
             case WHILE:
+            case '{':
             case IDENT:
                 return yyr11();
         }
@@ -2336,17 +2336,17 @@ class MiniParser extends Phase implements MiniTokens {
 
     private int yys66() {
         switch (yytok) {
-            case '{':
             case ';':
             case '-':
-            case INTLIT:
             case '+':
+            case INTLIT:
             case PRINT:
-            case IF:
             case '!':
+            case IF:
             case '~':
-            case '}':
             case WHILE:
+            case '}':
+            case '{':
             case IDENT:
             case ENDINPUT:
             case ELSE:
