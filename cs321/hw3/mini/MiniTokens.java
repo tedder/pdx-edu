@@ -1,4 +1,4 @@
-// Output created by jacc on Sun Nov 22 21:57:01 PST 2009
+// Output created by jacc on Mon Nov 23 16:05:09 PST 2009
 
 package mini;
 
@@ -17,8 +17,9 @@ interface MiniTokens {
     int PRINT = 11;
     int UMINUS = 12;
     int UPLUS = 13;
-    int WHILE = 14;
-    int error = 15;
+    int VTYPE = 14;
+    int WHILE = 15;
+    int error = 16;
     // '!' (code=33)
     // '&' (code=38)
     // '(' (code=40)

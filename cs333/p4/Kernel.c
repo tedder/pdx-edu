@@ -1000,6 +1000,7 @@ code Kernel
               if (processManagerLock.IsHeldByCurrentThread())
                 currProcess = freeList.Remove()
               endIf
+              -- print ("got thread\n")
 
               -- we don't have/didn't get a currProcess, so we need to
               -- patiently Wait.
@@ -1142,7 +1143,19 @@ code Kernel
       ----------  FrameManager . GetNewFrames  ----------
 
       method GetNewFrames (aPageTable: ptr to AddrSpace, numFramesNeeded: int)
+          -- GetAFrame allocates one frame (waits until oen is available)
           -- NOT IMPLEMENTED
+          -- store addr of each frame into AddrSpace object
+          -- acquire frame manager lock
+          -- wait on newFramesAvailable until numFramesNeeded frames available
+          -- for each frame:
+            -- determine which frame is free
+            -- figure out address of free frame
+            -- store address of frame
+            -- aPageTable.SetFrameAddr (i, frameAddr)
+         -- adjust number of free frames
+         -- Set aPageTable.numberOfPages to the number of frames allocated
+         -- Unlock the frame manager
         endMethod
 
       ----------  FrameManager . ReturnAllFrames  ----------

@@ -88,6 +88,10 @@ EndOfLineComment   = "//" {InputCharacter}* {LineTerminator}
 "else"          { return ELSE; }
 "print"         { return PRINT; }
 
+"int"           { return VTYPE; }
+"boolean"       { return VTYPE; }
+"double"        { return VTYPE; }
+
 {Identifier}    { semantic = new Id(yytext());     return IDENT; }
 
 [0-9]+          { semantic = new IntLit(yytext()); return INTLIT; }
