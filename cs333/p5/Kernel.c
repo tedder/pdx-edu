@@ -1551,15 +1551,11 @@ code Kernel
     -- This is an interrupt handler.  As such, interrupts will be DISABLED
     -- for the duration of its execution.
     --
--- Uncomment this code later...
-      FatalError ("DISK INTERRUPTS NOT EXPECTED IN PROJECT 4")
-/*
       currentInterruptStatus = DISABLED
       -- print ("DiskInterruptHandler invoked!\n")
       if diskDriver.semToSignalOnCompletion
         diskDriver.semToSignalOnCompletion.Up()
       endIf
-*/
     endFunction
 
 -----------------------------  SerialInterruptHandler  --------------------------
