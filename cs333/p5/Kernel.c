@@ -1062,6 +1062,87 @@ code Kernel
       FatalError ("ProcessFinish is not implemented")
     endFunction
 
+-----------------------------  InitFirstProcess  --------------------------
+
+  function InitFirstProcess ()
+    --
+    -- This routine should start up a user-level program called MyProgram.
+    --
+    -- var of: OpenFile = new OpenFile
+    --var 
+    --  fm: FileManager = new FileManager
+    --  of: ptr to OpenFile
+    var thread: ptr to Thread
+
+    -- get a new thread object (pg26)
+    thread = threadManager.GetANewThread()
+
+    -- init the thread
+    thread.Init("UserProgram")
+
+    -- invoke Fork to start it running
+    thread.Fork (StartUserProcess, 0)
+
+    --fm.Init()
+
+    -- open the file
+    --of = fm.Open("DISK")
+    -- invoke LoadExecutable to do the work
+    -- close the file
+      FatalError ("InitFirstProcess is not implemented")
+    endFunction
+
+
+    ----------------------------- StartUserProcess -----------------------------
+    -- See Page 27 of handout; this is the forked process to open our user
+    -- process.
+
+  function StartUserProcess (arg: int)
+    --var pcb: ptr to ProcessControlBlock
+    var openfile: ptr to OpenFile
+      pcb: ptr to ProcessControlBlock
+      retval: int
+    -- var of: OpenFile = new OpenFile
+    --  of: ptr to OpenFile
+
+    -- allocate a new PCB
+    pcb = processManager.GetANewProcess()
+
+    -- connect it with the thread (myThread, myProcess)
+    pcb.myThread = currentThread
+    currentThread.myProcess = pcb
+
+    -- open the executable file (Open with hardcoded filename)
+    --fm.Init()
+
+    -- open the file
+    openfile = fileManager.Open("TestProgram1")
+    -- invoke LoadExecutable to do the work
+    retval = openfile.LoadExecutable(&pcb.addrSpace)
+    -- close the file
+    fileManager.Close(openfile)
+
+    -- compute initial value for user-level stack
+    -- InitUserStackTop
+    -- jump into userlevel program (one-way jump)
+
+    -- turn into user-level thread:
+    -- disable interrupts
+    -- init page table registers for logical address space
+    -- set isUserThread var in thread to true
+
+    -- call Switch.s's BecomeUserThread, which does the following
+    -- set system register r15
+    -- set user register r15
+    -- clear system mode bit
+    -- set paging bit in CCR (MMU: virtual mem mapping)
+    -- set interrupts enabled in CCR
+    -- jump to entry point
+
+    FatalError ("InitFirstProcess is not implemented")
+  endFunction
+
+
 -----------------------------  FrameManager  ---------------------------------
 
   behavior FrameManager
@@ -2688,6 +2769,7 @@ code Kernel
           -- User programs begin execution at the first word of the text segment...
           return textStart
         endMethod
+
 
   endBehavior
 

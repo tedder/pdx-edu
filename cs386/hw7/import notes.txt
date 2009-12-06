@@ -29,6 +29,7 @@ CREATE TABLE aypdata (
   attendancePercentage FLOAT(5,1),
   graduationPercentage FLOAT(5,1),
   dropoutPercentage FLOAT(5,1),
+  UNIQUE INDEX (schoolID),
   FOREIGN KEY (schoolID) REFERENCES school(schoolID));
 
 drop table schoolMap;
