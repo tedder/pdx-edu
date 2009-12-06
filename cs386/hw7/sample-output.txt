@@ -1,0 +1,18 @@
+$VAR1 = {
+          'districtName' => 'Portland SD 1J',
+          'schoolID' => '4165',
+          'SATwriting' => 0,
+          'dropoutPercentage' => '5.2',
+          'schoolName' => 'Pursuit of Wellness Education at Roosevelt',
+          'SATmath' => 0,
+          'SATtakenPercentage' => 0,
+          'teachersFTE' => '16.9',
+          'overallStatus' => 'MET',
+          'SATverbal' => 0,
+          'reportType' => 'HSG',
+          'titlei' => 'YES',
+          'county' => 'Multnomah',
+          'districtID' => '2180',
+          'attendancePercentage' => '80.9',
+          'graduationPercentage' => '80.6'
+        };

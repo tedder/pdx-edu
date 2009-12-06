@@ -1,0 +1,63 @@
+drop table district;
+CREATE TABLE district (
+  districtID SMALLINT UNSIGNED,
+  districtName CHAR(60),
+  PRIMARY KEY(districtID));
+
+drop table school;
+CREATE TABLE school (
+  schoolID SMALLINT UNSIGNED,
+  districtID SMALLINT UNSIGNED,
+  schoolName CHAR(50),
+  county CHAR(20),
+  INDEX(districtID),
+  PRIMARY KEY(schoolID),
+  FOREIGN KEY (districtID) REFERENCES district(districtID));
+
+drop table aypdata;
+CREATE TABLE aypdata (
+  schoolID SMALLINT UNSIGNED,
+  year SMALLINT UNSIGNED,
+  reportType enum('E', 'HSA', 'HSG'),
+  overallStatus enum('MET', 'NOT MET', 'NOTE'),
+  titlei enum('YES', 'NO'),
+  teachersFTE FLOAT(5,1),
+  SATverbal SMALLINT UNSIGNED,
+  SATmath SMALLINT UNSIGNED,
+  SATwriting SMALLINT UNSIGNED,
+  SATtakenPercentage FLOAT(5,1),
+  attendancePercentage FLOAT(5,1),
+  graduationPercentage FLOAT(5,1),
+  dropoutPercentage FLOAT(5,1),
+  FOREIGN KEY (schoolID) REFERENCES school(schoolID));
+
+drop table schoolMap;
+CREATE TABLE schoolMap (
+  schoolID SMALLINT UNSIGNED UNIQUE,
+  articleName CHAR(80),
+  UNIQUE INDEX (schoolID),
+  FOREIGN KEY (schoolID) REFERENCES school(schoolID));
+
+
+
+from AYPmediaSchools.csv:
+District ID (col A)           -> school.districtID,district.districtID
+School ID (col B)             -> school.schoolID
+District Name (col C)         -> district.districtName
+School Name (col D)           -> school.schoolName
+County (col E)                -> school.county
+AYP Report Type (col F)       -> aypdata.reportType
+AYP Designation 08-09 (col H) -> aypdata.overallStatus
+Title I 08-09 (col P)         -> aypdata.titlei (TODO: convert Y/N to YES/NO)
+
+from RCmediaSchoolsAggregate.csv:
+InstID (col B)                -> school.schoolID
+InstNm (col C)                -> school.schoolName
+LcstfCnt (col N)              -> aypdata.teachersFTE
+SatVrblScr (col AH)           -> aypdata.SATverbal
+SatMathScr (col AK)           -> aypdata.SATmath
+SatWriteScr (col AN)          -> aypdata.SATwriting
+SatTkTestPct (col AQ)         -> aypdata.SATtakenPercentage
+AttdPct1 (col AU)             -> aypdata.attendancePercentage
+GradRate1 (col BG)            -> aypdata.graduationPercentage
+DrpOutPct1 (col BJ)           -> aypdata.dropoutPercentage
