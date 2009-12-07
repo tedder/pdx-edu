@@ -1,0 +1,25 @@
+
+%token  ',' '[' ']' INT BOOLEAN DOUBLE
+
+%type   <Type>     type
+%type   <VarIntro> varIntro
+%type   <VarDecl>  varDecl
+
+%%
+
+type    : INT                    { $$ = new IntType(); }
+        | BOOLEAN                { $$ = new BooleanType(); }
+        | DOUBLE                 { $$ = new DoubleType(); }
+        | type '[' ']'           { $$ = new ArrayType($1); }
+        ;
+
+varIntro: IDENT '=' expr         { $$ = new InitVarIntro($1, $3); }
+        | IDENT                  { $$ = new VarIntro($1); }
+        ;
+
+varDecl : type varIntro          { $$ = new VarDecl($1, $2); }
+        | varDecl ',' varIntro   { $$ = $1.addIntro($3); }
+        ;
+
+stmt	: varDecl ';'            { $$ = $1; }
+        ;
