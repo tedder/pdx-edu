@@ -1,0 +1,8 @@
+int c = 6;
+double f;
+
+f = c;
+f = c + 4;
+f = f + c;
+f = f + 4;
+
