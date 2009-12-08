@@ -40,8 +40,9 @@ class Assign extends Expr {
       throws Failure {
         Type lt = lhs.typeOf(ctxt, env);
         Type rt = rhs.typeOf(ctxt,env);
-        if (lt!=rt) {
-            ctxt.report(new Failure("Types in assignment do not match"));
+
+        if (lt!=rt || lt.equal(Type.DOUBLE) && rt.equal(Type.INT)) {
+            ctxt.report(new Failure("Types in assignment do not match or convert nicely"));
         }
         return rt;
     }

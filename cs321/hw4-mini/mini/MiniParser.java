@@ -1,4 +1,4 @@
-// Output created by jacc on Mon Nov 23 11:36:23 PST 2009
+// Output created by jacc on Mon Dec 07 15:18:37 PST 2009
 
 package mini;
 
@@ -29,7 +29,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 85:
+                case 80:
                     yyn = yys0();
                     continue;
 
@@ -38,13 +38,13 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 86:
+                case 81:
                     switch (yytok) {
                         case ENDINPUT:
-                            yyn = 170;
+                            yyn = 160;
                             continue;
                     }
-                    yyn = 173;
+                    yyn = 163;
                     continue;
 
                 case 2:
@@ -52,7 +52,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 87:
+                case 82:
                     yyn = yys2();
                     continue;
 
@@ -61,7 +61,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 88:
+                case 83:
                     yyn = yys3();
                     continue;
 
@@ -70,7 +70,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 89:
+                case 84:
                     yyn = yys4();
                     continue;
 
@@ -79,16 +79,16 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 90:
+                case 85:
                     switch (yytok) {
                         case IDENT:
-                            yyn = 39;
+                            yyn = 38;
                             continue;
                         case '[':
-                            yyn = 40;
+                            yyn = 39;
                             continue;
                     }
-                    yyn = 173;
+                    yyn = 163;
                     continue;
 
                 case 6:
@@ -96,16 +96,16 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 91:
+                case 86:
                     switch (yytok) {
                         case ',':
-                            yyn = 41;
+                            yyn = 40;
                             continue;
                         case ';':
-                            yyn = 42;
+                            yyn = 41;
                             continue;
                     }
-                    yyn = 173;
+                    yyn = 163;
                     continue;
 
                 case 7:
@@ -117,14 +117,14 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 92:
+                case 87:
                     switch (yytok) {
                         case IDENT:
                         case '[':
                             yyn = yyr35();
                             continue;
                     }
-                    yyn = 173;
+                    yyn = 163;
                     continue;
 
                 case 8:
@@ -136,14 +136,14 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 93:
+                case 88:
                     switch (yytok) {
                         case IDENT:
                         case '[':
                             yyn = yyr36();
                             continue;
                     }
-                    yyn = 173;
+                    yyn = 163;
                     continue;
 
                 case 9:
@@ -155,7 +155,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 94:
+                case 89:
                     yyn = yys9();
                     continue;
 
@@ -168,13 +168,13 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 95:
+                case 90:
                     switch (yytok) {
                         case '(':
-                            yyn = 45;
+                            yyn = 44;
                             continue;
                     }
-                    yyn = 173;
+                    yyn = 163;
                     continue;
 
                 case 11:
@@ -186,14 +186,14 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 96:
+                case 91:
                     switch (yytok) {
                         case IDENT:
                         case '[':
                             yyn = yyr34();
                             continue;
                     }
-                    yyn = 173;
+                    yyn = 163;
                     continue;
 
                 case 12:
@@ -205,7 +205,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 97:
+                case 92:
                     yyn = yys12();
                     continue;
 
@@ -218,7 +218,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 98:
+                case 93:
                     yyn = yys13();
                     continue;
 
@@ -231,13 +231,13 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 99:
+                case 94:
                     switch (yytok) {
                         case '(':
-                            yyn = 45;
+                            yyn = 44;
                             continue;
                     }
-                    yyn = 173;
+                    yyn = 163;
                     continue;
 
                 case 15:
@@ -249,7 +249,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 100:
+                case 95:
                     yyn = yys15();
                     continue;
 
@@ -262,7 +262,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 101:
+                case 96:
                     yyn = yys16();
                     continue;
 
@@ -275,7 +275,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 102:
+                case 97:
                     yyn = yys17();
                     continue;
 
@@ -288,7 +288,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 103:
+                case 98:
                     yyn = yys18();
                     continue;
 
@@ -301,7 +301,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 104:
+                case 99:
                     yyn = yys19();
                     continue;
 
@@ -314,7 +314,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 105:
+                case 100:
                     yyn = yys20();
                     continue;
 
@@ -327,7 +327,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 106:
+                case 101:
                     yyn = yys21();
                     continue;
 
@@ -340,7 +340,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 107:
+                case 102:
                     yyn = yys22();
                     continue;
 
@@ -353,7 +353,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 108:
+                case 103:
                     yyn = yys23();
                     continue;
 
@@ -366,7 +366,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 109:
+                case 104:
                     yyn = yys24();
                     continue;
 
@@ -379,7 +379,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 110:
+                case 105:
                     yyn = yys25();
                     continue;
 
@@ -392,7 +392,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 111:
+                case 106:
                     yyn = yys26();
                     continue;
 
@@ -405,7 +405,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 112:
+                case 107:
                     yyn = yys27();
                     continue;
 
@@ -418,7 +418,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 113:
+                case 108:
                     yyn = yys28();
                     continue;
 
@@ -431,7 +431,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 114:
+                case 109:
                     yyn = yys29();
                     continue;
 
@@ -444,7 +444,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 115:
+                case 110:
                     yyn = yys30();
                     continue;
 
@@ -457,7 +457,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 116:
+                case 111:
                     yyn = yys31();
                     continue;
 
@@ -470,7 +470,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 117:
+                case 112:
                     yyn = yys32();
                     continue;
 
@@ -483,7 +483,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 118:
+                case 113:
                     yyn = yys33();
                     continue;
 
@@ -496,7 +496,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 119:
+                case 114:
                     yyn = yys34();
                     continue;
 
@@ -509,7 +509,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 120:
+                case 115:
                     yyn = yys35();
                     continue;
 
@@ -522,12 +522,27 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 121:
+                case 116:
                     yyn = yys36();
                     continue;
 
                 case 37:
                     yyst[yysp] = 37;
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
+                case 117:
+                    switch (yytok) {
+                        case ';':
+                        case ',':
+                            yyn = yyr40();
+                            continue;
+                    }
+                    yyn = 163;
+                    continue;
+
+                case 38:
+                    yyst[yysp] = 38;
                     yysv[yysp] = (lexer.getSemantic()
                                  );
                     yytok = (lexer.nextToken()
@@ -535,23 +550,17 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 122:
-                    yyn = yys37();
-                    continue;
-
-                case 38:
-                    yyst[yysp] = 38;
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 123:
+                case 118:
                     switch (yytok) {
+                        case '=':
+                            yyn = 67;
+                            continue;
                         case ';':
                         case ',':
-                            yyn = yyr40();
+                            yyn = yyr39();
                             continue;
                     }
-                    yyn = 173;
+                    yyn = 163;
                     continue;
 
                 case 39:
@@ -563,17 +572,13 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 124:
+                case 119:
                     switch (yytok) {
-                        case '=':
-                            yyn = 69;
-                            continue;
-                        case ';':
-                        case ',':
-                            yyn = yyr39();
+                        case ']':
+                            yyn = 68;
                             continue;
                     }
-                    yyn = 173;
+                    yyn = 163;
                     continue;
 
                 case 40:
@@ -585,13 +590,13 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 125:
+                case 120:
                     switch (yytok) {
-                        case ']':
-                            yyn = 70;
+                        case IDENT:
+                            yyn = 38;
                             continue;
                     }
-                    yyn = 173;
+                    yyn = 163;
                     continue;
 
                 case 41:
@@ -603,13 +608,8 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 126:
-                    switch (yytok) {
-                        case IDENT:
-                            yyn = 39;
-                            continue;
-                    }
-                    yyn = 173;
+                case 121:
+                    yyn = yys41();
                     continue;
 
                 case 42:
@@ -621,34 +621,21 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 127:
+                case 122:
                     yyn = yys42();
                     continue;
 
                 case 43:
                     yyst[yysp] = 43;
-                    yysv[yysp] = (lexer.getSemantic()
-                                 );
-                    yytok = (lexer.nextToken()
-                            );
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 128:
+                case 123:
                     yyn = yys43();
                     continue;
 
                 case 44:
                     yyst[yysp] = 44;
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 129:
-                    yyn = yys44();
-                    continue;
-
-                case 45:
-                    yyst[yysp] = 45;
                     yysv[yysp] = (lexer.getSemantic()
                                  );
                     yytok = (lexer.nextToken()
@@ -656,7 +643,16 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 130:
+                case 124:
+                    yyn = yys44();
+                    continue;
+
+                case 45:
+                    yyst[yysp] = 45;
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
+                case 125:
                     yyn = yys45();
                     continue;
 
@@ -665,7 +661,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 131:
+                case 126:
                     yyn = yys46();
                     continue;
 
@@ -674,7 +670,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 132:
+                case 127:
                     yyn = yys47();
                     continue;
 
@@ -683,7 +679,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 133:
+                case 128:
                     yyn = yys48();
                     continue;
 
@@ -692,7 +688,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 134:
+                case 129:
                     yyn = yys49();
                     continue;
 
@@ -701,7 +697,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 135:
+                case 130:
                     yyn = yys50();
                     continue;
 
@@ -710,7 +706,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 136:
+                case 131:
                     yyn = yys51();
                     continue;
 
@@ -719,7 +715,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 137:
+                case 132:
                     yyn = yys52();
                     continue;
 
@@ -728,7 +724,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 138:
+                case 133:
                     yyn = yys53();
                     continue;
 
@@ -737,7 +733,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 139:
+                case 134:
                     yyn = yys54();
                     continue;
 
@@ -746,7 +742,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 140:
+                case 135:
                     yyn = yys55();
                     continue;
 
@@ -755,7 +751,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 141:
+                case 136:
                     yyn = yys56();
                     continue;
 
@@ -764,7 +760,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 142:
+                case 137:
                     yyn = yys57();
                     continue;
 
@@ -773,7 +769,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 143:
+                case 138:
                     yyn = yys58();
                     continue;
 
@@ -782,7 +778,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 144:
+                case 139:
                     yyn = yys59();
                     continue;
 
@@ -791,7 +787,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 145:
+                case 140:
                     yyn = yys60();
                     continue;
 
@@ -800,7 +796,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 146:
+                case 141:
                     yyn = yys61();
                     continue;
 
@@ -809,7 +805,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 147:
+                case 142:
                     yyn = yys62();
                     continue;
 
@@ -818,7 +814,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 148:
+                case 143:
                     yyn = yys63();
                     continue;
 
@@ -827,7 +823,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 149:
+                case 144:
                     yyn = yys64();
                     continue;
 
@@ -836,7 +832,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 150:
+                case 145:
                     yyn = yys65();
                     continue;
 
@@ -845,30 +841,25 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 151:
+                case 146:
                     yyn = yys66();
                     continue;
 
                 case 67:
                     yyst[yysp] = 67;
+                    yysv[yysp] = (lexer.getSemantic()
+                                 );
+                    yytok = (lexer.nextToken()
+                            );
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 152:
+                case 147:
                     yyn = yys67();
                     continue;
 
                 case 68:
                     yyst[yysp] = 68;
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 153:
-                    yyn = yys68();
-                    continue;
-
-                case 69:
-                    yyst[yysp] = 69;
                     yysv[yysp] = (lexer.getSemantic()
                                  );
                     yytok = (lexer.nextToken()
@@ -876,27 +867,38 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 154:
-                    yyn = yys69();
-                    continue;
-
-                case 70:
-                    yyst[yysp] = 70;
-                    yysv[yysp] = (lexer.getSemantic()
-                                 );
-                    yytok = (lexer.nextToken()
-                            );
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 155:
+                case 148:
                     switch (yytok) {
                         case IDENT:
                         case '[':
                             yyn = yyr37();
                             continue;
                     }
-                    yyn = 173;
+                    yyn = 163;
+                    continue;
+
+                case 69:
+                    yyst[yysp] = 69;
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
+                case 149:
+                    switch (yytok) {
+                        case ';':
+                        case ',':
+                            yyn = yyr41();
+                            continue;
+                    }
+                    yyn = 163;
+                    continue;
+
+                case 70:
+                    yyst[yysp] = 70;
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
+                case 150:
+                    yyn = yys70();
                     continue;
 
                 case 71:
@@ -904,14 +906,8 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 156:
-                    switch (yytok) {
-                        case ';':
-                        case ',':
-                            yyn = yyr41();
-                            continue;
-                    }
-                    yyn = 173;
+                case 151:
+                    yyn = yys71();
                     continue;
 
                 case 72:
@@ -919,16 +915,20 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 157:
+                case 152:
                     yyn = yys72();
                     continue;
 
                 case 73:
                     yyst[yysp] = 73;
+                    yysv[yysp] = (lexer.getSemantic()
+                                 );
+                    yytok = (lexer.nextToken()
+                            );
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 158:
+                case 153:
                     yyn = yys73();
                     continue;
 
@@ -937,7 +937,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 159:
+                case 154:
                     yyn = yys74();
                     continue;
 
@@ -950,7 +950,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 160:
+                case 155:
                     yyn = yys75();
                     continue;
 
@@ -959,7 +959,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 161:
+                case 156:
                     yyn = yys76();
                     continue;
 
@@ -972,7 +972,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 162:
+                case 157:
                     yyn = yys77();
                     continue;
 
@@ -985,7 +985,7 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 163:
+                case 158:
                     yyn = yys78();
                     continue;
 
@@ -994,74 +994,17 @@ class MiniParser extends Phase implements MiniTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 164:
+                case 159:
                     yyn = yys79();
                     continue;
 
-                case 80:
-                    yyst[yysp] = 80;
-                    yysv[yysp] = (lexer.getSemantic()
-                                 );
-                    yytok = (lexer.nextToken()
-                            );
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 165:
-                    yyn = yys80();
-                    continue;
-
-                case 81:
-                    yyst[yysp] = 81;
-                    yysv[yysp] = (lexer.getSemantic()
-                                 );
-                    yytok = (lexer.nextToken()
-                            );
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 166:
-                    yyn = yys81();
-                    continue;
-
-                case 82:
-                    yyst[yysp] = 82;
-                    yysv[yysp] = (lexer.getSemantic()
-                                 );
-                    yytok = (lexer.nextToken()
-                            );
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 167:
-                    yyn = yys82();
-                    continue;
-
-                case 83:
-                    yyst[yysp] = 83;
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 168:
-                    yyn = yys83();
-                    continue;
-
-                case 84:
-                    yyst[yysp] = 84;
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 169:
-                    yyn = yys84();
-                    continue;
-
-                case 170:
+                case 160:
                     return true;
-                case 171:
+                case 161:
                     yyerror("stack overflow");
-                case 172:
+                case 162:
                     return false;
-                case 173:
+                case 163:
                     yyerror("syntax error");
                     return false;
             }
@@ -1098,7 +1041,7 @@ class MiniParser extends Phase implements MiniTokens {
             case BOOLEAN:
                 return yyr3();
         }
-        return 173;
+        return 163;
     }
 
     private int yys2() {
@@ -1134,7 +1077,7 @@ class MiniParser extends Phase implements MiniTokens {
             case ENDINPUT:
                 return yyr1();
         }
-        return 173;
+        return 163;
     }
 
     private int yys3() {
@@ -1167,14 +1110,12 @@ class MiniParser extends Phase implements MiniTokens {
                 return 33;
             case '>':
                 return 34;
-            case '[':
-                return 35;
             case '^':
-                return 36;
+                return 35;
             case '|':
-                return 37;
+                return 36;
         }
-        return 173;
+        return 163;
     }
 
     private int yys4() {
@@ -1197,60 +1138,59 @@ class MiniParser extends Phase implements MiniTokens {
             case BOOLEAN:
                 return yyr2();
         }
-        return 173;
+        return 163;
     }
 
     private int yys9() {
         switch (yytok) {
-            case error:
-            case '(':
-            case '}':
-            case UMINUS:
-            case ELSE:
-            case WHILE:
-            case ENDINPUT:
-            case '~':
-            case '{':
-            case UPLUS:
-            case IF:
-            case PRINT:
-            case IDENT:
-            case INT:
-            case DOUBLE:
-            case BOOLEAN:
-            case INTLIT:
-            case '!':
-                return 173;
             case '=':
-                return 43;
+                return 42;
+            case '>':
+            case '<':
+            case ';':
+            case '/':
+            case '-':
+            case NEQ:
+            case ',':
+            case '+':
+            case LTE:
+            case '*':
+            case ')':
+            case LOR:
+            case '&':
+            case LAND:
+            case GTE:
+            case '|':
+            case '^':
+            case EQL:
+                return yyr32();
         }
-        return yyr32();
+        return 163;
     }
 
     private int yys12() {
         switch (yytok) {
-            case '=':
-            case '(':
-            case '}':
-            case UMINUS:
-            case ELSE:
-            case WHILE:
-            case ENDINPUT:
-            case '~':
-            case '{':
-            case UPLUS:
-            case IF:
-            case PRINT:
-            case IDENT:
-            case INT:
-            case DOUBLE:
-            case BOOLEAN:
-            case INTLIT:
-            case '!':
-            case error:
-                return 173;
+            case '>':
+            case '<':
+            case ';':
+            case '/':
+            case '-':
+            case NEQ:
+            case ',':
+            case '+':
+            case LTE:
+            case '*':
+            case ')':
+            case LOR:
+            case '&':
+            case LAND:
+            case GTE:
+            case '|':
+            case '^':
+            case EQL:
+                return yyr33();
         }
-        return yyr33();
+        return 163;
     }
 
     private int yys13() {
@@ -1268,7 +1208,7 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
     private int yys15() {
@@ -1286,7 +1226,7 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
     private int yys16() {
@@ -1304,7 +1244,7 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
     private int yys17() {
@@ -1322,7 +1262,7 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
     private int yys18() {
@@ -1346,7 +1286,7 @@ class MiniParser extends Phase implements MiniTokens {
             case BOOLEAN:
                 return yyr4();
         }
-        return 173;
+        return 163;
     }
 
     private int yys19() {
@@ -1368,7 +1308,7 @@ class MiniParser extends Phase implements MiniTokens {
             case BOOLEAN:
                 return yyr3();
         }
-        return 173;
+        return 163;
     }
 
     private int yys20() {
@@ -1386,7 +1326,7 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
     private int yys21() {
@@ -1404,7 +1344,7 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
     private int yys22() {
@@ -1422,7 +1362,7 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
     private int yys23() {
@@ -1440,7 +1380,7 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
     private int yys24() {
@@ -1458,7 +1398,7 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
     private int yys25() {
@@ -1476,7 +1416,7 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
     private int yys26() {
@@ -1494,7 +1434,7 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
     private int yys27() {
@@ -1512,7 +1452,7 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
     private int yys28() {
@@ -1530,7 +1470,7 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
     private int yys29() {
@@ -1548,7 +1488,7 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
     private int yys30() {
@@ -1566,7 +1506,7 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
     private int yys31() {
@@ -1584,7 +1524,7 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
     private int yys32() {
@@ -1608,7 +1548,7 @@ class MiniParser extends Phase implements MiniTokens {
             case BOOLEAN:
                 return yyr5();
         }
-        return 173;
+        return 163;
     }
 
     private int yys33() {
@@ -1626,7 +1566,7 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
     private int yys34() {
@@ -1644,7 +1584,7 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
     private int yys35() {
@@ -1662,7 +1602,7 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
     private int yys36() {
@@ -1680,28 +1620,10 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
-    private int yys37() {
-        switch (yytok) {
-            case IDENT:
-                return 9;
-            case INTLIT:
-                return 12;
-            case '!':
-                return 15;
-            case '+':
-                return 16;
-            case '-':
-                return 17;
-            case '~':
-                return 20;
-        }
-        return 173;
-    }
-
-    private int yys42() {
+    private int yys41() {
         switch (yytok) {
             case PRINT:
             case IF:
@@ -1722,10 +1644,10 @@ class MiniParser extends Phase implements MiniTokens {
             case BOOLEAN:
                 return yyr42();
         }
-        return 173;
+        return 163;
     }
 
-    private int yys43() {
+    private int yys42() {
         switch (yytok) {
             case IDENT:
                 return 9;
@@ -1740,10 +1662,10 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
-    private int yys44() {
+    private int yys43() {
         switch (yytok) {
             case BOOLEAN:
                 return 7;
@@ -1774,10 +1696,10 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
-    private int yys45() {
+    private int yys44() {
         switch (yytok) {
             case IDENT:
                 return 9;
@@ -1792,10 +1714,10 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
-    private int yys46() {
+    private int yys45() {
         switch (yytok) {
             case EQL:
                 return 21;
@@ -1823,19 +1745,17 @@ class MiniParser extends Phase implements MiniTokens {
                 return 33;
             case '>':
                 return 34;
-            case '[':
-                return 35;
             case '^':
-                return 36;
+                return 35;
             case '|':
-                return 37;
+                return 36;
             case ';':
-                return 75;
+                return 73;
         }
-        return 173;
+        return 163;
     }
 
-    private int yys47() {
+    private int yys46() {
         switch (yytok) {
             case BOOLEAN:
                 return 7;
@@ -1866,13 +1786,36 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
+    }
+
+    private int yys47() {
+        switch (yytok) {
+            case '>':
+            case '<':
+            case ';':
+            case '/':
+            case '-':
+            case NEQ:
+            case ',':
+            case '+':
+            case LTE:
+            case '*':
+            case ')':
+            case LOR:
+            case '&':
+            case LAND:
+            case GTE:
+            case '|':
+            case '^':
+            case EQL:
+                return yyr14();
+        }
+        return 163;
     }
 
     private int yys48() {
         switch (yytok) {
-            case '[':
-                return 35;
             case '>':
             case '<':
             case ';':
@@ -1890,17 +1833,14 @@ class MiniParser extends Phase implements MiniTokens {
             case GTE:
             case '|':
             case '^':
-            case ']':
             case EQL:
-                return yyr14();
+                return yyr13();
         }
-        return 173;
+        return 163;
     }
 
     private int yys49() {
         switch (yytok) {
-            case '[':
-                return 35;
             case '>':
             case '<':
             case ';':
@@ -1918,42 +1858,13 @@ class MiniParser extends Phase implements MiniTokens {
             case GTE:
             case '|':
             case '^':
-            case ']':
-            case EQL:
-                return yyr13();
-        }
-        return 173;
-    }
-
-    private int yys50() {
-        switch (yytok) {
-            case '[':
-                return 35;
-            case '>':
-            case '<':
-            case ';':
-            case '/':
-            case '-':
-            case NEQ:
-            case ',':
-            case '+':
-            case LTE:
-            case '*':
-            case ')':
-            case LOR:
-            case '&':
-            case LAND:
-            case GTE:
-            case '|':
-            case '^':
-            case ']':
             case EQL:
                 return yyr12();
         }
-        return 173;
+        return 163;
     }
 
-    private int yys51() {
+    private int yys50() {
         switch (yytok) {
             case BOOLEAN:
                 return 7;
@@ -1984,15 +1895,13 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
             case '}':
-                return 77;
+                return 75;
         }
-        return 173;
+        return 163;
     }
 
-    private int yys52() {
+    private int yys51() {
         switch (yytok) {
-            case '[':
-                return 35;
             case '>':
             case '<':
             case ';':
@@ -2010,14 +1919,13 @@ class MiniParser extends Phase implements MiniTokens {
             case GTE:
             case '|':
             case '^':
-            case ']':
             case EQL:
                 return yyr15();
         }
-        return 173;
+        return 163;
     }
 
-    private int yys53() {
+    private int yys52() {
         switch (yytok) {
             case GTE:
                 return 22;
@@ -2035,8 +1943,6 @@ class MiniParser extends Phase implements MiniTokens {
                 return 33;
             case '>':
                 return 34;
-            case '[':
-                return 35;
             case ';':
             case NEQ:
             case ',':
@@ -2046,14 +1952,13 @@ class MiniParser extends Phase implements MiniTokens {
             case LAND:
             case '|':
             case '^':
-            case ']':
             case EQL:
                 return yyr25();
         }
-        return 173;
+        return 163;
     }
 
-    private int yys54() {
+    private int yys53() {
         switch (yytok) {
             case '*':
                 return 28;
@@ -2063,8 +1968,6 @@ class MiniParser extends Phase implements MiniTokens {
                 return 30;
             case '/':
                 return 31;
-            case '[':
-                return 35;
             case '>':
             case '<':
             case ';':
@@ -2078,14 +1981,13 @@ class MiniParser extends Phase implements MiniTokens {
             case GTE:
             case '|':
             case '^':
-            case ']':
             case EQL:
                 return yyr23();
         }
-        return 173;
+        return 163;
     }
 
-    private int yys55() {
+    private int yys54() {
         switch (yytok) {
             case EQL:
                 return 21;
@@ -2109,24 +2011,21 @@ class MiniParser extends Phase implements MiniTokens {
                 return 33;
             case '>':
                 return 34;
-            case '[':
-                return 35;
             case '^':
-                return 36;
+                return 35;
             case '|':
-                return 37;
+                return 36;
             case ';':
             case ',':
             case ')':
             case LOR:
             case LAND:
-            case ']':
                 return yyr29();
         }
-        return 173;
+        return 163;
     }
 
-    private int yys56() {
+    private int yys55() {
         switch (yytok) {
             case EQL:
                 return 21;
@@ -2152,23 +2051,20 @@ class MiniParser extends Phase implements MiniTokens {
                 return 33;
             case '>':
                 return 34;
-            case '[':
-                return 35;
             case '^':
-                return 36;
+                return 35;
             case '|':
-                return 37;
+                return 36;
             case ';':
             case ',':
             case ')':
             case LOR:
-            case ']':
                 return yyr30();
         }
-        return 173;
+        return 163;
     }
 
-    private int yys57() {
+    private int yys56() {
         switch (yytok) {
             case '*':
                 return 28;
@@ -2178,8 +2074,6 @@ class MiniParser extends Phase implements MiniTokens {
                 return 30;
             case '/':
                 return 31;
-            case '[':
-                return 35;
             case '>':
             case '<':
             case ';':
@@ -2193,14 +2087,13 @@ class MiniParser extends Phase implements MiniTokens {
             case GTE:
             case '|':
             case '^':
-            case ']':
             case EQL:
                 return yyr22();
         }
-        return 173;
+        return 163;
     }
 
-    private int yys58() {
+    private int yys57() {
         switch (yytok) {
             case GTE:
                 return 22;
@@ -2218,8 +2111,6 @@ class MiniParser extends Phase implements MiniTokens {
                 return 33;
             case '>':
                 return 34;
-            case '[':
-                return 35;
             case ';':
             case NEQ:
             case ',':
@@ -2229,14 +2120,13 @@ class MiniParser extends Phase implements MiniTokens {
             case LAND:
             case '|':
             case '^':
-            case ']':
             case EQL:
                 return yyr24();
         }
-        return 173;
+        return 163;
     }
 
-    private int yys59() {
+    private int yys58() {
         switch (yytok) {
             case EQL:
                 return 21;
@@ -2258,8 +2148,6 @@ class MiniParser extends Phase implements MiniTokens {
                 return 33;
             case '>':
                 return 34;
-            case '[':
-                return 35;
             case ';':
             case ',':
             case ')':
@@ -2268,16 +2156,13 @@ class MiniParser extends Phase implements MiniTokens {
             case LAND:
             case '|':
             case '^':
-            case ']':
                 return yyr26();
         }
-        return 173;
+        return 163;
     }
 
-    private int yys60() {
+    private int yys59() {
         switch (yytok) {
-            case '[':
-                return 35;
             case '>':
             case '<':
             case ';':
@@ -2295,11 +2180,37 @@ class MiniParser extends Phase implements MiniTokens {
             case GTE:
             case '|':
             case '^':
-            case ']':
             case EQL:
                 return yyr18();
         }
-        return 173;
+        return 163;
+    }
+
+    private int yys60() {
+        switch (yytok) {
+            case '*':
+                return 28;
+            case '/':
+                return 31;
+            case '>':
+            case '<':
+            case ';':
+            case '-':
+            case NEQ:
+            case ',':
+            case '+':
+            case LTE:
+            case ')':
+            case LOR:
+            case '&':
+            case LAND:
+            case GTE:
+            case '|':
+            case '^':
+            case EQL:
+                return yyr16();
+        }
+        return 163;
     }
 
     private int yys61() {
@@ -2308,8 +2219,6 @@ class MiniParser extends Phase implements MiniTokens {
                 return 28;
             case '/':
                 return 31;
-            case '[':
-                return 35;
             case '>':
             case '<':
             case ';':
@@ -2325,29 +2234,24 @@ class MiniParser extends Phase implements MiniTokens {
             case GTE:
             case '|':
             case '^':
-            case ']':
             case EQL:
-                return yyr16();
+                return yyr17();
         }
-        return 173;
+        return 163;
     }
 
     private int yys62() {
         switch (yytok) {
-            case '*':
-                return 28;
-            case '/':
-                return 31;
-            case '[':
-                return 35;
             case '>':
             case '<':
             case ';':
+            case '/':
             case '-':
             case NEQ:
             case ',':
             case '+':
             case LTE:
+            case '*':
             case ')':
             case LOR:
             case '&':
@@ -2355,27 +2259,28 @@ class MiniParser extends Phase implements MiniTokens {
             case GTE:
             case '|':
             case '^':
-            case ']':
             case EQL:
-                return yyr17();
+                return yyr19();
         }
-        return 173;
+        return 163;
     }
 
     private int yys63() {
         switch (yytok) {
-            case '[':
-                return 35;
+            case '*':
+                return 28;
+            case '+':
+                return 29;
+            case '-':
+                return 30;
+            case '/':
+                return 31;
             case '>':
             case '<':
             case ';':
-            case '/':
-            case '-':
             case NEQ:
             case ',':
-            case '+':
             case LTE:
-            case '*':
             case ')':
             case LOR:
             case '&':
@@ -2383,11 +2288,10 @@ class MiniParser extends Phase implements MiniTokens {
             case GTE:
             case '|':
             case '^':
-            case ']':
             case EQL:
-                return yyr19();
+                return yyr20();
         }
-        return 173;
+        return 163;
     }
 
     private int yys64() {
@@ -2400,8 +2304,6 @@ class MiniParser extends Phase implements MiniTokens {
                 return 30;
             case '/':
                 return 31;
-            case '[':
-                return 35;
             case '>':
             case '<':
             case ';':
@@ -2415,15 +2317,24 @@ class MiniParser extends Phase implements MiniTokens {
             case GTE:
             case '|':
             case '^':
-            case ']':
             case EQL:
-                return yyr20();
+                return yyr21();
         }
-        return 173;
+        return 163;
     }
 
     private int yys65() {
         switch (yytok) {
+            case EQL:
+                return 21;
+            case GTE:
+                return 22;
+            case LTE:
+                return 25;
+            case NEQ:
+                return 26;
+            case '&':
+                return 27;
             case '*':
                 return 28;
             case '+':
@@ -2432,29 +2343,78 @@ class MiniParser extends Phase implements MiniTokens {
                 return 30;
             case '/':
                 return 31;
-            case '[':
-                return 35;
-            case '>':
             case '<':
+                return 33;
+            case '>':
+                return 34;
             case ';':
-            case NEQ:
             case ',':
-            case LTE:
             case ')':
             case LOR:
-            case '&':
             case LAND:
-            case GTE:
             case '|':
             case '^':
-            case ']':
-            case EQL:
-                return yyr21();
+                return yyr28();
         }
-        return 173;
+        return 163;
     }
 
     private int yys66() {
+        switch (yytok) {
+            case EQL:
+                return 21;
+            case GTE:
+                return 22;
+            case LTE:
+                return 25;
+            case NEQ:
+                return 26;
+            case '&':
+                return 27;
+            case '*':
+                return 28;
+            case '+':
+                return 29;
+            case '-':
+                return 30;
+            case '/':
+                return 31;
+            case '<':
+                return 33;
+            case '>':
+                return 34;
+            case '^':
+                return 35;
+            case ';':
+            case ',':
+            case ')':
+            case LOR:
+            case LAND:
+            case '|':
+                return yyr27();
+        }
+        return 163;
+    }
+
+    private int yys67() {
+        switch (yytok) {
+            case IDENT:
+                return 9;
+            case INTLIT:
+                return 12;
+            case '!':
+                return 15;
+            case '+':
+                return 16;
+            case '-':
+                return 17;
+            case '~':
+                return 20;
+        }
+        return 163;
+    }
+
+    private int yys70() {
         switch (yytok) {
             case EQL:
                 return 21;
@@ -2482,113 +2442,41 @@ class MiniParser extends Phase implements MiniTokens {
                 return 33;
             case '>':
                 return 34;
-            case '[':
-                return 35;
             case '^':
-                return 36;
+                return 35;
             case '|':
-                return 37;
-            case ']':
-                return 78;
-        }
-        return 173;
-    }
-
-    private int yys67() {
-        switch (yytok) {
-            case EQL:
-                return 21;
-            case GTE:
-                return 22;
-            case LTE:
-                return 25;
-            case NEQ:
-                return 26;
-            case '&':
-                return 27;
-            case '*':
-                return 28;
-            case '+':
-                return 29;
-            case '-':
-                return 30;
-            case '/':
-                return 31;
-            case '<':
-                return 33;
-            case '>':
-                return 34;
-            case '[':
-                return 35;
-            case ';':
-            case ',':
-            case ')':
-            case LOR:
-            case LAND:
-            case '|':
-            case '^':
-            case ']':
-                return yyr28();
-        }
-        return 173;
-    }
-
-    private int yys68() {
-        switch (yytok) {
-            case EQL:
-                return 21;
-            case GTE:
-                return 22;
-            case LTE:
-                return 25;
-            case NEQ:
-                return 26;
-            case '&':
-                return 27;
-            case '*':
-                return 28;
-            case '+':
-                return 29;
-            case '-':
-                return 30;
-            case '/':
-                return 31;
-            case '<':
-                return 33;
-            case '>':
-                return 34;
-            case '[':
-                return 35;
-            case '^':
                 return 36;
             case ';':
             case ',':
             case ')':
-            case LOR:
-            case LAND:
-            case '|':
-            case ']':
-                return yyr27();
+                return yyr31();
         }
-        return 173;
+        return 163;
     }
 
-    private int yys69() {
+    private int yys71() {
         switch (yytok) {
+            case ELSE:
+                return 77;
+            case PRINT:
+            case IF:
+            case '-':
+            case ';':
+            case '+':
             case IDENT:
-                return 9;
-            case INTLIT:
-                return 12;
             case '!':
-                return 15;
-            case '+':
-                return 16;
-            case '-':
-                return 17;
+            case '}':
+            case INTLIT:
+            case '{':
+            case WHILE:
+            case INT:
+            case DOUBLE:
             case '~':
-                return 20;
+            case ENDINPUT:
+            case BOOLEAN:
+                return yyr8();
         }
-        return 173;
+        return 163;
     }
 
     private int yys72() {
@@ -2619,31 +2507,25 @@ class MiniParser extends Phase implements MiniTokens {
                 return 33;
             case '>':
                 return 34;
-            case '[':
-                return 35;
             case '^':
-                return 36;
+                return 35;
             case '|':
-                return 37;
-            case ';':
-            case ',':
+                return 36;
             case ')':
-            case ']':
-                return yyr31();
+                return 78;
         }
-        return 173;
+        return 163;
     }
 
     private int yys73() {
         switch (yytok) {
-            case ELSE:
-                return 80;
             case PRINT:
             case IF:
             case '-':
-            case ';':
             case '+':
+            case ';':
             case IDENT:
+            case ELSE:
             case '!':
             case '}':
             case INTLIT:
@@ -2654,49 +2536,33 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
             case ENDINPUT:
             case BOOLEAN:
-                return yyr8();
+                return yyr9();
         }
-        return 173;
+        return 163;
     }
 
     private int yys74() {
         switch (yytok) {
-            case EQL:
-                return 21;
-            case GTE:
-                return 22;
-            case LAND:
-                return 23;
-            case LOR:
-                return 24;
-            case LTE:
-                return 25;
-            case NEQ:
-                return 26;
-            case '&':
-                return 27;
-            case '*':
-                return 28;
-            case '+':
-                return 29;
+            case PRINT:
+            case IF:
             case '-':
-                return 30;
-            case '/':
-                return 31;
-            case '<':
-                return 33;
-            case '>':
-                return 34;
-            case '[':
-                return 35;
-            case '^':
-                return 36;
-            case '|':
-                return 37;
-            case ')':
-                return 81;
+            case '+':
+            case ';':
+            case IDENT:
+            case ELSE:
+            case '!':
+            case '}':
+            case INTLIT:
+            case '{':
+            case WHILE:
+            case INT:
+            case DOUBLE:
+            case '~':
+            case ENDINPUT:
+            case BOOLEAN:
+                return yyr6();
         }
-        return 173;
+        return 163;
     }
 
     private int yys75() {
@@ -2718,87 +2584,12 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
             case ENDINPUT:
             case BOOLEAN:
-                return yyr9();
+                return yyr10();
         }
-        return 173;
+        return 163;
     }
 
     private int yys76() {
-        switch (yytok) {
-            case PRINT:
-            case IF:
-            case '-':
-            case '+':
-            case ';':
-            case IDENT:
-            case ELSE:
-            case '!':
-            case '}':
-            case INTLIT:
-            case '{':
-            case WHILE:
-            case INT:
-            case DOUBLE:
-            case '~':
-            case ENDINPUT:
-            case BOOLEAN:
-                return yyr6();
-        }
-        return 173;
-    }
-
-    private int yys77() {
-        switch (yytok) {
-            case PRINT:
-            case IF:
-            case '-':
-            case '+':
-            case ';':
-            case IDENT:
-            case ELSE:
-            case '!':
-            case '}':
-            case INTLIT:
-            case '{':
-            case WHILE:
-            case INT:
-            case DOUBLE:
-            case '~':
-            case ENDINPUT:
-            case BOOLEAN:
-                return yyr10();
-        }
-        return 173;
-    }
-
-    private int yys78() {
-        switch (yytok) {
-            case error:
-            case '(':
-            case '}':
-            case UMINUS:
-            case ELSE:
-            case WHILE:
-            case ENDINPUT:
-            case '~':
-            case '{':
-            case UPLUS:
-            case IF:
-            case PRINT:
-            case IDENT:
-            case INT:
-            case DOUBLE:
-            case BOOLEAN:
-            case INTLIT:
-            case '!':
-                return 173;
-            case '=':
-                return 82;
-        }
-        return yyr44();
-    }
-
-    private int yys79() {
         switch (yytok) {
             case EQL:
                 return 21;
@@ -2826,20 +2617,18 @@ class MiniParser extends Phase implements MiniTokens {
                 return 33;
             case '>':
                 return 34;
-            case '[':
-                return 35;
             case '^':
-                return 36;
+                return 35;
             case '|':
-                return 37;
+                return 36;
             case ';':
             case ',':
                 return yyr38();
         }
-        return 173;
+        return 163;
     }
 
-    private int yys80() {
+    private int yys77() {
         switch (yytok) {
             case BOOLEAN:
                 return 7;
@@ -2870,10 +2659,10 @@ class MiniParser extends Phase implements MiniTokens {
             case '~':
                 return 20;
         }
-        return 173;
+        return 163;
     }
 
-    private int yys81() {
+    private int yys78() {
         switch (yytok) {
             case ';':
             case PRINT:
@@ -2891,28 +2680,10 @@ class MiniParser extends Phase implements MiniTokens {
             case BOOLEAN:
                 return yyr11();
         }
-        return 173;
+        return 163;
     }
 
-    private int yys82() {
-        switch (yytok) {
-            case IDENT:
-                return 9;
-            case INTLIT:
-                return 12;
-            case '!':
-                return 15;
-            case '+':
-                return 16;
-            case '-':
-                return 17;
-            case '~':
-                return 20;
-        }
-        return 173;
-    }
-
-    private int yys83() {
+    private int yys79() {
         switch (yytok) {
             case PRINT:
             case IF:
@@ -2933,50 +2704,7 @@ class MiniParser extends Phase implements MiniTokens {
             case BOOLEAN:
                 return yyr7();
         }
-        return 173;
-    }
-
-    private int yys84() {
-        switch (yytok) {
-            case EQL:
-                return 21;
-            case GTE:
-                return 22;
-            case LAND:
-                return 23;
-            case LOR:
-                return 24;
-            case LTE:
-                return 25;
-            case NEQ:
-                return 26;
-            case '&':
-                return 27;
-            case '*':
-                return 28;
-            case '+':
-                return 29;
-            case '-':
-                return 30;
-            case '/':
-                return 31;
-            case '<':
-                return 33;
-            case '>':
-                return 34;
-            case '[':
-                return 35;
-            case '^':
-                return 36;
-            case '|':
-                return 37;
-            case ';':
-            case ',':
-            case ')':
-            case ']':
-                return yyr43();
-        }
-        return 173;
+        return 163;
     }
 
     private int yyr1() { // prog : stmts
@@ -3117,45 +2845,31 @@ class MiniParser extends Phase implements MiniTokens {
         return yypexpr();
     }
 
-    private int yyr43() { // expr : expr '[' expr ']' '=' expr
-        { yyrv = new ArrayAssign(((Expr)yysv[yysp-6]), ((Expr)yysv[yysp-4]), ((Expr)yysv[yysp-1])); }
-        yysv[yysp-=6] = yyrv;
-        return yypexpr();
-    }
-
-    private int yyr44() { // expr : expr '[' expr ']'
-        { yyrv = new ArrayAccess(((Expr)yysv[yysp-4]), ((Expr)yysv[yysp-2])); }
-        yysv[yysp-=4] = yyrv;
-        return yypexpr();
-    }
-
     private int yypexpr() {
         switch (yyst[yysp-1]) {
-            case 82: return 84;
-            case 69: return 79;
-            case 45: return 74;
-            case 43: return 72;
-            case 37: return 68;
-            case 36: return 67;
-            case 35: return 66;
-            case 34: return 65;
-            case 33: return 64;
-            case 31: return 63;
-            case 30: return 62;
-            case 29: return 61;
-            case 28: return 60;
-            case 27: return 59;
-            case 26: return 58;
-            case 25: return 57;
-            case 24: return 56;
-            case 23: return 55;
-            case 22: return 54;
-            case 21: return 53;
-            case 20: return 52;
-            case 17: return 50;
-            case 16: return 49;
-            case 15: return 48;
-            case 13: return 46;
+            case 67: return 76;
+            case 44: return 72;
+            case 42: return 70;
+            case 36: return 66;
+            case 35: return 65;
+            case 34: return 64;
+            case 33: return 63;
+            case 31: return 62;
+            case 30: return 61;
+            case 29: return 60;
+            case 28: return 59;
+            case 27: return 58;
+            case 26: return 57;
+            case 25: return 56;
+            case 24: return 55;
+            case 23: return 54;
+            case 22: return 53;
+            case 21: return 52;
+            case 20: return 51;
+            case 17: return 49;
+            case 16: return 48;
+            case 15: return 47;
+            case 13: return 45;
             default: return 3;
         }
     }
@@ -3210,9 +2924,9 @@ class MiniParser extends Phase implements MiniTokens {
 
     private int yypstmt() {
         switch (yyst[yysp-1]) {
-            case 80: return 83;
-            case 47: return 76;
-            case 44: return 73;
+            case 77: return 79;
+            case 46: return 74;
+            case 43: return 71;
             default: return 4;
         }
     }
@@ -3232,7 +2946,7 @@ class MiniParser extends Phase implements MiniTokens {
     private int yypstmts() {
         switch (yyst[yysp-1]) {
             case 0: return 2;
-            default: return 51;
+            default: return 50;
         }
     }
 
@@ -3240,8 +2954,8 @@ class MiniParser extends Phase implements MiniTokens {
         { yyrv = ((Expr)yysv[yysp-2]); }
         yysv[yysp-=3] = yyrv;
         switch (yyst[yysp-1]) {
-            case 10: return 44;
-            default: return 47;
+            case 10: return 43;
+            default: return 46;
         }
     }
 
@@ -3295,8 +3009,8 @@ class MiniParser extends Phase implements MiniTokens {
 
     private int yypvarIntro() {
         switch (yyst[yysp-1]) {
-            case 5: return 38;
-            default: return 71;
+            case 5: return 37;
+            default: return 69;
         }
     }
 

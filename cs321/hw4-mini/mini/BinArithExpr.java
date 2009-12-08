@@ -17,12 +17,13 @@ abstract class BinArithExpr extends BinExpr {
         // Covers +, -, *, /
         Type lt = left.typeOf(ctxt, env);
         Type rt = right.typeOf(ctxt, env);
-        if (!lt.equal(rt)) {
-            throw new Failure("Arithmetic operands have different types");
+        if ( !(lt.equal(Type.INT) || lt.equal(Type.DOUBLE)) ) {
+            throw new Failure("Lefthand arithmetic operands must be int or double.");
         }
-        if (!lt.equal(Type.INT) && !lt.equal(Type.DOUBLE)) {
-            throw new Failure("Invalid operand types for arithmetic operation");
+        if ( !(rt.equal(Type.INT) || rt.equal(Type.DOUBLE)) ) {
+            throw new Failure("Righthand arithmetic operands must be int or double.");
         }
+
         return lt;
     }
 }
