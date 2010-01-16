@@ -1,0 +1,67 @@
+/** A jacc parser for the Demo Compiler
+ */
+
+%extends   Phase
+
+%{
+import compiler.Phase;
+import compiler.Handler;
+import compiler.Failure;
+import compiler.Position;
+%}
+%semantic Object
+
+%token 			IF ELSE WHILE PRINT
+%token 			'(' ')' '{' '}' ';'
+%token			'=' '<' EQEQ '+' '-'
+%token <Integer>	INTLIT
+%token <String>		VAR
+
+%type  <Stmt>		stmts stmt
+%type  <BExpr>		bexpr
+%type  <IExpr>		iexpr iatom
+
+%%
+
+program : stmts					{ prog = $1; }
+	;
+stmts	: stmt  stmts				{ $$ = new Seq($1, $2); }
+	| stmt					{ $$ = $1; }
+	;
+stmt	: VAR '=' iexpr ';'			{ $$ = new Assign($1, $3); }
+	| IF '(' bexpr ')' stmt ELSE stmt	{ $$ = new If($3, $5, $7); }
+	| WHILE '(' bexpr ')' stmt		{ $$ = new While($3, $5); }
+	| PRINT iexpr ';'			{ $$ = new Print($2); }
+	| '{' stmts '}'				{ $$ = $2; }
+	;
+bexpr	: iexpr EQEQ iexpr			{ $$ = new EqEq($1, $3); }
+	| iexpr '<'  iexpr			{ $$ = new LT($1, $3); }
+	;
+iexpr	: iexpr '+' iatom			{ $$ = new Plus($1, $3); }
+	| iexpr '-' iatom			{ $$ = new Minus($1, $3); }
+	| iatom					{ $$ = $1; }
+	;
+iatom	: '(' iexpr ')'				{ $$ = $2; }
+	| VAR					{ $$ = new Var($1); }
+	| INTLIT				{ $$ = new Int($1.intValue()); }
+	;
+
+%%
+    private DCLexer lexer;
+    private boolean parsed = false;
+    private Stmt    prog;
+
+    public DCParser(Handler handler, DCLexer lexer) {
+        super(handler);
+        this.lexer = lexer;
+        lexer.nextToken();
+        parsed = parse();
+    }
+  
+    public Stmt getProg() {
+      return prog;
+    }
+
+    private void yyerror(String msg) {
+        report(new Failure(msg));
+    }

@@ -1,0 +1,12 @@
+
+i = 0;
+while (i<5) {
+  j = 0;
+  i = i + 1;
+  while (j<5) {
+    t = t + (i - j);
+    j = j + 1;
+  }
+}
+print t;
+

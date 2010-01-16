@@ -1,0 +1,28 @@
+This directory contains DemoComp8, an extension of DemoComp7 that includes
+a byte code generator and execution engine in the file (in Bytecode.java
+and in the bcgen methods in Src.java).
+
+The parser has been built using jacc from the source file DC.jacc.
+If you have jacc, you can generate the DCParser.java and DCTokens.java
+files for yourself using the command:
+
+  jacc DC.jacc
+
+Don't worry if you don't have jacc; you can either download a copy from
+http://www.cs.pdx.edu/~mpj/jacc, or just use the DCParser.java and
+DCTokens.java files that are included here.
+
+To compile the Java sources for this version of DemoComp, including the
+files in the included "compiler" library, use the following command line:
+
+  javac compiler/*.java *.java
+
+Now you can run the compiler using a command of the form:
+
+  java DemoComp filename.dc
+
+I've included a few DemoComp source files (with a .dc suffix) for you
+to play with, but you can of course create your own ...
+
+Have fun!
+

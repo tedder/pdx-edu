@@ -1,4 +1,1 @@
-
-
-question 2
-Assign.java BinArithExpr.java q2-int-to-double.test 
+enscript --output=- --header='$n|Ted Timmons CS321 Project 4|Pg $% of $=' --mark-wrapped-lines=plus --word-wrap --color=0 mini/Assign.java mini/BinArithExpr.java q2-int-to-double.test | ps2pdf - printme.pdf

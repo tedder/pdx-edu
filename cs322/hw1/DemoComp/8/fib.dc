@@ -1,0 +1,13 @@
+// Enumerate some fibonnacci numbers:
+
+a = 0;
+b = 1;
+j = 0;
+while (j < 11) {
+  print a;
+  c = a + b;
+  a = b;
+  b = c;
+  j = j + 1;
+}
+
