@@ -3,6 +3,7 @@
 //        |  Int
 //        |  IExpr + IExpr
 //        |  IExpr - IExpr
+//        |  IExpr * IExpr
 
 abstract class IExpr {
   abstract int    eval(Memory mem);
@@ -50,6 +51,21 @@ class Plus extends IExpr {
   }
 }
 
+class Multiply extends IExpr {
+  private IExpr l, r;
+  Multiply(IExpr l, IExpr r) { this.l = l; this.r = r; }
+
+  int    eval(Memory mem) { return l.eval(mem) * r.eval(mem); }
+  String show() { return "(" + l.show() + " * " + r.show() + ")"; }
+
+  Code compileTo(Reg reg, Code next) {
+    Reg tmp = new Reg();
+    return l.compileTo(tmp,
+           r.compileTo(reg,
+           new Op(reg, tmp, '*', reg, next)));
+  }
+}
+
 class Minus extends IExpr {
   private IExpr l, r;
   Minus(IExpr l, IExpr r) { this.l = l; this.r = r; }
@@ -70,6 +86,7 @@ class Minus extends IExpr {
 //        |  IExpr == IExpr
 //        |  BExpr && BExpr
 //        |  BExpr || BExpr
+//        |  ! BExpr
 
 abstract class BExpr {
   abstract boolean eval(Memory mem);
@@ -199,6 +216,30 @@ class While extends Stmt {
     System.out.println("}");
   }
 }
+
+class Not extends Stmt {
+  private BExpr b;
+  Not(BExpr b) { this.b = b; }
+
+  boolean eval(Memory mem) { return (b.eval(mem) == false); }
+  String show()  { return "( ! " + b.show() + ")"; }
+
+  Code compile(Program prog, Code next) {
+  //Code compile(Reg reg, Code next) {
+    Reg tmp = new Reg();
+    IExpr z = new Int(0);
+
+    return b.compileTo(tmp,
+           z.compileTo(reg,
+           new Op(reg, tmp, '=', reg, next)));
+  }
+
+  void print(int ind) {
+    indent(ind);
+    System.out.println(b.show());
+  }
+}
+
 
 class If extends Stmt {
   private BExpr test;
