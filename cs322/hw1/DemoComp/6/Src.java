@@ -124,6 +124,33 @@ class EqEq extends BExpr {
   }
 }
 
+class Not extends BExpr {
+  private BExpr b;
+  Not(BExpr b) { this.b = b; }
+
+  boolean eval(Memory mem) { return (b.eval(mem) == false); }
+  String show()  { return "( ! " + b.show() + ")"; }
+
+  Code compileTo(Reg reg, Code next) {
+  //Code compile(Program prog, Code next) {
+    Reg tmp = new Reg();
+    IExpr z = new Int(0);
+
+    return b.compileTo(tmp,
+           z.compileTo(reg,
+           new Op(reg, tmp, '=', reg, next)));
+    //return b.compileTo(tmp,
+    //       new Op(tmp, tmp, '=', tmp, next));
+  }
+
+  //void print(int ind) {
+  //  indent(ind);
+  //  System.out.println(b.show());
+  //}
+}
+
+
+
 //____________________________________________________________________________
 // Stmt  ::= Seq Stmt Stmt
 //        |  Var := IExpr
@@ -216,32 +243,6 @@ class While extends Stmt {
     System.out.println("}");
   }
 }
-
-class Not extends BExpr {
-  private BExpr b;
-  Not(BExpr b) { this.b = b; }
-
-  boolean eval(Memory mem) { return (b.eval(mem) == false); }
-  String show()  { return "( ! " + b.show() + ")"; }
-
-  Code compileTo(Reg reg, Code next) {
-  //Code compile(Program prog, Code next) {
-    Reg tmp = new Reg();
-    IExpr z = new Int(0);
-
-    return b.compileTo(tmp,
-           z.compileTo(reg,
-           new Op(reg, tmp, '=', reg, next)));
-    //return b.compileTo(tmp,
-    //       new Op(tmp, tmp, '=', tmp, next));
-  }
-
-  //void print(int ind) {
-  //  indent(ind);
-  //  System.out.println(b.show());
-  //}
-}
-
 
 class If extends Stmt {
   private BExpr test;
