@@ -217,27 +217,29 @@ class While extends Stmt {
   }
 }
 
-class Not extends Stmt {
+class Not extends BExpr {
   private BExpr b;
   Not(BExpr b) { this.b = b; }
 
   boolean eval(Memory mem) { return (b.eval(mem) == false); }
   String show()  { return "( ! " + b.show() + ")"; }
 
-  Code compile(Program prog, Code next) {
-  //Code compile(Reg reg, Code next) {
+  Code compileTo(Reg reg, Code next) {
+  //Code compile(Program prog, Code next) {
     Reg tmp = new Reg();
     IExpr z = new Int(0);
 
     return b.compileTo(tmp,
            z.compileTo(reg,
            new Op(reg, tmp, '=', reg, next)));
+    //return b.compileTo(tmp,
+    //       new Op(tmp, tmp, '=', tmp, next));
   }
 
-  void print(int ind) {
-    indent(ind);
-    System.out.println(b.show());
-  }
+  //void print(int ind) {
+  //  indent(ind);
+  //  System.out.println(b.show());
+  //}
 }
 
 
