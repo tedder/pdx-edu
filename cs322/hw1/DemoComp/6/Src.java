@@ -1,6 +1,7 @@
 //____________________________________________________________________________
 // IExpr ::= Var
 //        |  Int
+//        |  Halve(IExpr)
 //        |  IExpr + IExpr
 //        |  IExpr - IExpr
 //        |  IExpr * IExpr
@@ -10,6 +11,20 @@ abstract class IExpr {
   abstract String show();
 
   abstract Code compileTo(Reg reg, Code next);
+}
+
+class Halve extends IExpr {
+  private IExpr i;
+  Halve(IExpr i) { this.i = i; }
+
+  int eval(Memory mem) { return i.eval(mem) << 2; }
+
+  String show()  { return "halve(" + i.show() + ")"; }
+
+  // TODO: "sar reg, 1"
+  Code compileTo(Reg reg, Code next) {
+    return i.compileTo(reg, next);
+  }
 }
 
 class Var extends IExpr {
@@ -83,6 +98,7 @@ class Minus extends IExpr {
 
 //____________________________________________________________________________
 // BExpr ::= IExpr < IExpr
+//        |  even(IExpr)
 //        |  IExpr == IExpr
 //        |  BExpr && BExpr
 //        |  BExpr || BExpr
@@ -92,6 +108,42 @@ abstract class BExpr {
   abstract boolean eval(Memory mem);
   abstract String  show();
   abstract Code compileTo(Reg reg, Code next);
+}
+
+class GTEq extends BExpr {
+  private IExpr l, r;
+  GTEq(IExpr l, IExpr r) { this.l = l; this.r = r; }
+
+  boolean eval(Memory mem) { return l.eval(mem) >= r.eval(mem); }
+  String show()  { return "(" + l.show() + " >= " + r.show() + ")"; }
+
+  Code compileTo(Reg reg, Code next) {
+    Reg tmp = new Reg();
+    return r.compileTo(tmp,
+           l.compileTo(reg,
+           new Op(reg, tmp, '<', reg, next)));
+    // Here's my attempt at using the 'not' operator. Not quite right.
+    //return Not.compileTo(reg,l.compileTo(tmp,
+    //       r.compileTo(reg,
+    //       new Op(reg, tmp, '<', reg, next))));
+  }
+}
+
+class Even extends BExpr {
+  private IExpr i;
+  Even(IExpr i) { this.i = i; }
+
+  boolean eval(Memory mem) {
+    if (i.eval(mem) % 2 == 0) { return true; }
+    return false; 
+  }
+
+  String show()  { return "even(" + i.show() + ")"; }
+
+  // TODO: this is definitely NOT implemented correctly.
+  Code compileTo(Reg reg, Code next) {
+    return i.compileTo(reg, next);
+  }
 }
 
 class LT extends BExpr {
