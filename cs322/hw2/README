@@ -1,0 +1,123 @@
+------------------------------------------------------------------------
+README for Homework 2:
+------------------------------------------------------------------------
+
+[If you want to look at some more examples of IA32 programming, then be
+sure to look in the "examples" directory, starting with "examples.txt".]
+
+You can use the files in this directory to test your assembly language
+programs.  I have tested these files on four different platforms:
+
+  Linux (Ubuntu, on the linuxlab.cs.pdx.edu machines)
+  Linux (Fedora Core)
+  Windows XP
+  Mac OS X (Intel)
+
+They should also work easily on other platforms, including other
+versions of Linux, or other Unix-like operating systems such as FreeBSD,
+OpenBSD, or NetBSD.  Note, however, that they all rely on the use of an
+IA32 compatible processor, so they will NOT run correctly on a machine
+that uses a different kind of processor such as a Sparc (e.g., the
+departmental cs.pdx.edu Solaris machines) or a PowerPC (e.g., an older,
+pre-Intel Mac).
+
+If you have the appropriate tools installed (see below for platform
+specific details), you should be able to compile the code in this
+directory using one of the following lines, depending on the platform
+that you use:
+
+  gcc -m32 -o main main.c linux.s   (on a Linux machine)
+  gcc -m32 -o main main.c mac.s     (on an Intel Mac)
+  gcc -m32 -o main main.c windows.s (on a Windows XP PC)
+
+Now you can run the compiled binary using the following command line:
+
+  ./main
+
+(Don't forget the leading ./ part, just in case you have a path setting
+that doesn't include the current directory!)  This test program should
+display a simple "result is 42" message and then exit.
+
+When you are ready to start writing and testing your own code, you
+should look for the following code in whichever .s file you are using:
+
+  ### This is where your code begins ...
+  
+          movl    $42, %eax     # replace this with your code!
+  
+  ### This is where your code ends ...
+
+As the comments suggest, you should put your code here!  You can
+assume that the registers esi and edi have been initialized to contain
+the start addresses of the first and second images, respectively, at
+the top of this code, and you should ensure that you have loaded the
+final result into the eax register at the end.
+
+You might want to create several different copies of the appropriate .s
+file, one for each part of the question, so that you can compare and
+reuse code from each answer without having to comment out multiple
+versions in a single file or, worse still, overwriting your answer to
+one part with the answer to another.  Of course, you'll have to use a
+different command line to gcc after that to include the name of the new
+.s file.
+
+
+Platform Specific Notes:
+
+Departmental Machines: Unless you have a strong preference or need
+to use your own machine for this homework, I encourage you to consider
+using the departmental machines in the Linux lab.  Just login in to
+linuxlab.cs.pdx.edu to access these machines; they already have the
+appropriate versions of the tools installed, so you don't need to
+do anything extra yourself!
+
+If you are keen, for whatever reason, to do this homework using your
+own machine, then I hope that the following instructions will help
+to get you up and running on Linux, Windows XP, or Mac OS X (Intel).
+
+Linux: Most linux installations already have the necessary
+packages installed, but if you don't have gcc, then you will
+need to install it using whatever tools you normally use to add
+packages; this varies from one distribution to the next so I'm
+afraid I can't help with more specifics.
+
+Mac OS X: You'll need one of the newer Intel Macs for this work;
+the previous generation of Macs use a PowerPC processor, so they
+can't run Intel code (and may not include the tools that you
+need to generate x86 binaries).  You should have received a CD/DVD
+with the developer tools on it when you received your Mac (or
+you can download a (probably more recent) version from the Apple
+Developer Connection website, which is free, although I think you
+have to register).  Once you've located the package, you can
+just double click on it to begin the installation.
+
+Windows:  I recommend using the cygwin toolset, which you can
+obtain for free from www.cygwin.com.  Start by downloading and
+running the setup.exe file that is available on the home page
+there.  When you get the "Select Packages" dialog on screen, open
+up the "Devel" list, scroll down to find "gcc" and select it by
+clicking on the "Skip" until it shows the most recent version.
+(For me, this was just a single click and the version I got was
+3.4.4-3; you might find something more recent when you try.)
+Selecting gcc will automatically select a bunch of other files
+that are needed to make it work (including the assembler in the
+"binutils" package) so you won't need to do anything else.
+Proceed to download the listed packages ... this may take a little
+while; there are quite a few of them!  Once the install is
+finished, you will be given a chance to deselect some checkboxes
+to indicate whether or not you want a short cut to be added to you
+desktop.  I suggest that you leave the box checked, and then, when
+the installer finishes, use the shortcut to start a cygwin shell.
+
+If you used the default setting of c:\cygwin for your install
+directory, then you should create a new folder c:\cygwin\hw2
+and copy the main.c and windows.s files there.  Now, in your
+cygwin prompt window, you should be able to compile and run
+the supplied program using the following commands:
+
+  cd /hw2
+  gcc -m32 -o main main.c windows.s
+  ./main
+
+Good luck, and have fun!!
+------------------------------------------------------------------------

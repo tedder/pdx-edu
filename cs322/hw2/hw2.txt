@@ -1,0 +1,142 @@
+------------------------------------------------------------------------
+CS322 Languages and Compiler Design II                        Homework 2
+------------------------------------------------------------------------
+
+[This homework assignment is due at the start of class on Tue, Jan 26
+on paper, or by by noon that same day if you submit by email.  Please be
+sure to follow the guidelines for homework submission on the class web
+page (and make sure that you familiarize yourself with those guidelines
+well ahead of the deadline), especially if you are planning to submit
+via email.
+
+This homework is intended to familiarize you with the use of IA32
+assembly language.  You should complete this exercise using the AT&T
+syntax; even if you know the "Intel syntax", you should not use it here
+because that won't help you to develop familiarity with the notation
+that I am using in class.  Also note that I am not expecting any
+previous experience with assembly language programming, or with special
+IA32 instructions; you should be able to complete this homework using
+only the IA32 instructions that I have shown in class.  If you feel
+tempted to use additional instructions that you know already, or if
+find something in Intel documentation that looks useful but wasn't
+covered in class, check with me before using it.  Treat this as if you
+are working for a company that has very strict (and narrow) coding
+guidelines when it comes to x86 programming!
+
+The inspiration for this particular set of exercises came from
+thinking about simple kinds of image processing.  In fact, one common
+reason for using assembly language programming in real applications,
+even if most of the code is written in a higher level language, is to
+implement image, video, or audio processing functions: this may be
+necessary to produce code that can run quickly, handle large amounts
+of data, or use special "multimedia" CPU instructions that are only
+available in assembly code.  Of course, the images that we work with
+here are much simpler and much smaller than you'll find in a real
+program, but I'm hoping you'll still enjoy working on these problems.
+
+More specifically, for the purposes of this exercise, we're going to
+assume that an image of width w and height h is represented by a
+contiguous block of (2 + h*w) 32-bit (4 byte) values in memory.  The
+first two entries in the table are used to store the width and the
+height of the image, followed by the data for the first row (a
+sequence of w words), then the data for the second row (another
+sequence of w words), and so on for each of the h rows.  In a real
+image processing application, the data for each pixel would likely
+be a value representing some specific color data.  For the purposes
+of this exercise, however, we will just store a single character
+value for each pixel.  So, for example, the following sequence of
+32-bit words:
+
+  3, 2, 65, 66, 67, 68, 69, 70
+ 
+represents a 2 row, 3 column "image" that looks something like
+the following:
+
+  ABC
+  DEF
+
+(In case you don't already known, 65 is the numeric code for the
+letter "A", 66 is the code for "B", etc...)
+
+For each of the following tasks, you are asked to write a fragment of
+IA32 code that takes the starting addresses of two images, represented
+as above, in the esi and edi registers as its input and returns a
+single integer as its result in eax.
+
+The six specific programs that you should implement for this homework
+assignment are as follows:
+
+Program 1: The result should be the total number of "pixels" in the
+           two input images.  The images themselves should not be
+           modified.  The total number of pixels in a single image,
+           of course, is just the width of the image multiplied by
+           the height.
+
+Program 2: The result should be the total number of spaces in the
+           first input image.  (In case you don't know, the numeric
+           code for a space character is 32).  Again, neither of the
+           images should be modified by this operation.
+
+Program 3: The result should be 1 and the first image should be
+           rotated through 180 degrees without modifying the second
+           image.  [Hint: think what happens when you reverse the
+           order of the pixels in the array ...]
+  
+Program 4: If the two input images have the same width and height,
+           then the result should be the integer 42 and every
+           "pixel" in both images should be replaced with the
+           character "*".  (And again, in case you don't know, the
+           numeric code for the * character is also 42!)
+
+Program 5: If the two input images have the same width and height,
+           then the result should be 1 and the first image should
+           be overwritten with a copy of the second image.
+
+Program 6: If the two input images have the same width and height,
+	   then the first image should be modified to contain a
+	   "merged" version of the two images.  Each pixel in the
+	   modified image will be the same as the corresponding pixel
+	   in either the first or the second image; the pixel from the
+	   first image will only be used if the pixel from the second
+	   image is a space.   For example, given the following pair
+	   of images:
+
+               abcdef          A CD F
+               ghijkl   and     H  K 
+               mnopqr          M OP R
+
+           then the first image would be modified to contain:
+
+               AbCDeF
+               gHijKl
+               MnOPqR
+
+	   In addition, the final output (in eax) should contain the
+	   number of characters/pixels that have been copied across
+	   from the second image (i.e., the number of non-space
+	   characters in the second image).  For the example above,
+	   the final result would be 10.
+
+Note that, in Programs 4-6, if the images have different sizes, then
+the result should be zero and neither image should be modified.
+
+For those of you that enjoy this kind of puzzle, even if it isn't going
+to earn you any extra credit now, here's one further (optional, not for
+credit) challenge for you:
+
+Program 7: If the two inputs are square images with the same width and
+           height, then the first image should be replaced with a copy
+           of the second that has been rotated through 90 degrees clockwise.
+
+Specific instructions for developing and testing your solutions on the
+computer (which is required to obtain full credit) are provided as part
+of the materials that you can download from the class web page.  Those
+materials include instructions for building a test framework on several
+different platforms (see the README file), as well as a set of examples
+of assembly language programming (see the examples subdirectory).
+
+And, of course, please ask (on the mailing list, during office hours,
+in class, in person, ...) if you get stuck and need further help or
+clarification!
+
+------------------------------------------------------------------------
