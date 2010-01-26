@@ -41,6 +41,20 @@ printf("h: %i\n", strlen(lines[h]));
   return buf;
 }
 
+int spaceCount(int* image) {
+  int w=image[0], h=image[1];
+  int spaces = 0;
+  int i, j, p = 2;
+  for (i=0; i<h; i++) {
+    for (j=0; j<w; j++) {
+      if (image[p++] == 32) { ++spaces; }
+      //putchar((char)image[p++]);
+    }
+  }
+
+  return spaces;
+}
+
 void showImage(int* image) {
   int w=image[0], h=image[1];
   int i, j, p = 2;
@@ -58,19 +72,19 @@ int main(int argc, char* argv[]) {
       "   x        x   ",
       "  x          x  ",
       " x            x ",
-      "x              x",
+      "x              x", //5
       "x    x    x    x",
       "x   xxx  xxx   x",
       "x    x    x    x",
       "x              x",
-      "x     xxxx     x",
+      "x     xxxx     x", //10
       "x      xx      x",
       "x   x      x   x",
       " x   xxxxxx   x ",
       "  x          x  ",
-      "   x        x   ",
+      "   x        x   ", //15
       "    xx    xx    ",
-      "      xxxx      ",
+      "      xxxx      ", //17
       0 };
   int* image1 = makeImage(lines1);
 
@@ -79,19 +93,19 @@ int main(int argc, char* argv[]) {
       "RR          RR  ",
       "RR           RR ",
       "RR            RR",
-      "RR            RR",
+      "RR            RR", // 5
       "RR           RR ",
       "RR        RRRR  ",
       "RRRRRRRRRRRR    ",
       "RR        RRR   ",
-      "RR          RR  ",
+      "RR          RR  ", // 10
       "RR           RR ",
       "RR            RR",
       "RR            RR",
       "RR            RR",
+      "                ", //15
       "                ",
-      "                ",
-      "                ",
+      "                ", //17
       0 };
   int* image2 = makeImage(lines2);
 
@@ -104,17 +118,19 @@ int main(int argc, char* argv[]) {
   printf("Here is the second image:\n");
   showImage(image2);
 
-  printf("Here is the third image:\n");
-  showImage(image3);
+  printf("spaces in image1: %i\n\n", spaceCount(image1));
+  printf("spaces in image2: %i\n\n", spaceCount(image2));
+  //printf("Here is the third image:\n");
+  //showImage(image3);
 
 
   printf("Result of call is %d\n", f(image1, image2));
 
-  printf("Here is the first output image:\n");
-  showImage(image1);
+  //printf("Here is the first output image:\n");
+  //showImage(image1);
 
-  printf("Here is the second output image:\n");
-  showImage(image2);
+  //printf("Here is the second output image:\n");
+  //showImage(image2);
 
   return 0;
 }
