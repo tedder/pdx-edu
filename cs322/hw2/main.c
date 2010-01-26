@@ -18,10 +18,11 @@ int* makeImage(char* lines[]) {
     int h = 1;
     int i, j, p;
     for (; lines[h]!=0; h++) {
+printf("h: %i\n", strlen(lines[h]));
       if (strlen(lines[h])!=w) {
         oops("lines have different lengths");
       }
-      h++;
+      //h++;
     }
     printf("Image has width %d and height %d\n", w, h);
     buf = malloc(sizeof(int) * (2 + w*h));
@@ -94,11 +95,18 @@ int main(int argc, char* argv[]) {
       0 };
   int* image2 = makeImage(lines2);
 
+  char* lines3[] = { "ABC", "DEF", 0 };
+  int* image3 = makeImage(lines3);
+
   printf("Here is the first image:\n");
   showImage(image1);
 
   printf("Here is the second image:\n");
   showImage(image2);
+
+  printf("Here is the third image:\n");
+  showImage(image3);
+
 
   printf("Result of call is %d\n", f(image1, image2));
 
