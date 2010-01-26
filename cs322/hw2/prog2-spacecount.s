@@ -17,7 +17,7 @@ f:
 	imull	%ebx, %eax
 # great. the size of image1 is now in eax.
 # Add the starting value of the image bitmap to get our bitmap ending point.
-movl	$8, %eax
+addl	$8, %eax
 addl	%esi, %eax
 # great. the ending position is now in eax.
 
@@ -38,8 +38,8 @@ yesspace:   ### only used as a debugging breakpoint
 	incl	%ecx
 
 notspace:
-	addl	$4, %ebx
-	#incl	%ebx
+	#addl	$4, %ebx
+	incl	%ebx
 
 # are we past the end? (need 'end' to be counted)
 	cmp	%eax, %ebx
