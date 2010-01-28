@@ -29,9 +29,9 @@ f:
 # Move it to ebx, get our starting point back in eax.
 	movl	%eax, %ebx
 	popl	%eax
-# Push it onto the stack, as we'll be changing eax and don't
-# want to recalculate.
-	pushl	%eax
+# Copy it across to use again later. Can't push onto the stack,
+# we're using it to process our image.
+	movl	%eax, %esi
 
 # We'll use ebx (the 'starting point') as our current pixel pointer.
 # Put the value of the pointer onto the stack.
@@ -43,11 +43,11 @@ pixel:
 	jg	pixel
 
 # Okay, we've now pushed the first image onto the stack, both
-# eax and ebx point at the end of the image. Pop the starting
+# eax and ebx point at the end of the image. Copy the starting
 # point into eax, and start unrolling the image (LIFO) from
 # the beginning.
-pixeldone:
-	popl	(%eax)
+pixeldone: # debug only
+	movl	%esi, %eax
 unroll:
 	popl	(%eax)
 # increment, see if we're done.

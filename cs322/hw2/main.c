@@ -18,7 +18,7 @@ int* makeImage(char* lines[]) {
     int h = 1;
     int i, j, p;
     for (; lines[h]!=0; h++) {
-printf("h: %i\n", strlen(lines[h]));
+      //printf("h: %i\n", strlen(lines[h]));
       if (strlen(lines[h])!=w) {
         oops("lines have different lengths");
       }
@@ -139,11 +139,11 @@ int main(int argc, char* argv[]) {
 
   printf("Result of call is %d\n", f(image1, image2));
 
-  //printf("Here is the first output image:\n");
-  //showImage(image1);
+  printf("Here is the first output image:\n");
+  showImage(image1);
 
-  //printf("Here is the second output image:\n");
-  //showImage(image2);
+  printf("Here is the second output image:\n");
+  showImage(image2);
 
   //printf("Here is the fourth output image:\n");
   //showImage(image4);
