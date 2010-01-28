@@ -38,57 +38,49 @@ f:
 
 ## END SIZE TEST
 
-## IMAGE1 asterisks
-# make eax point to (one past) the end of the image1 array
-	imull	$4, %eax
-	addl	$8, %eax
-        addl	%esi, %eax
 
-# make ebx point to the beginning of the image1 array
-	movl	$8, %ebx
+## Copy image2 to image1
+# make ebx be one past the ending position of image1 (eax is the size of image1)
+	movl	%eax, %ebx
+	imull	$4, %ebx
+	addl	$8, %ebx
         addl	%esi, %ebx
 
-# replace current pixel
-pixel1:
-	movl	$42, (%ebx)
-# advance forward
-	addl	$4, %ebx
-# keep going?
-	cmp	%eax, %ebx
-	jl	pixel1
+# done with esi, put it on the stack so we can use that register.
+	pushl	%esi
 
-i1done: # debug only
-## end IMAGE1 asterisks
-
-
-## IMAGE2 asterisks
-
-# size of image2
-	popl	%eax
-# make eax point to (one past) the end of the image2 array
-	imull	$4, %eax
+# make eax be the starting position of image1
+# NOTE: tried using "movl 8(%esi), %eax", couldn't get it to work.
+        movl	%esi, %eax
 	addl	$8, %eax
-        addl	%edi, %eax
 
-# make ebx point to the beginning of the image2 array
-	movl	$8, %ebx
-        addl	%edi, %ebx
+# make ecx be the starting position of image2
+        movl	%edi, %ecx
+	addl	$8, %ecx
 
-# replace current pixel
-pixel2:
-	movl	$42, (%ebx)
-# advance forward
-	addl	$4, %ebx
-# keep going?
+copy:
+# is image2 a space? skip the copy.
+	cmp	$32, (%ecx)
+	je	nocopy
+
+# copy pixel of image2 to image1, using %esi as an intermediary.
+	movl	(%ecx), %esi
+	movl	%esi, (%eax)
+nocopy:
+
+# bump up both pointers
+	addl	$4, %eax
+	addl	$4, %ecx
+
+# is eax > ebx? we're done.
 	cmp	%eax, %ebx
-	jl	pixel2
-
-i2done: # debug only
-## end IMAGE2 asterisks
+	jg	copy
 
 
-# successful, but we need to skip the 'wrongsize' return value.
-	movl	$42, %eax
+# successful, but we need to skip the 'wrongsize' return value
+# and restore registers.
+	popl	%esi
+	movl	$1, %eax
 	jmp	done
 
 # wrongsize retval

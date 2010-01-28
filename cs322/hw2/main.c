@@ -48,7 +48,6 @@ int spaceCount(int* image) {
   for (i=0; i<h; i++) {
     for (j=0; j<w; j++) {
       if (image[p++] == 32) { ++spaces; }
-      //putchar((char)image[p++]);
     }
   }
 
@@ -112,6 +111,20 @@ int main(int argc, char* argv[]) {
   char* lines3[] = { "ABC", "DEF", 0 };
   int* image3 = makeImage(lines3);
 
+  char* lines4[] = {
+    "abcdef",
+    "ghijkl",
+    "mnopqr",
+    0 };
+  int* image4 = makeImage(lines4);
+
+  char* lines5[] = {
+    "A CD F",
+    " H  K ",
+    "M OP R",
+    0 };
+  int* image5 = makeImage(lines5);
+
   printf("Here is the first image:\n");
   showImage(image1);
 
@@ -120,8 +133,8 @@ int main(int argc, char* argv[]) {
 
   printf("spaces in image1: %i\n\n", spaceCount(image1));
   printf("spaces in image2: %i\n\n", spaceCount(image2));
-  //printf("Here is the third image:\n");
-  //showImage(image3);
+  printf("Here is the third image:\n");
+  showImage(image3);
 
 
   printf("Result of call is %d\n", f(image1, image2));
@@ -131,6 +144,9 @@ int main(int argc, char* argv[]) {
 
   //printf("Here is the second output image:\n");
   //showImage(image2);
+
+  //printf("Here is the fourth output image:\n");
+  //showImage(image4);
 
   return 0;
 }
