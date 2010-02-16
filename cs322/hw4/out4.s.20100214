@@ -1,20 +1,5 @@
 Fork_bat:
-	pushl	%ebp
-	movl	%esp,%ebp
-	movl	12(%ebp),%eax
-	movl	8(%eax),%eax
-	imull	$2,%eax
-	movl	12(%ebp),%ecx
-	movl	%eax,8(%ecx)
 
-	movl	12(%ebp),%eax
-	movl	8(%eax),%eax
-	cmpl	$8,%eax
-	jng	l0
-	movl	$4,%eax
-	movl	%ebp,%esp
-	popl	%ebp
-	ret
 l0:
 	movl	12(%ebp),%eax
 	movl	8(%eax),%eax
@@ -22,6 +7,7 @@ l0:
 	movl	12(%ebp),%eax
 	movl	4(%eax),%eax
 	pushl	%eax
+
 	movl	(%eax),%eax
 	movl	4(%eax),%eax
 	movl	8(%ebp),%ecx
@@ -44,14 +30,18 @@ Main_main:
 	pushl	%eax
 	call	Spoon_begin
 	addl	$4,%esp
+^^ identical to here
+
 	movl	$3,%eax
 	pushl	%eax
 	movl	$2,%eax
 	pushl	%eax
 	call	Spoon_pong
 	pushl	%eax
+^^ missing the store to eax
 	call	Fork_ping
 	addl	$8,%esp
+
 	pushl	%eax
 	call	Fork_ping
 	addl	$8,%esp

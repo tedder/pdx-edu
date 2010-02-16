@@ -3,27 +3,43 @@ class System {
   static void out(int x);
 }
 
-class Main {
-  // No fields: ".long 4"
-  static void main();
-}
+class Fork {
+  int a;
+  Spoon b;
 
-class Spoon extends Knife {
-  static int c;
+  // This appears to be a constructor: take in two args, create an object,
+  // assign the args into the newly created object, then return the object.
+  //static Fork ping(int a1, int a2) {
+  static Fork ping(int a1, Spoon a2) {
+    Fork f;
+    f = new Fork();
 
-  static void begin(int a) {
-    // TODO need to set a to the global:
-    // movl %eax,v_Spoon_c
-    c = a;
+    f.a = a1;
+    f.b = a2;
+
+    return f;
   }
 
-  static int retr(int a) {
-    return c;
-  }
+  int bat(Fork f, Fork g) {
+  //int bat(int a, int b) {
+    this.a = this.a * 2;
+     if (this.a > 8) {
+       return 4;
+     }
 
-  static void pong() {
-    c = c+1;
-    new Spoon();
+     // TODO: access these (they need to be on the stack)
+     // In other words, system.out is not the correct call. But
+     // at least it is accessing the correct arguments.
+     System.out(f.a);
+     //System.out(f.b);
+     //b.a = f.a;
+     //b.b = f.b;
+     
+     //TODO left off here, stuck in the L0 loop, emailed MPJ
+     //b.b = 8;
+     //b.a = 7;
+
+    return 4;
   }
 }
 
@@ -35,27 +51,53 @@ class Knife {
   }
 }
 
-class Fork {
-  int a;
-  int b;
+class Spoon extends Knife {
+  static int c;
 
-  // TODO unknown return value
-  int bat(Fork f, Fork b) {
-    f.a = f.a * 2;
-     while (f.a < 8);
-
-    return 4;
+  static void begin(int a) {
+    // Sets the class static:
+    // movl %eax,v_Spoon_c
+    c = a;
   }
 
-  // This appears to be a constructor: take in two args, create an object,
-  // assign the args into the newly created object, then return the object.
-  static Fork ping(int a1, int a2) {
+  static int retr() {
+    return c;
+  }
+
+  // the first arg is needed, but isn't used.
+  static Spoon pong(int a) {
+    c = c+1;
+    return new Spoon();
+  }
+}
+
+class Main {
+  // No fields: ".long 4"
+  static void main() {
     Fork f;
-    f = new Fork();
+    int a;
+    Spoon.begin(4*5+3);
+    f = Fork.ping(3, Spoon.pong(2));
+    // TODO: another Fork.ping goes here. (What args?)
+    //  the second ping() should be assigned to f, not the first.
 
-    f.a = a1;
-    f.b = a2;
+    a = 0;
+    while (a < 6) {
+      // TODO: reference items in this order: 2, 1, f, a
+      // TODO: this subsection is incorrect.
+      // system.out lines are just here to reference the correct vars.
+      //System.out(f);
+      f.a = f.a * f.a;
 
-    return f;
+      // TODO: it seems like we need to call f.a() as a method,
+      //   even though f.a is a field.
+
+      // TODO: this section is correct, matches the bottom of the loop.
+      System.out(f.a);
+      a = a+1;
+    }
+    int b;
+    System.out(Spoon.retr());
+
   }
 }
