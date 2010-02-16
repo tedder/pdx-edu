@@ -1,6 +1,6 @@
 class System {
   // No fields, since System_0 had ".long 4"
-  static void out(int x);
+  static void out(int y);
 }
 
 class Fork {
