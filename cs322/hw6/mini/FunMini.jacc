@@ -1,0 +1,124 @@
+%package   mini
+%class     MiniParser
+%interface MiniTokens
+%extends   Phase
+
+%{
+import compiler.*;
+import java.io.*;
+%}
+
+%semantic Object
+
+%token  WHILE IF ELSE PRINT
+%token	'(' ')' '{' '}' ';'
+%token  VOID RETURN
+
+%right	'='
+%left	LOR
+%left	LAND
+%left	'|'
+%left	'^'
+%left	'&'
+%left	EQL NEQ
+%left	'<' '>' LTE GTE
+%left	'+' '-'
+%left	'*' '/'
+%right	'!' '~' UMINUS UPLUS
+
+%token  <Id>      IDENT
+%token  <IntLit>  INTLIT
+%type   <Stmts>   stmts
+%type	<Stmt>    stmt
+%type   <Expr>    expr test
+%type   <Fundefs> fundefs
+%type   <Fundef>  fundef
+%type	<Formal>  formal
+%type   <Formals> formals formals1
+%type   <Args>    args args1
+
+%%
+program	: fundefs			{ program = $1; }
+	;
+fundefs	: fundefs fundef		{ $$ = new Fundefs($2, $1); }
+	| /* empty */			{ $$ = null; }
+	;
+fundef	: type IDENT '(' formals ')' '{' stmts '}'
+					{ $$ = new Fundef($1, $2, $4, $7); }
+	| VOID IDENT '(' formals ')' '{' stmts '}'
+					{ $$ = new Fundef(null, $2, $4, $7); }
+	;
+formals	: /* empty */			{ $$ = null; }
+	| formals1			{ $$ = $1; }
+	;
+formals1: formal ',' formals1		{ $$ = new Formals($1, $3); }
+	| formal			{ $$ = new Formals($1, null); }
+	;
+formal	: type IDENT			{ $$ = new Formal($1, $2);   }
+	;
+stmts	: stmts stmt			{ $$ = $1.addStmt($2); }
+	| /* empty */			{ $$ = new Stmts(); }
+	;
+stmt	: /* empty */ ';'		{ $$ = new Empty(); }
+	| expr ';'			{ $$ = new ExprStmt($1); }
+	| WHILE test stmt		{ $$ = new While($2, $3); }
+	| IF test stmt ELSE stmt	{ $$ = new If($2, $3, $5); }
+	| IF test stmt			{ $$ = new If($2, $3, new Empty()); }
+	| PRINT expr ';'		{ $$ = new Print($2); }
+	| '{' stmts '}'			{ $$ = new Block($2); }
+        | RETURN ';'                    { $$ = new Return(); }
+        | RETURN expr ';'               { $$ = new Return($2); }
+	;
+test	: '(' expr ')'			{ $$ = $2; }
+	;
+expr	: '-' expr       %prec UMINUS	{ $$ = new UMinus($2); }
+	| '+' expr       %prec UPLUS	{ $$ = new UPlus($2); }
+	| '!' expr			{ $$ = new LNot($2); }
+	| '~' expr			{ $$ = new BNot($2); }
+	| expr '+' expr			{ $$ = new Add($1, $3); }
+	| expr '-' expr			{ $$ = new Sub($1, $3); }
+	| expr '*' expr			{ $$ = new Mul($1, $3); }
+	| expr '/' expr			{ $$ = new Div($1, $3); }
+	| expr '<' expr			{ $$ = new Lt($1, $3); }
+	| expr '>' expr			{ $$ = new Gt($1, $3); }
+	| expr LTE expr			{ $$ = new Lte($1, $3); }
+	| expr GTE expr			{ $$ = new Gte($1, $3); }
+	| expr NEQ expr			{ $$ = new Neq($1, $3); }
+	| expr EQL expr			{ $$ = new Eql($1, $3); }
+	| expr '&' expr			{ $$ = new BAnd($1, $3); }
+	| expr '|' expr			{ $$ = new BOr($1, $3); }
+	| expr '^' expr			{ $$ = new BXor($1, $3); }
+	| expr LAND expr		{ $$ = new LAnd($1, $3); }
+	| expr LOR  expr		{ $$ = new LOr($1, $3); }
+	| IDENT '(' args ')'		{ $$ = new Call($1, $3); }
+	| IDENT '=' expr		{ $$ = new Assign($1, $3); }
+	| IDENT				{ $$ = $1; }
+	| INTLIT			{ $$ = $1; }
+	;
+args	: /* empty */			{ $$ = null; }
+	| args1				{ $$ = $1; }
+	;
+args1	: expr ',' args1		{ $$ = new Args($1, $3); }
+	| expr				{ $$ = new Args($1, null); }
+	;
+
+%%
+
+    private MiniLexer lexer;
+    private Fundefs   program;
+
+    public MiniParser(Handler handler, MiniLexer lexer) {
+      super(handler);
+      this.lexer = lexer;
+      lexer.nextToken();
+      parse();
+    }
+
+    public Fundefs getProgram() {
+      return program;
+    }
+
+    private void yyerror(String msg) {
+      report(new Failure(msg));
+    }
+

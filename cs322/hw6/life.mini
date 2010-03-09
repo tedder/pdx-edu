@@ -1,0 +1,12 @@
+void mini_main() {
+  int i = 0;
+  int j = 9;
+  int k = j - 25;
+  int l = 0;
+  int m = k + 3;
+  while (i<10) {
+    i = i + 1;
+    l = l + i;
+  }
+  print l + m;
+}

@@ -1,0 +1,17 @@
+
+/* The following precedence declaration gives array operations a higher
+   precedence that other operators, assuming that you put this file last
+   on the command line to jacc ...
+*/
+
+%token NEW
+
+%right '['
+
+%%
+
+expr	: expr '[' expr ']' '=' expr   { $$ = new ArrayAssign($1, $3, $6); }
+	| expr '[' expr ']'            { $$ = new ArrayAccess($1, $3); }
+	| NEW type '[' expr ']'        { $$ = new NewArray($2, $4); }
+	;
+

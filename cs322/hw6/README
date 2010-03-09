@@ -1,0 +1,84 @@
+Welcome to this README file.  Thank you for reading me!
+
+This folder contains Java sources (including components using jacc
+and jflex) for the front and back ends of a mini imperative
+language compiler.  We'll refer to the language that this compiler
+accepts as "mini" in the rest of this document.
+
+You'll find a guide to most of the items in this directory as part
+of the homework text.  The additional items not covered there are:
+
+life.mini, funs.mini, and arrs.mini
+  Three simple mini programs, one using function calls and one
+  using arrays.  These programs contain valid mini syntax, but
+  wouldn't it be nice if we could compile and then run them to see
+  if they also work as we might expect ... ?
+
+runtime.c
+  A (very) simple runtime library for use with compiled mini code.
+
+On my machine, I can build the mini compiler as follows:
+
+  - First run jacc and jflex to build the lexer and parser.  YOU
+    SHOULDN'T NEED TO DO THIS because I'm including the generated
+    code already.  However, for completness, here are the command
+    lines that I use:
+
+     jacc mini/FunMini.jacc mini/Static.jacc mini/Array.jacc
+     jflex mini/Mini.jflex 
+
+  - Now compile the Java sources, including both generated and
+    handwritten components:
+
+     javac compiler/*.java mini/*.java
+
+For testing, I use commands like the following:
+
+  java mini.Compiler life.mini life.s
+  gcc -m32 -o life life.s runtime.c
+  ./life
+
+  java mini.Compiler funs.mini funs.s
+  gcc -m32 -o funs funs.s runtime.c
+  ./funs
+
+  java mini.Compiler arrs.mini arrs.s
+  gcc -m32 -o arrs arrs.s runtime.c
+  ./arrs
+
+The first line in each case invokes the mini compiler to produce
+an assembly code output file.  The second uses gcc to link the
+resulting code with the runtime library.  The third runs the
+resulting code.
+
+The first of the three groups above should work just fine "out of
+the box".  However, you should expect to see error messages---from
+the assembler, not the compiler itself---if you try either the
+second or the third.  Take a look at the generated code in funs.s
+and arrs.s to get an indication why: the code generator in the
+supplied mini compiler is incomplete and doesn't produce valid
+assembly code for some important cases.  Your mission, in this
+assignment, is to fill in those gaps and get the compiler working
+properly ...
+
+NOTE 1: The calling convention that we are using in this compiler
+is not compatible with Mac OS X, which has an additional rule that
+the stack pointer must always be a multiple of 16 at the entry
+point to any given function.  For this reason, although you can
+run the compiler and the assembler on a Mac, the generated program
+may trigger a "Segmentation violation" when you try to run it.
+Some programs will work just fine (in fact, I added dummy local
+variables to the life.mini program to make sure that the stack
+would be set to an appropriate value when the print function is
+called), but many will not.  Of course, it is possible to modify
+the compilation schemes to deal with this, but I decided not to
+add that further complication in this version of the code.  In
+other words, while you can still do this homework on a Mac, I
+would encourage you to use the linuxlab instead if you are at all
+interested in running the generated code.  (If there is enough
+interest, I will produce a Mac compatible version of the mini
+compiler; let me know if you might like to see that.)
+
+NOTE 2: If you are running this compiler on a non-linux platform,
+be sure to edit the mini/Assembly.java file to set LINUX = false.
+
