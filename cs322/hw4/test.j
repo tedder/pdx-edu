@@ -1,6 +1,6 @@
 class System {
   // No fields, since System_0 had ".long 4"
-  static void out(int y);
+  static void out(int x);
 }
 
 class Fork {
@@ -54,10 +54,10 @@ class Knife {
 class Spoon extends Knife {
   static int c;
 
-  static void begin(int a) {
+  static void begin(int first) {
     // Sets the class static:
     // movl %eax,v_Spoon_c
-    c = a;
+    c = first;
   }
 
   static int retr() {
